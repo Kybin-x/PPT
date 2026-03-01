@@ -1,10 +1,1032 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<title>无标题文档</title>
-</head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1-1 认识演示文稿 · PPT闪光课堂</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    /* ---- 知识页专属样式 ---- */
 
+    /* 封面卡片 */
+    .cover-card {
+      background: linear-gradient(135deg, #FF6B35, #FFD23F);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      color: white;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cover-card::before {
+      content: '📊';
+      position: absolute;
+      font-size: 7rem;
+      right: -1rem;
+      bottom: -1.5rem;
+      opacity: 0.15;
+      transform: rotate(-10deg);
+    }
+    .cover-card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(255,255,255,0.25);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: var(--radius-pill);
+      padding: 0.25rem 0.8rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+    }
+    .cover-card-title {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .cover-card-desc {
+      font-size: 0.9rem;
+      opacity: 0.92;
+      line-height: 1.7;
+      max-width: 480px;
+    }
+    .cover-card-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    .cover-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      opacity: 0.85;
+      background: rgba(255,255,255,0.18);
+      padding: 0.25rem 0.7rem;
+      border-radius: var(--radius-pill);
+    }
+
+    /* 知识要点列表 */
+    .key-point-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin: 0.8rem 0;
+    }
+    .key-point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      padding: 0.7rem 0.9rem;
+      background: var(--bg);
+      border-radius: var(--radius-sm);
+      border-left: 3px solid var(--primary);
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      transition: var(--transition);
+    }
+    .key-point-item:hover {
+      background: var(--bg-hover);
+      transform: translateX(4px);
+    }
+    .key-point-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 0.05rem;
+    }
+
+    /* 软件对比卡片 */
+    .software-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    .software-card {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      text-align: center;
+      transition: var(--transition);
+      cursor: default;
+    }
+    .software-card:hover {
+      border-color: var(--primary);
+      background: var(--bg-hover);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .software-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .software-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.3rem;
+    }
+    .software-desc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+    .software-tag {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    /* 界面区域图示 */
+    .interface-diagram {
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .diagram-titlebar {
+      background: linear-gradient(135deg, #2D2D3A, #1A1A2E);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    .dot-red    { background: #FF5F57; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green  { background: #28CA42; }
+    .diagram-titlebar-text {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.6);
+      margin-left: 0.5rem;
+    }
+    .diagram-ribbon {
+      background: linear-gradient(135deg, #F5F0FF, #FFF0E8);
+      border-bottom: 1px solid var(--border);
+      padding: 0.5rem 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .diagram-tab {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      cursor: default;
+    }
+    .diagram-tab.active {
+      background: white;
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .diagram-body {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      min-height: 160px;
+    }
+    .diagram-sidebar {
+      background: #FAFAFA;
+      border-right: 1px solid var(--border);
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .slide-thumb {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      color: var(--text-light);
+    }
+    .slide-thumb.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(255,107,53,0.2);
+    }
+    .diagram-canvas {
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+    }
+    .diagram-slide {
+      width: 100%;
+      max-width: 260px;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #FFF5F0, #FFFFF0);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .slide-title-bar {
+      width: 70%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 4px;
+    }
+    .slide-content-bar {
+      width: 55%;
+      height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    /* 应用场景卡片 */
+    .scene-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin: 1rem 0;
+    }
+    .scene-card {
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      transition: var(--transition);
+    }
+    .scene-card:hover {
+      border-color: var(--primary);
+      background: var(--bg-hover);
+      transform: translateY(-2px);
+    }
+    .scene-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+    .scene-content {}
+    .scene-title {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.2rem;
+    }
+    .scene-desc {
+      font-size: 0.78rem;
+      color: var(--text-light);
+      line-height: 1.5;
+    }
+
+    /* 知识卡片装饰数字 */
+    .card-number {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--border);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* 响应式 */
+    @media (max-width: 640px) {
+      .software-grid { grid-template-columns: 1fr; }
+      .scene-grid    { grid-template-columns: 1fr; }
+      .diagram-body  { grid-template-columns: 60px 1fr; }
+      .cover-card-title { font-size: 1.3rem; }
+    }
+  </style>
+</head>
 <body>
+
+  <!-- ==========================================
+       导航栏
+       ========================================== -->
+  <nav class="navbar">
+    <a href="../../index.html" class="nav-logo">
+      <span class="logo-icon">✨</span>PPT闪光课堂
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-menu" id="navMenu">
+      <li class="nav-item">
+        <a href="../../index.html" class="nav-link">🏠 首页</a>
+      </li>
+      <li class="nav-item has-dropdown">
+        <span class="nav-link">📚 课程模块 ▾</span>
+        <div class="dropdown-menu">
+          <div class="dropdown-header">七大学习模块</div>
+          <a class="dropdown-item" href="1-1.html">
+            <span class="item-icon">📁</span>模块一：初识演示文稿
+          </a>
+          <a class="dropdown-item" href="../module2/2-1.html">
+            <span class="item-icon">🎨</span>模块二：设计基础
+          </a>
+          <a class="dropdown-item" href="../module3/3-1.html">
+            <span class="item-icon">🖼️</span>模块三：图文混排
+          </a>
+          <a class="dropdown-item" href="../module4/4-1.html">
+            <span class="item-icon">🎬</span>模块四：动画与切换
+          </a>
+          <a class="dropdown-item" href="../module5/5-1.html">
+            <span class="item-icon">📊</span>模块五：表格与图表
+          </a>
+          <a class="dropdown-item" href="../module6/6-1.html">
+            <span class="item-icon">🎤</span>模块六：演讲与放映
+          </a>
+          <a class="dropdown-item" href="../module7/7-1.html">
+            <span class="item-icon">🏆</span>模块七：综合实践
+          </a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="../../pages/download.html" class="nav-link">📥 素材下载</a>
+      </li>
+    </ul>
+
+    <div id="navUserDisplay"></div>
+  </nav>
+
+  <!-- ==========================================
+       知识页头部
+       ========================================== -->
+  <div class="lesson-page">
+    <div class="lesson-header">
+      <div class="container">
+        <!-- 面包屑 -->
+        <div class="lesson-breadcrumb">
+          <a href="../../index.html">🏠 首页</a>
+          <span>›</span>
+          <span>模块一：初识演示文稿</span>
+          <span>›</span>
+          <span style="color:white;font-weight:600;">1-1 认识演示文稿</span>
+        </div>
+        <h1 class="lesson-title">📁 认识演示文稿</h1>
+        <p class="lesson-subtitle">
+          了解什么是演示文稿、常用软件与应用场景，迈出PPT学习第一步！
+        </p>
+      </div>
+      <!-- 波浪装饰 -->
+      <div class="lesson-wave">
+        <svg viewBox="0 0 1440 50" preserveAspectRatio="none">
+          <path d="M0,25 C360,50 1080,0 1440,25 L1440,50 L0,50 Z"
+                fill="#F8F7FF"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         正文内容
+         ========================================== -->
+    <div class="lesson-body">
+
+      <!-- 封面卡片 -->
+      <div class="cover-card animate-on-scroll">
+        <div class="cover-card-tag">📖 第一节</div>
+        <div class="cover-card-title">认识演示文稿</div>
+        <div class="cover-card-desc">
+          演示文稿是现代学习、工作中不可缺少的表达工具。
+          本节你将学会：演示文稿的定义、常用制作软件及其广泛的应用场景。
+        </div>
+        <div class="cover-card-meta">
+          <div class="cover-meta-item">⏱️ 预计学习 15 分钟</div>
+          <div class="cover-meta-item">📝 含 3 个知识点</div>
+          <div class="cover-meta-item">🎯 适合初学者</div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           知识点 1：什么是演示文稿
+           ========================================== -->
+      <div class="knowledge-card animate-on-scroll" style="position:relative;">
+        <span class="card-number">01</span>
+        <div class="knowledge-card-title">
+          <span>📄</span> 什么是演示文稿？
+        </div>
+
+        <p style="font-size:0.95rem;color:var(--text-mid);line-height:1.8;margin-bottom:1rem;">
+          <strong style="color:var(--primary);">演示文稿</strong>，俗称
+          <strong>PPT</strong>，是一种由多张
+          <strong>幻灯片（Slide）</strong>组成的文件，用于在屏幕、投影仪等
+          设备上展示信息、汇报内容或辅助演讲。
+        </p>
+
+        <!-- 核心特征列表 -->
+        <div class="key-point-list">
+          <div class="key-point-item">
+            <span class="key-point-icon">🗂️</span>
+            <div>
+              <strong>多页结构：</strong>
+              由若干张幻灯片按顺序组合而成，每张幻灯片对应演示的一个主题或步骤。
+            </div>
+          </div>
+          <div class="key-point-item">
+            <span class="key-point-icon">🖼️</span>
+            <div>
+              <strong>图文并茂：</strong>
+              可以在幻灯片中插入文字、图片、表格、图表、视频等多种内容元素。
+            </div>
+          </div>
+          <div class="key-point-item">
+            <span class="key-point-icon">🎬</span>
+            <div>
+              <strong>动态展示：</strong>
+              支持为元素设置动画效果和幻灯片切换效果，让演示更生动有趣。
+            </div>
+          </div>
+          <div class="key-point-item">
+            <span class="key-point-icon">📡</span>
+            <div>
+              <strong>便于分享：</strong>
+              可以保存为多种格式（.pptx、.pdf、图片等），方便在不同设备上查看和传播。
+            </div>
+          </div>
+        </div>
+
+        <!-- 提示框 -->
+        <div class="tip-box info">
+          <span class="tip-icon">💡</span>
+          <div>
+            <strong>小知识：</strong>
+            "PPT"其实是微软 PowerPoint 软件的简称，但现在已经成为演示文稿的通用叫法，
+            就像"百度"成为搜索的代名词一样，大家习惯把所有演示文稿都叫做"PPT"。
+          </div>
+        </div>
+
+        <!-- 界面示意图 -->
+        <div style="margin-top:1.2rem;">
+          <div style="
+            font-size:0.85rem;
+            font-weight:700;
+            color:var(--text-mid);
+            margin-bottom:0.6rem;
+          ">🖥️ WPS演示界面示意图：</div>
+          <div class="interface-diagram">
+            <!-- 标题栏 -->
+            <div class="diagram-titlebar">
+              <div class="dot dot-red"></div>
+              <div class="dot dot-yellow"></div>
+              <div class="dot dot-green"></div>
+              <span class="diagram-titlebar-text">
+                我的第一个演示文稿.pptx - WPS演示
+              </span>
+            </div>
+            <!-- 功能区 -->
+            <div class="diagram-ribbon">
+              <span class="diagram-tab active">开始</span>
+              <span class="diagram-tab">插入</span>
+              <span class="diagram-tab">设计</span>
+              <span class="diagram-tab">动画</span>
+              <span class="diagram-tab">幻灯片放映</span>
+            </div>
+            <!-- 主体 -->
+            <div class="diagram-body">
+              <!-- 缩略图侧栏 -->
+              <div class="diagram-sidebar">
+                <div class="slide-thumb active">第1张</div>
+                <div class="slide-thumb">第2张</div>
+                <div class="slide-thumb">第3张</div>
+              </div>
+              <!-- 编辑区 -->
+              <div class="diagram-canvas">
+                <div class="diagram-slide">
+                  <div class="slide-title-bar"></div>
+                  <div class="slide-content-bar"></div>
+                  <div class="slide-content-bar" style="width:45%;"></div>
+                </div>
+                <!-- 标注 -->
+                <div style="
+                  position:absolute;
+                  top:0.5rem;
+                  right:0.5rem;
+                  font-size:0.7rem;
+                  color:var(--text-light);
+                  background:white;
+                  border:1px solid var(--border);
+                  border-radius:4px;
+                  padding:0.2rem 0.4rem;
+                ">编辑区域</div>
+              </div>
+            </div>
+          </div>
+          <div style="
+            text-align:center;
+            font-size:0.75rem;
+            color:var(--text-light);
+            margin-top:0.4rem;
+          ">↑ WPS演示软件的基本界面结构</div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           知识点 2：常用演示文稿软件
+           ========================================== -->
+      <div class="knowledge-card animate-on-scroll" style="position:relative;">
+        <span class="card-number">02</span>
+        <div class="knowledge-card-title">
+          <span>💻</span> 常用演示文稿制作软件
+        </div>
+
+        <p style="font-size:0.95rem;color:var(--text-mid);
+                  line-height:1.8;margin-bottom:1rem;">
+          制作演示文稿的软件有很多，以下是目前最常用的三款，
+          各有特点，选择适合自己的就好！
+        </p>
+
+        <div class="software-grid">
+          <!-- WPS演示 -->
+          <div class="software-card">
+            <div class="software-icon">🟡</div>
+            <div class="software-name">WPS 演示</div>
+            <div class="software-desc">
+              金山办公出品，国产软件，免费使用，
+              与 PowerPoint 高度兼容，界面中文友好。
+            </div>
+            <div class="software-tag"
+                 style="background:#FFF3CD;color:#856404;">
+              ⭐ 本课程使用
+            </div>
+          </div>
+
+          <!-- PowerPoint -->
+          <div class="software-card">
+            <div class="software-icon">🟠</div>
+            <div class="software-name">PowerPoint</div>
+            <div class="software-desc">
+              微软出品，功能强大，是全球最广泛使用的
+              演示文稿软件，文件格式为 .pptx。
+            </div>
+            <div class="software-tag"
+                 style="background:#FFE8D6;color:#7C3C00;">
+              💼 职场主流
+            </div>
+          </div>
+
+          <!-- Google幻灯片 -->
+          <div class="software-card">
+            <div class="software-icon">🔵</div>
+            <div class="software-name">Google 幻灯片</div>
+            <div class="software-desc">
+              谷歌出品，完全在线使用，无需安装，
+              支持多人实时协作编辑，适合团队协作。
+            </div>
+            <div class="software-tag"
+                 style="background:#D4EDFF;color:#004085;">
+              ☁️ 在线协作
+            </div>
+          </div>
+        </div>
+
+        <!-- 对比表格 -->
+        <div style="margin-top:1.2rem;">
+          <div style="
+            font-size:0.85rem;font-weight:700;
+            color:var(--text-mid);margin-bottom:0.6rem;
+          ">📊 三款软件功能对比：</div>
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>对比项目</th>
+                <th>WPS演示</th>
+                <th>PowerPoint</th>
+                <th>Google幻灯片</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>价格</strong></td>
+                <td>免费（基础版）</td>
+                <td>付费订阅</td>
+                <td>免费</td>
+              </tr>
+              <tr>
+                <td><strong>是否需要安装</strong></td>
+                <td>需要安装</td>
+                <td>需要安装</td>
+                <td>无需安装</td>
+              </tr>
+              <tr>
+                <td><strong>文件格式</strong></td>
+                <td>.pptx / .dps</td>
+                <td>.pptx / .ppt</td>
+                <td>.gslides</td>
+              </tr>
+              <tr>
+                <td><strong>兼容性</strong></td>
+                <td>与PPT高度兼容</td>
+                <td>行业标准格式</td>
+                <td>可导出.pptx</td>
+              </tr>
+              <tr>
+                <td><strong>在线协作</strong></td>
+                <td>支持（WPS云）</td>
+                <td>支持（OneDrive）</td>
+                <td>实时多人协作</td>
+              </tr>
+              <tr>
+                <td><strong>适合人群</strong></td>
+                <td>学生、国内用户</td>
+                <td>职场人士</td>
+                <td>海外、团队用户</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tip-box success">
+          <span class="tip-icon">✅</span>
+          <div>
+            <strong>本课程说明：</strong>
+            我们使用 <strong>WPS演示</strong> 进行教学。
+            WPS演示免费、中文界面、与PowerPoint完全兼容，
+            非常适合中小学生学习使用。
+            学会了WPS演示，PowerPoint也能轻松上手！
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           知识点 3：演示文稿的应用场景
+           ========================================== -->
+      <div class="knowledge-card animate-on-scroll" style="position:relative;">
+        <span class="card-number">03</span>
+        <div class="knowledge-card-title">
+          <span>🌍</span> 演示文稿的应用场景
+        </div>
+
+        <p style="font-size:0.95rem;color:var(--text-mid);
+                  line-height:1.8;margin-bottom:1rem;">
+          演示文稿在我们的学习和生活中无处不在，
+          掌握它将让你在很多场合更加出色！
+        </p>
+
+        <div class="scene-grid">
+          <div class="scene-card">
+            <span class="scene-icon">🏫</span>
+            <div class="scene-content">
+              <div class="scene-title">课堂学习</div>
+              <div class="scene-desc">
+                老师用PPT展示课程内容、图解知识点，
+                让上课更直观生动；同学用PPT做课堂展示汇报。
+              </div>
+            </div>
+          </div>
+          <div class="scene-card">
+            <span class="scene-icon">🏆</span>
+            <div class="scene-content">
+              <div class="scene-title">竞赛答辩</div>
+              <div class="scene-desc">
+                参加科技创新、演讲比赛时，用PPT展示
+                研究成果和方案，让评委一目了然。
+              </div>
+            </div>
+          </div>
+          <div class="scene-card">
+            <span class="scene-icon">💼</span>
+            <div class="scene-content">
+              <div class="scene-title">工作汇报</div>
+              <div class="scene-desc">
+                职场人士用PPT进行项目汇报、业绩展示、
+                方案提案，是职场必备技能之一。
+              </div>
+            </div>
+          </div>
+          <div class="scene-card">
+            <span class="scene-icon">🎓</span>
+            <div class="scene-content">
+              <div class="scene-title">毕业答辩</div>
+              <div class="scene-desc">
+                大学毕业论文答辩、研究生开题报告，
+                都需要制作专业的PPT进行展示。
+              </div>
+            </div>
+          </div>
+          <div class="scene-card">
+            <span class="scene-icon">📣</span>
+            <div class="scene-content">
+              <div class="scene-title">产品发布</div>
+              <div class="scene-desc">
+                企业发布新产品时，用精美的PPT展示
+                产品特点和优势，吸引用户关注。
+              </div>
+            </div>
+          </div>
+          <div class="scene-card">
+            <span class="scene-icon">🎉</span>
+            <div class="scene-content">
+              <div class="scene-title">生活娱乐</div>
+              <div class="scene-desc">
+                制作相册、生日祝福、节日贺卡、
+                旅行记录……PPT也可以很有趣！
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip-box warning">
+          <span class="tip-icon">⭐</span>
+          <div>
+            <strong>学习目标提醒：</strong>
+            演示文稿是21世纪最重要的信息表达工具之一。
+            据统计，全球每天有超过 <strong>3000万</strong> 个PPT演示正在进行！
+            掌握PPT制作技能，不论是学习还是未来工作都大有裨益。
+          </div>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           知识小结
+           ========================================== -->
+      <div class="knowledge-card animate-on-scroll" style="
+        background:linear-gradient(135deg,#F5F0FF,#FFF0E8);
+        border-color:var(--primary);
+        position:relative;
+      ">
+        <div class="knowledge-card-title">
+          <span>📋</span> 本节知识小结
+        </div>
+
+        <div style="
+          display:grid;
+          grid-template-columns:repeat(3,1fr);
+          gap:1rem;
+          margin-bottom:1.2rem;
+        " class="summary-grid">
+
+          <!-- 小结卡1 -->
+          <div style="
+            background:white;
+            border-radius:var(--radius-sm);
+            padding:1rem;
+            text-align:center;
+            box-shadow:var(--shadow-sm);
+          ">
+            <div style="font-size:2rem;margin-bottom:0.4rem;">📄</div>
+            <div style="
+              font-size:0.82rem;font-weight:700;
+              color:var(--text-dark);margin-bottom:0.3rem;
+            ">演示文稿是什么</div>
+            <div style="font-size:0.75rem;color:var(--text-light);line-height:1.5;">
+              由多张幻灯片组成，用于展示和演讲的文件
+            </div>
+          </div>
+
+          <!-- 小结卡2 -->
+          <div style="
+            background:white;
+            border-radius:var(--radius-sm);
+            padding:1rem;
+            text-align:center;
+            box-shadow:var(--shadow-sm);
+          ">
+            <div style="font-size:2rem;margin-bottom:0.4rem;">💻</div>
+            <div style="
+              font-size:0.82rem;font-weight:700;
+              color:var(--text-dark);margin-bottom:0.3rem;
+            ">常用制作软件</div>
+            <div style="font-size:0.75rem;color:var(--text-light);line-height:1.5;">
+              WPS演示、PowerPoint、Google幻灯片
+            </div>
+          </div>
+
+          <!-- 小结卡3 -->
+          <div style="
+            background:white;
+            border-radius:var(--radius-sm);
+            padding:1rem;
+            text-align:center;
+            box-shadow:var(--shadow-sm);
+          ">
+            <div style="font-size:2rem;margin-bottom:0.4rem;">🌍</div>
+            <div style="
+              font-size:0.82rem;font-weight:700;
+              color:var(--text-dark);margin-bottom:0.3rem;
+            ">应用场景广泛</div>
+            <div style="font-size:0.75rem;color:var(--text-light);line-height:1.5;">
+              学习、竞赛、工作、答辩、生活娱乐
+            </div>
+          </div>
+        </div>
+
+        <!-- 重点速记 -->
+        <div style="
+          background:white;
+          border-radius:var(--radius-sm);
+          padding:1rem 1.2rem;
+          border-left:4px solid var(--primary);
+        ">
+          <div style="
+            font-size:0.85rem;font-weight:700;
+            color:var(--primary);margin-bottom:0.5rem;
+          ">🔑 重点速记</div>
+          <div style="
+            font-size:0.875rem;
+            color:var(--text-mid);
+            line-height:1.9;
+          ">
+            ① 演示文稿 = 多张幻灯片的集合，扩展名为 <code style="
+              background:var(--bg);
+              padding:0.1rem 0.4rem;
+              border-radius:3px;
+              font-family:monospace;
+              color:var(--primary);
+            ">.pptx</code><br>
+            ② 本课程使用 <strong>WPS演示</strong>，免费中文，与PPT高度兼容<br>
+            ③ 演示文稿支持 <strong>文字、图片、表格、动画、视频</strong> 等多种元素<br>
+            ④ 常见快捷键：新建
+            <code style="background:var(--bg);padding:0.1rem 0.4rem;border-radius:3px;
+              font-family:monospace;color:var(--primary);">Ctrl+N</code>、
+            保存
+            <code style="background:var(--bg);padding:0.1rem 0.4rem;border-radius:3px;
+              font-family:monospace;color:var(--primary);">Ctrl+S</code>、
+            撤销
+            <code style="background:var(--bg);padding:0.1rem 0.4rem;border-radius:3px;
+              font-family:monospace;color:var(--primary);">Ctrl+Z</code>
+          </div>
+        </div>
+
+        <!-- 自测提示 -->
+        <div style="
+          margin-top:1rem;
+          text-align:center;
+          padding:1rem;
+          background:white;
+          border-radius:var(--radius-sm);
+          border:1.5px dashed var(--primary);
+        ">
+          <div style="font-size:1.5rem;margin-bottom:0.3rem;">🧠</div>
+          <div style="
+            font-size:0.875rem;
+            font-weight:600;
+            color:var(--text-dark);
+            margin-bottom:0.5rem;
+          ">学完了吗？去测验检验一下吧！</div>
+          <a href="quiz.html" class="btn btn-primary"
+             style="padding:0.5rem 1.5rem;font-size:0.875rem;">
+            ✏️ 开始模块一测验
+          </a>
+        </div>
+      </div>
+
+      <!-- ==========================================
+           上下节导航
+           ========================================== -->
+      <div class="lesson-nav">
+        <!-- 上一节：无（第一节） -->
+        <div class="lesson-nav-btn" style="visibility:hidden;">
+          <span style="font-size:0.75rem;color:var(--text-light);">上一节</span>
+          <span>—</span>
+        </div>
+
+        <!-- 当前位置提示 -->
+        <div style="
+          text-align:center;
+          font-size:0.8rem;
+          color:var(--text-light);
+        ">
+          <div style="margin-bottom:0.3rem;">📍 当前位置</div>
+          <div style="font-weight:600;color:var(--text-mid);">
+            模块一 · 第1节 / 共4节
+          </div>
+          <!-- 小圆点进度 -->
+          <div style="
+            display:flex;justify-content:center;gap:0.4rem;
+            margin-top:0.5rem;
+          ">
+            <span style="
+              width:8px;height:8px;border-radius:50%;
+              background:var(--primary);display:inline-block;
+            "></span>
+            <span style="
+              width:8px;height:8px;border-radius:50%;
+              background:var(--border);display:inline-block;
+            "></span>
+            <span style="
+              width:8px;height:8px;border-radius:50%;
+              background:var(--border);display:inline-block;
+            "></span>
+            <span style="
+              width:8px;height:8px;border-radius:50%;
+              background:var(--border);display:inline-block;
+            "></span>
+          </div>
+        </div>
+
+        <!-- 下一节 -->
+        <a href="1-2.html" class="lesson-nav-btn" style="text-align:right;">
+          <span style="font-size:0.75rem;color:var(--text-light);">下一节</span>
+          <span style="
+            font-size:0.9rem;font-weight:700;
+            color:var(--primary);
+            display:flex;align-items:center;
+            gap:0.3rem;justify-content:flex-end;
+          ">
+            WPS演示界面介绍 →
+          </span>
+        </a>
+      </div>
+
+    </div><!-- end .lesson-body -->
+  </div><!-- end .lesson-page -->
+
+  <!-- ==========================================
+       页脚
+       ========================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:0.8rem;">
+            <span class="logo-icon">✨</span>PPT闪光课堂
+          </div>
+          <div class="footer-desc">
+            专为中小学生设计的WPS演示学习平台，<br>
+            7大模块 · 图文并茂 · 趣味测验，让PPT学习更简单有趣！
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">📚 课程模块</div>
+          <div class="footer-links">
+            <a href="1-1.html">模块一：初识演示文稿</a>
+            <a href="../module2/2-1.html">模块二：设计基础</a>
+            <a href="../module3/3-1.html">模块三：图文混排</a>
+            <a href="../module4/4-1.html">模块四：动画与切换</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">🔗 快速链接</div>
+          <div class="footer-links">
+            <a href="../../index.html">🏠 返回首页</a>
+            <a href="quiz.html">✏️ 模块测验</a>
+            <a href="../../pages/download.html">📥 素材下载</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 PPT闪光课堂 · 让每个同学都能做出闪光的PPT ✨</span>
+        <span>粤ICP备XXXXXXXX号</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 用户弹窗 -->
+  <div class="modal-overlay" id="userModal">
+    <div class="modal-box">
+      <div class="modal-icon">🎓</div>
+      <div class="modal-title">欢迎来到PPT闪光课堂</div>
+      <div class="modal-subtitle">请先登录，记录你的学习进度 📊</div>
+      <form class="modal-form" id="userForm">
+        <div class="form-group">
+          <label class="form-label" for="studentId">学号</label>
+          <input type="text" id="studentId" class="form-input"
+                 placeholder="请输入你的学号" maxlength="20" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="studentName">姓名</label>
+          <input type="text" id="studentName" class="form-input"
+                 placeholder="请输入你的姓名" maxlength="10" autocomplete="off">
+        </div>
+        <button type="submit" class="btn-start">🚀 开始学习</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast 容器 -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- 脚本 -->
+  <script src="../../js/main.js"></script>
+
+  <style>
+    /* 小结网格响应式 */
+    @media (max-width: 600px) {
+      .summary-grid {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
+
 </body>
 </html>
