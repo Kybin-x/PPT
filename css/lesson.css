@@ -1,0 +1,1261 @@
+/**
+ * PPT学习站 - 课程学习页专用样式
+ * 文件路径: css/lesson.css
+ */
+
+/* ==================== 1. 顶部面包屑 ==================== */
+.lesson-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.lesson-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    flex-wrap: wrap;
+}
+
+.lesson-breadcrumb a {
+    color: var(--text-muted);
+    transition: color var(--transition-fast);
+}
+
+.lesson-breadcrumb a:hover {
+    color: var(--primary);
+}
+
+.breadcrumb-sep {
+    color: var(--border-color);
+    font-size: var(--text-xs);
+}
+
+.breadcrumb-current {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* 顶部进度条 */
+.lesson-progress-mini {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.lesson-progress-label {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.lesson-progress-bar-mini {
+    width: 120px;
+    height: 6px;
+    background: var(--border-light);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.lesson-progress-fill-mini {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: var(--radius-full);
+    transition: width 0.6s ease;
+    min-width: 0;
+}
+
+/* ==================== 2. 课程标题区 ==================== */
+.lesson-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 1px solid var(--border-light);
+}
+
+.lesson-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    flex: 1;
+    min-width: 0;
+}
+
+.lesson-number {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-2xl);
+    font-weight: 900;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+}
+
+.lesson-header-info {
+    min-width: 0;
+}
+
+.lesson-module-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: white;
+    margin-bottom: var(--space-sm);
+}
+
+.lesson-title {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0;
+    word-wrap: break-word;
+}
+
+.lesson-header-right {
+    flex-shrink: 0;
+}
+
+.lesson-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.lesson-status-badge.new-lesson {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.lesson-status-badge.reading {
+    background: var(--warning-light);
+    color: var(--warning);
+}
+
+.lesson-status-badge.completed {
+    background: var(--success-light);
+    color: var(--success);
+}
+
+/* ==================== 3. 任务情境 ==================== */
+.lesson-scenario {
+    background: linear-gradient(135deg, var(--primary-light), var(--accent-light));
+    border: 1px solid var(--primary);
+    border-left: 4px solid var(--primary);
+    margin-bottom: var(--space-xl);
+}
+
+[data-theme="dark"] .lesson-scenario {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.08), rgba(255, 59, 92, 0.05));
+}
+
+.scenario-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-sm);
+}
+
+.scenario-icon {
+    font-size: 20px;
+}
+
+.scenario-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.scenario-text {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ==================== 4. 两栏布局 ==================== */
+.lesson-body {
+    display: flex;
+    gap: var(--space-xl);
+    align-items: flex-start;
+}
+
+.lesson-content-area {
+    flex: 1;
+    min-width: 0;
+}
+
+.lesson-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    position: sticky;
+    top: calc(var(--header-height) + var(--space-lg));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    max-height: calc(100vh - var(--header-height) - var(--space-2xl));
+    overflow-y: auto;
+}
+
+/* ==================== 5. 课程内容区块 ==================== */
+.lesson-section {
+    margin-bottom: var(--space-2xl);
+    position: relative;
+}
+
+.section-anchor {
+    position: absolute;
+    top: -80px;
+}
+
+.lesson-section-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--primary);
+    color: var(--text-primary);
+}
+
+.section-icon {
+    font-size: 22px;
+}
+
+/* ==================== 6. 知识讲解区 内容样式 ==================== */
+.lesson-knowledge-body h3,
+.lesson-steps-body h3,
+.lesson-tips-body h3,
+.lesson-practice-body h3 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-top: var(--space-xl);
+    margin-bottom: var(--space-md);
+    color: var(--text-primary);
+    padding-left: var(--space-md);
+    border-left: 3px solid var(--primary);
+}
+
+.lesson-knowledge-body h4,
+.lesson-steps-body h4,
+.lesson-tips-body h4,
+.lesson-practice-body h4 {
+    font-size: var(--text-base);
+    font-weight: 700;
+    margin-top: var(--space-lg);
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+}
+
+.lesson-knowledge-body p,
+.lesson-steps-body p,
+.lesson-tips-body p,
+.lesson-practice-body p {
+    font-size: var(--text-base);
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.lesson-knowledge-body ul,
+.lesson-steps-body ul,
+.lesson-tips-body ul,
+.lesson-practice-body ul {
+    padding-left: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.lesson-knowledge-body li,
+.lesson-steps-body li,
+.lesson-tips-body li,
+.lesson-practice-body li {
+    font-size: var(--text-base);
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+    position: relative;
+    list-style: none;
+    padding-left: var(--space-md);
+}
+
+.lesson-knowledge-body li::before,
+.lesson-steps-body li::before,
+.lesson-tips-body li::before,
+.lesson-practice-body li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.lesson-knowledge-body ol,
+.lesson-steps-body ol {
+    padding-left: var(--space-lg);
+    margin-bottom: var(--space-md);
+    counter-reset: step-counter;
+}
+
+.lesson-knowledge-body ol li,
+.lesson-steps-body ol li {
+    list-style: none;
+    counter-increment: step-counter;
+    padding-left: var(--space-xl);
+    margin-bottom: var(--space-md);
+    position: relative;
+}
+
+.lesson-knowledge-body ol li::before,
+.lesson-steps-body ol li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 2px;
+    width: 24px;
+    height: 24px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    font-weight: 700;
+}
+
+/* 代码块 */
+.lesson-knowledge-body code,
+.lesson-steps-body code,
+.lesson-tips-body code {
+    background: var(--bg-code);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--primary);
+}
+
+/* 提示框 */
+.knowledge-tip,
+.tip-box {
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    margin: var(--space-md) 0;
+    font-size: var(--text-sm);
+    line-height: 1.7;
+}
+
+.tip-box.tip-info,
+.knowledge-tip.info {
+    background: #EFF6FF;
+    border-left: 4px solid #3B82F6;
+    color: #1E40AF;
+}
+
+.tip-box.tip-warning,
+.knowledge-tip.warning {
+    background: var(--warning-light);
+    border-left: 4px solid var(--warning);
+    color: #92400E;
+}
+
+.tip-box.tip-success,
+.knowledge-tip.success {
+    background: var(--success-light);
+    border-left: 4px solid var(--success);
+    color: #166534;
+}
+
+.tip-box.tip-danger,
+.knowledge-tip.danger {
+    background: var(--error-light);
+    border-left: 4px solid var(--error);
+    color: #991B1B;
+}
+
+[data-theme="dark"] .tip-box.tip-info,
+[data-theme="dark"] .knowledge-tip.info {
+    background: #0C1A30;
+    color: #60A5FA;
+}
+
+[data-theme="dark"] .tip-box.tip-warning,
+[data-theme="dark"] .knowledge-tip.warning {
+    background: var(--warning-light);
+    color: #FCD34D;
+}
+
+[data-theme="dark"] .tip-box.tip-success,
+[data-theme="dark"] .knowledge-tip.success {
+    background: var(--success-light);
+    color: #4ADE80;
+}
+
+[data-theme="dark"] .tip-box.tip-danger,
+[data-theme="dark"] .knowledge-tip.danger {
+    background: var(--error-light);
+    color: #F87171;
+}
+
+/* 操作步骤卡片 */
+.step-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+    position: relative;
+    transition: all var(--transition-fast);
+}
+
+.step-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.step-card-number {
+    position: absolute;
+    top: -10px;
+    left: var(--space-md);
+    width: 28px;
+    height: 28px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    font-weight: 700;
+}
+
+.step-card-title {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    padding-top: var(--space-xs);
+}
+
+.step-card-desc {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+}
+
+/* 图片占位 */
+.img-placeholder {
+    background: var(--bg-code);
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-xl);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin: var(--space-md) 0;
+}
+
+.img-placeholder .img-icon {
+    font-size: 40px;
+    margin-bottom: var(--space-sm);
+    opacity: 0.5;
+}
+
+/* 键盘快捷键标签 */
+.kbd {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--bg-code);
+    border: 1px solid var(--border-color);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+/* ==================== 7. 练习题区域 ==================== */
+.quiz-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.quiz-item {
+    background: var(--bg-card);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    transition: border-color var(--transition-fast);
+}
+
+.quiz-item.answered-correct {
+    border-color: var(--success);
+    background: var(--success-light);
+}
+
+.quiz-item.answered-wrong {
+    border-color: var(--error);
+    background: var(--error-light);
+}
+
+.quiz-question {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.quiz-question-num {
+    color: var(--primary);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.quiz-option {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: 10px var(--space-md);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.quiz-option:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.quiz-option.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    font-weight: 600;
+}
+
+.quiz-option.correct {
+    border-color: var(--success);
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.quiz-option.wrong {
+    border-color: var(--error);
+    background: var(--error-light);
+    color: var(--error);
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.quiz-option.disabled {
+    pointer-events: none;
+}
+
+.quiz-option-letter {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--bg-code);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--text-secondary);
+}
+
+.quiz-option.selected .quiz-option-letter {
+    background: var(--primary);
+    color: white;
+}
+
+.quiz-option.correct .quiz-option-letter {
+    background: var(--success);
+    color: white;
+}
+
+.quiz-option.wrong .quiz-option-letter {
+    background: var(--error);
+    color: white;
+}
+
+.quiz-explanation {
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background: var(--bg-code);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    display: none;
+}
+
+.quiz-explanation.show {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.quiz-explanation strong {
+    color: var(--primary);
+}
+
+/* 提交按钮区 */
+.quiz-submit-area {
+    text-align: center;
+    padding: var(--space-lg) 0;
+}
+
+/* 练习结果 */
+.quiz-result {
+    text-align: center;
+    padding: var(--space-xl);
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--border-light);
+    margin-top: var(--space-lg);
+}
+
+.quiz-result-icon {
+    font-size: 64px;
+    margin-bottom: var(--space-md);
+    animation: resultBounce 0.6s ease;
+}
+
+@keyframes resultBounce {
+    0% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.quiz-result-score {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.quiz-result-message {
+    font-size: var(--text-base);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+.quiz-result-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+/* ==================== 8. 实战任务区 ==================== */
+.practice-task {
+    background: var(--bg-card);
+    border: 2px solid var(--primary);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-md);
+}
+
+.practice-task-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    font-weight: 700;
+    color: var(--primary);
+    font-size: var(--text-lg);
+}
+
+.practice-task-body {
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.practice-task-body ol {
+    padding-left: var(--space-lg);
+    counter-reset: task-counter;
+}
+
+.practice-task-body ol li {
+    counter-increment: task-counter;
+    margin-bottom: var(--space-sm);
+    padding-left: var(--space-sm);
+}
+
+.practice-task-body ol li::marker {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ==================== 9. 底部操作区 ==================== */
+.lesson-bottom-actions {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 2px solid var(--border-light);
+}
+
+/* 已读勾选 */
+.lesson-read-check {
+    margin-bottom: var(--space-xl);
+    display: flex;
+    justify-content: center;
+}
+
+.read-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding: var(--space-md) var(--space-xl);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    user-select: none;
+}
+
+.read-checkbox-label:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.read-checkbox-label input[type="checkbox"] {
+    display: none;
+}
+
+.read-checkbox-custom {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.read-checkbox-label input[type="checkbox"]:checked~.read-checkbox-custom {
+    background: var(--success);
+    border-color: var(--success);
+}
+
+.read-checkbox-label input[type="checkbox"]:checked~.read-checkbox-custom::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.read-checkbox-label input[type="checkbox"]:checked~span:last-child {
+    color: var(--success);
+}
+
+/* 底部导航按钮 */
+.lesson-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+}
+
+.lesson-nav-buttons .btn {
+    flex: 1;
+    max-width: 300px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ==================== 10. 侧边栏 ==================== */
+.sidebar-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    padding: var(--space-md);
+}
+
+.sidebar-card-title {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* 目录导航 */
+.toc-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.toc-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 8px var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+}
+
+.toc-link:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.toc-link.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.toc-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--border-color);
+    flex-shrink: 0;
+    transition: background var(--transition-fast);
+}
+
+.toc-link.active .toc-dot {
+    background: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+/* 侧边栏信息 */
+.sidebar-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.sidebar-info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--text-sm);
+    padding: 4px 0;
+}
+
+.sidebar-info-label {
+    color: var(--text-muted);
+}
+
+.sidebar-info-value {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* 快速导航 */
+.quick-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.quick-nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 6px var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.quick-nav-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.quick-nav-item.current {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.quick-nav-item.completed {
+    color: var(--success);
+}
+
+.quick-nav-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg-code);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    color: var(--text-muted);
+}
+
+.quick-nav-item.current .quick-nav-num {
+    background: var(--primary);
+    color: white;
+}
+
+.quick-nav-item.completed .quick-nav-num {
+    background: var(--success);
+    color: white;
+}
+
+.quick-nav-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.quick-nav-check {
+    margin-left: auto;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+/* ==================== 11. 回到顶部按钮 ==================== */
+.back-to-top {
+    position: fixed;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+    z-index: 100;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+    opacity: 1;
+}
+
+.back-to-top:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+}
+
+.back-to-top.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+}
+
+/* ==================== 12. 通用动画 ==================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lesson-section {
+    animation: slideUp 0.4s ease forwards;
+}
+
+.lesson-section:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.lesson-section:nth-child(2) {
+    animation-delay: 0.05s;
+}
+
+.lesson-section:nth-child(3) {
+    animation-delay: 0.1s;
+}
+
+.lesson-section:nth-child(4) {
+    animation-delay: 0.15s;
+}
+
+.lesson-section:nth-child(5) {
+    animation-delay: 0.2s;
+}
+
+/* ==================== 13. 响应式 ==================== */
+
+/* 隐藏侧边栏 - 小于1024 */
+@media (max-width: 1024px) {
+    .lesson-sidebar {
+        display: none;
+    }
+
+    .lesson-body {
+        display: block;
+    }
+}
+
+/* 平板 */
+@media (max-width: 768px) {
+    .lesson-header {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .lesson-number {
+        width: 44px;
+        height: 44px;
+        font-size: var(--text-xl);
+    }
+
+    .lesson-title {
+        font-size: var(--text-xl);
+    }
+
+    .lesson-topbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .lesson-progress-mini {
+        width: 100%;
+    }
+
+    .lesson-progress-bar-mini {
+        flex: 1;
+    }
+
+    .lesson-scenario {
+        padding: var(--space-md);
+    }
+
+    .quiz-item {
+        padding: var(--space-md);
+    }
+
+    .lesson-nav-buttons {
+        flex-direction: column;
+    }
+
+    .lesson-nav-buttons .btn {
+        max-width: 100%;
+    }
+
+    .quiz-result-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* 手机 */
+@media (max-width: 480px) {
+    .lesson-header-left {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .lesson-number {
+        width: 36px;
+        height: 36px;
+        font-size: var(--text-base);
+    }
+
+    .lesson-title {
+        font-size: var(--text-lg);
+    }
+
+    .lesson-section-title {
+        font-size: var(--text-lg);
+    }
+
+    .lesson-breadcrumb {
+        font-size: var(--text-xs);
+    }
+
+    .step-card {
+        padding: var(--space-md);
+    }
+
+    .quiz-option {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .read-checkbox-label {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--text-sm);
+    }
+
+    .back-to-top {
+        right: var(--space-md);
+        bottom: var(--space-md);
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .quiz-result {
+        padding: var(--space-lg);
+    }
+
+    .quiz-result-icon {
+        font-size: 48px;
+    }
+
+    .quiz-result-score {
+        font-size: var(--text-xl);
+    }
+
+    .practice-task {
+        padding: var(--space-md);
+    }
+}
+
+/* ==================== 14. 深色模式微调 ==================== */
+[data-theme="dark"] .lesson-scenario {
+    border-color: var(--primary-dark);
+}
+
+[data-theme="dark"] .quiz-item {
+    border-color: var(--border-color);
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .quiz-item.answered-correct {
+    background: rgba(34, 197, 94, 0.05);
+    border-color: var(--success);
+}
+
+[data-theme="dark"] .quiz-item.answered-wrong {
+    background: rgba(239, 68, 68, 0.05);
+    border-color: var(--error);
+}
+
+[data-theme="dark"] .quiz-option {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .quiz-option:hover {
+    background: rgba(255, 107, 53, 0.08);
+}
+
+[data-theme="dark"] .quiz-option.selected {
+    background: rgba(255, 107, 53, 0.1);
+}
+
+[data-theme="dark"] .quiz-option.correct {
+    background: rgba(34, 197, 94, 0.1);
+}
+
+[data-theme="dark"] .quiz-option.wrong {
+    background: rgba(239, 68, 68, 0.08);
+}
+
+[data-theme="dark"] .sidebar-card {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .step-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .practice-task {
+    border-color: var(--primary-dark);
+    background: rgba(255, 107, 53, 0.03);
+}
+
+[data-theme="dark"] .quiz-result {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .read-checkbox-label {
+    border-color: var(--border-color);
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .read-checkbox-label:hover {
+    background: rgba(255, 107, 53, 0.08);
+}
+
+[data-theme="dark"] .quiz-explanation {
+    background: var(--bg-body);
+}
+
+[data-theme="dark"] .img-placeholder {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}

@@ -1,0 +1,1421 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - PPT学习站</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        /* ==================== 管理后台样式 ==================== */
+        .admin-tabs {
+            display: flex;
+            gap: var(--space-xs);
+            background: var(--bg-card);
+            padding: 6px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            margin-bottom: var(--space-xl);
+            overflow-x: auto;
+        }
+
+        .admin-tab {
+            flex: 1;
+            padding: 12px var(--space-lg);
+            border-radius: var(--radius-md);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-align: center;
+            white-space: nowrap;
+            min-width: 120px;
+            background: transparent;
+            border: none;
+        }
+
+        .admin-tab:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .admin-tab.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+        }
+
+        .admin-panel {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ---- 仪表盘 ---- */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            border: 1px solid var(--border-light);
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-icon {
+            font-size: 32px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .stat-value {
+            font-size: var(--text-3xl);
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            margin-top: var(--space-xs);
+        }
+
+        /* ---- 表格通用 ---- */
+        .chapter-controls {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .chapter-table-wrapper {
+            overflow-x: auto;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        .admin-table th {
+            background: var(--bg-code);
+            padding: 12px var(--space-md);
+            text-align: left;
+            font-size: var(--text-sm);
+            font-weight: 700;
+            color: var(--text-secondary);
+            border-bottom: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .admin-table td {
+            padding: 12px var(--space-md);
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-light);
+            vertical-align: middle;
+        }
+
+        .admin-table tbody tr {
+            transition: background var(--transition-fast);
+        }
+
+        .admin-table tbody tr:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .admin-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* 开关 */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--border-color);
+            border-radius: 24px;
+            transition: all var(--transition-fast);
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: all var(--transition-fast);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch input:checked+.toggle-slider {
+            background: var(--success);
+        }
+
+        .toggle-switch input:checked+.toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        .status-open {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .status-closed {
+            color: var(--text-muted);
+        }
+
+        /* ---- 学生管理 ---- */
+        .student-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .student-toolbar-left {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .student-search {
+            position: relative;
+        }
+
+        .student-search .form-input {
+            padding-left: 36px;
+            width: 260px;
+            border-radius: var(--radius-full);
+            height: 40px;
+        }
+
+        .student-search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+            pointer-events: none;
+        }
+
+        .student-count {
+            font-size: var(--text-sm);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+        }
+
+        /* 班级筛选 */
+        .class-filter-select {
+            padding: 8px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-full);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: border-color var(--transition-fast);
+            height: 40px;
+        }
+
+        .class-filter-select:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .action-btns {
+            display: flex;
+            gap: var(--space-xs);
+        }
+
+        /* ---- 进度查看 ---- */
+        .progress-filters {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .progress-filter-select {
+            padding: 8px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: border-color var(--transition-fast);
+        }
+
+        .progress-filter-select:focus {
+            border-color: var(--primary);
+        }
+
+        /* 柱状图 */
+        .progress-chart-area {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-xl);
+        }
+
+        .progress-chart-title {
+            font-size: var(--text-lg);
+            font-weight: 700;
+            margin-bottom: var(--space-lg);
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: var(--space-sm);
+            height: 200px;
+            padding: 0 var(--space-sm);
+        }
+
+        .bar-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-xs);
+            min-width: 30px;
+        }
+
+        .bar-fill {
+            width: 100%;
+            max-width: 40px;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            transition: height 0.6s ease;
+            min-height: 2px;
+            position: relative;
+        }
+
+        .bar-fill:hover {
+            opacity: 0.85;
+        }
+
+        .bar-fill::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .bar-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 50px;
+        }
+
+        /* 学生进度卡片 */
+        .student-progress-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-light);
+            margin-bottom: var(--space-md);
+            overflow: hidden;
+            transition: box-shadow var(--transition-fast);
+        }
+
+        .student-progress-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .student-progress-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: var(--space-md) var(--space-lg);
+            cursor: pointer;
+            transition: background var(--transition-fast);
+        }
+
+        .student-progress-header:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .student-progress-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .student-progress-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: var(--text-sm);
+            flex-shrink: 0;
+        }
+
+        .student-progress-name {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .student-progress-id {
+            font-size: var(--text-xs);
+            color: var(--text-muted);
+        }
+
+        .student-progress-class {
+            font-size: var(--text-xs);
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .student-progress-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .student-progress-percent {
+            font-size: var(--text-lg);
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .student-progress-mini-bar {
+            width: 100px;
+            height: 8px;
+            background: var(--border-light);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .student-progress-mini-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: var(--radius-full);
+            transition: width 0.4s ease;
+        }
+
+        .student-progress-toggle {
+            color: var(--text-muted);
+            font-size: var(--text-sm);
+            transition: transform var(--transition-fast);
+        }
+
+        .student-progress-detail {
+            display: none;
+            padding: 0 var(--space-lg) var(--space-lg);
+            border-top: 1px solid var(--border-light);
+        }
+
+        .student-progress-detail.show {
+            display: block;
+        }
+
+        .detail-chapter-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: var(--space-sm);
+            margin-top: var(--space-md);
+        }
+
+        .detail-chapter-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            background: var(--bg-code);
+        }
+
+        .detail-chapter-item.completed {
+            background: var(--success-light);
+        }
+
+        .detail-chapter-item.in-progress {
+            background: var(--warning-light);
+        }
+
+        .detail-chapter-num {
+            font-weight: 700;
+            color: var(--text-muted);
+            width: 20px;
+            flex-shrink: 0;
+        }
+
+        .detail-chapter-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .detail-chapter-score {
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* ---- 批量导入 ---- */
+        .import-modal .modal {
+            max-width: 650px;
+        }
+
+        .import-format-hint {
+            background: var(--bg-code);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            margin-bottom: var(--space-md);
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .import-format-hint code {
+            background: var(--bg-card);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            color: var(--primary);
+        }
+
+        .import-textarea {
+            width: 100%;
+            min-height: 160px;
+            padding: var(--space-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-family: var(--font-mono);
+            font-size: var(--text-sm);
+            color: var(--text-primary);
+            background: var(--bg-input);
+            resize: vertical;
+            transition: border-color var(--transition-fast);
+            line-height: 1.8;
+        }
+
+        .import-textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .import-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .import-preview {
+            margin-top: var(--space-md);
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .import-preview-count {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+            font-weight: 600;
+        }
+
+        /* ---- 响应式 ---- */
+        @media (max-width: 1024px) {
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .admin-tab {
+                min-width: 100px;
+                padding: 10px var(--space-md);
+                font-size: var(--text-xs);
+            }
+
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--space-sm);
+            }
+
+            .stat-card {
+                padding: var(--space-md);
+            }
+
+            .stat-value {
+                font-size: var(--text-xl);
+            }
+
+            .student-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .student-search .form-input {
+                width: 100%;
+            }
+
+            .student-toolbar-left {
+                flex-direction: column;
+            }
+
+            .progress-filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .student-progress-right {
+                flex-direction: column;
+                align-items: flex-end;
+                gap: var(--space-xs);
+            }
+
+            .student-progress-mini-bar {
+                width: 80px;
+            }
+
+            .detail-chapter-list {
+                grid-template-columns: 1fr;
+            }
+
+            .bar-chart {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .dashboard-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .chapter-controls {
+                flex-direction: column;
+            }
+
+            .chapter-controls .btn {
+                width: 100%;
+            }
+
+            .action-btns {
+                flex-direction: column;
+            }
+
+            .action-btns .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ---- 深色模式 ---- */
+        [data-theme="dark"] .admin-table th {
+            background: var(--bg-body);
+        }
+
+        [data-theme="dark"] .stat-card {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .student-progress-card {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .chapter-table-wrapper {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .import-textarea {
+            background: var(--bg-body);
+        }
+
+        [data-theme="dark"] .detail-chapter-item {
+            background: var(--bg-body);
+        }
+
+        [data-theme="dark"] .detail-chapter-item.completed {
+            background: rgba(34, 197, 94, 0.08);
+        }
+
+        [data-theme="dark"] .detail-chapter-item.in-progress {
+            background: rgba(245, 158, 11, 0.08);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <header class="header"></header>
+
+    <!-- 主内容 -->
+    <main class="main-content">
+
+        <div class="flex justify-between items-center mb-lg" style="flex-wrap: wrap; gap: var(--space-md);">
+            <div>
+                <h1 style="font-size: var(--text-2xl); margin-bottom: var(--space-xs);">⚙️ 管理后台</h1>
+                <p style="color: var(--text-muted); font-size: var(--text-sm); margin: 0;">PPT学习站 · 教学管理中心</p>
+            </div>
+            <a href="index.html" class="btn btn-secondary btn-sm" target="_blank">🔗 查看前台</a>
+        </div>
+
+        <!-- 选项卡 -->
+        <div class="admin-tabs" id="adminTabs">
+            <button class="admin-tab active" data-panel="dashboard" onclick="switchTab('dashboard')">📊 仪表盘</button>
+            <button class="admin-tab" data-panel="chapters" onclick="switchTab('chapters')">📖 章节管理</button>
+            <button class="admin-tab" data-panel="students" onclick="switchTab('students')">👥 学生管理</button>
+            <button class="admin-tab" data-panel="progress" onclick="switchTab('progress')">📈 进度查看</button>
+        </div>
+
+        <!-- ======== 面板1：仪表盘 ======== -->
+        <div class="admin-panel active" id="panelDashboard">
+            <div class="dashboard-stats" id="dashboardStats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value" id="statStudents">-</div>
+                    <div class="stat-label">注册学生</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📖</div>
+                    <div class="stat-value" id="statOpenChapters">-</div>
+                    <div class="stat-label">已开放章节</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✅</div>
+                    <div class="stat-value" id="statAvgProgress">-</div>
+                    <div class="stat-label">平均完成率</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-value" id="statFullComplete">-</div>
+                    <div class="stat-label">全部完成人数</div>
+                </div>
+            </div>
+            <div class="progress-chart-area">
+                <h3 class="progress-chart-title">📊 各章节完成人数</h3>
+                <div class="bar-chart" id="chapterBarChart">
+                    <div class="page-loading" style="width:100%;min-height:150px;">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======== 面板2：章节管理 ======== -->
+        <div class="admin-panel" id="panelChapters">
+            <div class="chapter-controls">
+                <button class="btn btn-success btn-sm" onclick="batchToggleChapters(true)">✅ 全部开放</button>
+                <button class="btn btn-secondary btn-sm" onclick="batchToggleChapters(false)">🔒 全部关闭</button>
+                <button class="btn btn-secondary btn-sm" onclick="loadChapters()">🔄 刷新</button>
+            </div>
+            <div class="chapter-table-wrapper">
+                <table class="admin-table" id="chaptersTable">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">序号</th>
+                            <th>课程标题</th>
+                            <th>所属模块</th>
+                            <th style="width:100px;">状态</th>
+                            <th style="width:80px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="chaptersTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center" style="padding: var(--space-xl);">
+                                <div class="loading-spinner"></div> 加载中...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ======== 面板3：学生管理 ======== -->
+        <div class="admin-panel" id="panelStudents">
+            <div class="student-toolbar">
+                <div class="student-toolbar-left">
+                    <div class="student-search">
+                        <span class="student-search-icon">🔍</span>
+                        <input type="text" class="form-input" id="studentSearchInput" placeholder="搜索姓名或学号..."
+                            oninput="filterStudents()">
+                    </div>
+                    <select class="class-filter-select" id="classFilterSelect" onchange="filterStudents()">
+                        <option value="">全部班级</option>
+                    </select>
+                    <span class="student-count" id="studentCount">共 0 名学生</span>
+                </div>
+                <div class="action-btns">
+                    <button class="btn btn-primary btn-sm" onclick="showImportModal()">📥 批量导入</button>
+                    <button class="btn btn-secondary btn-sm" onclick="loadStudents()">🔄 刷新</button>
+                </div>
+            </div>
+            <div class="chapter-table-wrapper">
+                <table class="admin-table" id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">序号</th>
+                            <th>学号</th>
+                            <th>姓名</th>
+                            <th>班级</th>
+                            <th>注册时间</th>
+                            <th style="width:160px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center" style="padding: var(--space-xl);">
+                                <div class="loading-spinner"></div> 加载中...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ======== 面板4：进度查看 ======== -->
+        <div class="admin-panel" id="panelProgress">
+            <div class="progress-filters">
+                <select class="progress-filter-select" id="progressClassFilter" onchange="renderProgressList()">
+                    <option value="">全部班级</option>
+                </select>
+                <select class="progress-filter-select" id="progressSortSelect" onchange="renderProgressList()">
+                    <option value="id">按学号排序</option>
+                    <option value="progress-desc">按进度从高到低</option>
+                    <option value="progress-asc">按进度从低到高</option>
+                    <option value="name">按姓名排序</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" onclick="loadProgress()">🔄 刷新数据</button>
+                <button class="btn btn-secondary btn-sm" onclick="exportProgressCSV()">📤 导出CSV</button>
+            </div>
+            <div id="progressList">
+                <div class="page-loading">
+                    <div class="loading-spinner loading-spinner-lg"></div>
+                    <p>加载中...</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 批量导入模态框 -->
+    <div class="modal-overlay import-modal" id="importModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">📥 批量导入学生</h3>
+                <button class="modal-close" onclick="closeImportModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-format-hint">
+                    <strong>📋 格式说明：</strong><br>
+                    每行一个学生，字段之间用 <code>逗号</code> 或 <code>Tab</code> 分隔。<br>
+                    格式：<code>学号,姓名,班级</code>（班级为必填项）<br><br>
+                    示例：<br>
+                    <code>124030601,张三,24电商6班</code><br>
+                    <code>124030602,李四,24电商6班</code><br>
+                    <code>124040101,王五,24跨境电商1班</code>
+                </div>
+                <textarea class="import-textarea" id="importTextarea" placeholder="124030601,张三,24电商6班
+124030602,李四,24电商6班
+124040101,王五,24跨境电商1班" oninput="previewImport()"></textarea>
+                <div class="import-preview" id="importPreview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeImportModal()">取消</button>
+                <button class="btn btn-primary" id="importConfirmBtn" onclick="confirmImport()" disabled>确认导入</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div id="footerArea"></div>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <!-- 项目脚本 -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/theme.js"></script>
+    <script>
+        // ==================== 全局变量 ====================
+        let adminSession = null;
+        let chaptersData = [];
+        let studentsData = [];
+        let progressData = [];
+        let parsedImportData = [];
+
+        // ==================== 页面初始化 ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            adminSession = getAdminSession();
+            if (!adminSession) {
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            const verify = await adminLogin(adminSession.username, adminSession.password);
+            if (!verify.success) {
+                clearAdminSession();
+                showToast('会话已过期，请重新登录', 'warning');
+                window.location.href = 'admin-login.html';
+                return;
+            }
+
+            renderAdminHeader('dashboard');
+            document.getElementById('footerArea').innerHTML = getFooterHtml();
+
+            const hash = window.location.hash.replace('#', '');
+            if (['dashboard', 'chapters', 'students', 'progress'].includes(hash)) {
+                switchTab(hash);
+            }
+
+            await Promise.all([
+                loadDashboard(),
+                loadChapters(),
+                loadStudents(),
+                loadProgress()
+            ]);
+        });
+
+        // ==================== 选项卡切换 ====================
+        function switchTab(tabName) {
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.panel === tabName);
+            });
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            const targetPanel = document.getElementById('panel' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
+            if (targetPanel) targetPanel.classList.add('active');
+            renderAdminHeader(tabName);
+            history.replaceState(null, '', '#' + tabName);
+        }
+
+        // ==================== 收集所有班级 ====================
+        function collectClasses(students) {
+            const classes = new Set();
+            students.forEach(s => {
+                if (s.class_name && s.class_name.trim()) {
+                    classes.add(s.class_name.trim());
+                }
+            });
+            return [...classes].sort();
+        }
+
+        function updateClassFilters(students) {
+            const classes = collectClasses(students);
+
+            // 学生管理页面的班级筛选
+            const studentFilter = document.getElementById('classFilterSelect');
+            const currentStudentVal = studentFilter.value;
+            studentFilter.innerHTML = '<option value="">全部班级</option>';
+            classes.forEach(c => {
+                studentFilter.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
+            });
+            studentFilter.value = currentStudentVal;
+
+            // 进度页面的班级筛选
+            const progressFilter = document.getElementById('progressClassFilter');
+            const currentProgressVal = progressFilter.value;
+            progressFilter.innerHTML = '<option value="">全部班级</option>';
+            classes.forEach(c => {
+                progressFilter.innerHTML += `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`;
+            });
+            progressFilter.value = currentProgressVal;
+        }
+
+        // ==================== 仪表盘 ====================
+        async function loadDashboard() {
+            try {
+                const [chaptersResult, progressResult] = await Promise.all([
+                    adminGetChapters(adminSession.username, adminSession.password),
+                    adminGetAllProgress(adminSession.username, adminSession.password)
+                ]);
+                if (!chaptersResult.success || !progressResult.success) return;
+
+                const chapters = chaptersResult.chapters || [];
+                const students = progressResult.data || [];
+                const openChapters = chapters.filter(c => c.is_open);
+
+                document.getElementById('statStudents').textContent = students.length;
+                document.getElementById('statOpenChapters').textContent = openChapters.length + '/26';
+
+                let avgPercent = 0;
+                let fullCompleteCount = 0;
+                if (students.length > 0 && openChapters.length > 0) {
+                    let totalPercent = 0;
+                    students.forEach(s => {
+                        const percent = (s.completed_chapters / openChapters.length) * 100;
+                        totalPercent += percent;
+                        if (s.completed_chapters >= openChapters.length) fullCompleteCount++;
+                    });
+                    avgPercent = Math.round(totalPercent / students.length);
+                }
+                document.getElementById('statAvgProgress').textContent = avgPercent + '%';
+                document.getElementById('statFullComplete').textContent = fullCompleteCount;
+
+                renderBarChart(chapters, students);
+            } catch (err) {
+                console.error('加载仪表盘失败:', err);
+            }
+        }
+
+        function renderBarChart(chapters, students) {
+            const chartEl = document.getElementById('chapterBarChart');
+            const openChapters = chapters.filter(c => c.is_open).sort((a, b) => a.sort_order - b.sort_order);
+            if (openChapters.length === 0) {
+                chartEl.innerHTML = '<div class="empty-state" style="width:100%;"><div class="empty-state-icon">📊</div><div class="empty-state-desc">暂无已开放章节</div></div>';
+                return;
+            }
+            const chapterCounts = openChapters.map(ch => {
+                let count = 0;
+                students.forEach(s => {
+                    if (s.progress) {
+                        const p = s.progress.find(p => p.chapter_id === ch.id);
+                        if (p && p.is_completed) count++;
+                    }
+                });
+                return { id: ch.id, title: ch.title, count };
+            });
+            const maxCount = Math.max(...chapterCounts.map(c => c.count), 1);
+            let html = '';
+            chapterCounts.forEach(ch => {
+                const heightPercent = (ch.count / maxCount) * 100;
+                html += `<div class="bar-item" title="第${ch.id}课：${ch.title}\n完成人数：${ch.count}"><div class="bar-fill" style="height: ${Math.max(heightPercent, 2)}%;" data-value="${ch.count}"></div><div class="bar-label">${ch.id}</div></div>`;
+            });
+            chartEl.innerHTML = html;
+        }
+
+        // ==================== 章节管理 ====================
+        async function loadChapters() {
+            try {
+                const result = await adminGetChapters(adminSession.username, adminSession.password);
+                if (!result.success) { showToast('加载章节失败', 'error'); return; }
+                chaptersData = result.chapters || [];
+                renderChaptersTable();
+            } catch (err) { console.error('加载章节失败:', err); }
+        }
+
+        function renderChaptersTable() {
+            const tbody = document.getElementById('chaptersTableBody');
+            if (chaptersData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center" style="padding:var(--space-xl);">暂无章节数据</td></tr>';
+                return;
+            }
+            let html = '';
+            chaptersData.forEach(ch => {
+                html += `<tr>
+                    <td><strong>${ch.id}</strong></td>
+                    <td>${escapeHtml(ch.title)}</td>
+                    <td><span class="badge badge-muted">${escapeHtml(ch.module)}</span></td>
+                    <td><span class="${ch.is_open ? 'status-open' : 'status-closed'}">${ch.is_open ? '✅ 已开放' : '🔒 已关闭'}</span></td>
+                    <td><label class="toggle-switch" title="${ch.is_open ? '点击关闭' : '点击开放'}"><input type="checkbox" ${ch.is_open ? 'checked' : ''} onchange="toggleChapter(${ch.id}, this.checked)"><span class="toggle-slider"></span></label></td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        async function toggleChapter(chapterId, isOpen) {
+            const result = await adminToggleChapter(adminSession.username, adminSession.password, chapterId, isOpen);
+            if (result.success) {
+                const ch = chaptersData.find(c => c.id === chapterId);
+                if (ch) ch.is_open = isOpen;
+                showToast(`第${chapterId}课已${isOpen ? '开放' : '关闭'}`, isOpen ? 'success' : 'info');
+            } else {
+                showToast('操作失败：' + (result.error || '未知错误'), 'error');
+                loadChapters();
+            }
+        }
+
+        async function batchToggleChapters(isOpen) {
+            const action = isOpen ? '开放全部章节' : '关闭全部章节';
+            const confirmed = await showConfirm(action, `确定要${action}吗？${isOpen ? '' : '关闭后学生将无法访问任何课程。'}`, '确定', isOpen ? 'primary' : 'danger');
+            if (!confirmed) return;
+            const allIds = chaptersData.map(c => c.id);
+            const result = await adminBatchToggleChapters(adminSession.username, adminSession.password, allIds, isOpen);
+            if (result.success) { showToast(`已${action}`, 'success'); await loadChapters(); }
+            else { showToast('操作失败', 'error'); }
+        }
+
+        // ==================== 学生管理 ====================
+        async function loadStudents() {
+            try {
+                const result = await adminGetStudents(adminSession.username, adminSession.password);
+                if (!result.success) { showToast('加载学生列表失败', 'error'); return; }
+                studentsData = result.students || [];
+                updateClassFilters(studentsData);
+                renderStudentsTable(studentsData);
+            } catch (err) { console.error('加载学生失败:', err); }
+        }
+
+        function renderStudentsTable(students) {
+            const tbody = document.getElementById('studentsTableBody');
+            const countEl = document.getElementById('studentCount');
+            countEl.textContent = `共 ${students.length} 名学生`;
+
+            if (students.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding:var(--space-xl);">暂无学生数据</td></tr>';
+                return;
+            }
+            let html = '';
+            students.forEach((s, index) => {
+                html += `<tr>
+                    <td>${index + 1}</td>
+                    <td><strong>${escapeHtml(s.student_id)}</strong></td>
+                    <td>${escapeHtml(s.name)}</td>
+                    <td><span class="badge badge-primary">${escapeHtml(s.class_name || '-')}</span></td>
+                    <td style="font-size:var(--text-xs);color:var(--text-muted);">${formatDateTime(s.created_at)}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn btn-secondary btn-sm" onclick="resetStudentProgress('${s.student_id}', '${escapeHtml(s.name)}')" title="重置进度">🔄 重置</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteStudent('${s.student_id}', '${escapeHtml(s.name)}')" title="删除学生">🗑️ 删除</button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function filterStudents() {
+            const keyword = document.getElementById('studentSearchInput').value.trim().toLowerCase();
+            const classFilter = document.getElementById('classFilterSelect').value;
+
+            let filtered = studentsData;
+
+            if (classFilter) {
+                filtered = filtered.filter(s => s.class_name === classFilter);
+            }
+
+            if (keyword) {
+                filtered = filtered.filter(s =>
+                    s.name.toLowerCase().includes(keyword) ||
+                    s.student_id.toLowerCase().includes(keyword)
+                );
+            }
+
+            renderStudentsTable(filtered);
+        }
+
+        async function resetStudentProgress(studentId, name) {
+            const confirmed = await showConfirm('重置学习进度', `确定要重置 <strong>${name}（${studentId}）</strong> 的所有学习进度吗？<br><br>⚠️ 此操作不可恢复！`, '确定重置', 'danger');
+            if (!confirmed) return;
+            const result = await adminResetProgress(adminSession.username, adminSession.password, studentId);
+            if (result.success) { showToast(`已重置 ${name} 的学习进度`, 'success'); await loadProgress(); }
+            else { showToast('重置失败：' + (result.error || '未知错误'), 'error'); }
+        }
+
+        async function deleteStudent(studentId, name) {
+            const confirmed = await showConfirm('删除学生', `确定要删除 <strong>${name}（${studentId}）</strong> 吗？<br><br>⚠️ 该学生的所有学习进度也会被删除，此操作不可恢复！`, '确定删除', 'danger');
+            if (!confirmed) return;
+            const result = await adminDeleteStudent(adminSession.username, adminSession.password, studentId);
+            if (result.success) {
+                showToast(`已删除学生 ${name}`, 'success');
+                await loadStudents();
+                await loadProgress();
+                await loadDashboard();
+            } else { showToast('删除失败：' + (result.error || '未知错误'), 'error'); }
+        }
+
+        // ==================== 批量导入 ====================
+        function showImportModal() {
+            document.getElementById('importModal').classList.add('show');
+            document.getElementById('importTextarea').value = '';
+            document.getElementById('importPreview').innerHTML = '';
+            document.getElementById('importConfirmBtn').disabled = true;
+            parsedImportData = [];
+        }
+
+        function closeImportModal() {
+            document.getElementById('importModal').classList.remove('show');
+        }
+
+        function previewImport() {
+            const text = document.getElementById('importTextarea').value.trim();
+            const previewEl = document.getElementById('importPreview');
+            const confirmBtn = document.getElementById('importConfirmBtn');
+
+            if (!text) {
+                previewEl.innerHTML = '';
+                confirmBtn.disabled = true;
+                parsedImportData = [];
+                return;
+            }
+
+            const lines = text.split('\n').filter(l => l.trim());
+            parsedImportData = [];
+            let errors = [];
+
+            lines.forEach((line, idx) => {
+                const trimmed = line.trim();
+                // 支持逗号或Tab分隔（3个字段：学号,姓名,班级）
+                const parts = trimmed.split(/[,\t]+/).map(p => p.trim()).filter(p => p);
+
+                if (parts.length >= 3) {
+                    const studentId = parts[0];
+                    const name = parts[1];
+                    const className = parts.slice(2).join(','); // 班级名允许包含空格
+
+                    if (!/^\d{6,15}$/.test(studentId)) {
+                        errors.push(`第${idx + 1}行：学号格式不正确（${studentId}）`);
+                    } else if (name.length < 2) {
+                        errors.push(`第${idx + 1}行：姓名太短（${name}）`);
+                    } else if (className.length < 2) {
+                        errors.push(`第${idx + 1}行：班级名太短（${className}）`);
+                    } else {
+                        parsedImportData.push({ student_id: studentId, name: name, class_name: className });
+                    }
+                } else if (parts.length === 2) {
+                    errors.push(`第${idx + 1}行：缺少班级信息（${trimmed}）`);
+                } else {
+                    errors.push(`第${idx + 1}行：格式不正确（${trimmed}）`);
+                }
+            });
+
+            let html = '';
+            if (parsedImportData.length > 0) {
+                html += `<div class="import-preview-count">✅ 识别到 ${parsedImportData.length} 名学生</div>`;
+                html += '<div class="chapter-table-wrapper" style="max-height:160px;overflow-y:auto;">';
+                html += '<table class="admin-table"><thead><tr><th>学号</th><th>姓名</th><th>班级</th></tr></thead><tbody>';
+                parsedImportData.forEach(s => {
+                    html += `<tr><td>${escapeHtml(s.student_id)}</td><td>${escapeHtml(s.name)}</td><td><span class="badge badge-primary">${escapeHtml(s.class_name)}</span></td></tr>`;
+                });
+                html += '</tbody></table></div>';
+            }
+            if (errors.length > 0) {
+                html += `<div style="margin-top:var(--space-sm);"><div class="alert alert-warning" style="margin:0;">⚠️ ${errors.length} 行有问题：<br>${errors.slice(0, 5).join('<br>')}${errors.length > 5 ? '<br>...' : ''}</div></div>`;
+            }
+            previewEl.innerHTML = html;
+            confirmBtn.disabled = parsedImportData.length === 0;
+        }
+
+        async function confirmImport() {
+            if (parsedImportData.length === 0) return;
+            const confirmed = await showConfirm('确认导入', `将导入 <strong>${parsedImportData.length}</strong> 名学生，已存在的学号会自动跳过。`, '确认导入', 'primary');
+            if (!confirmed) return;
+            const result = await adminImportStudents(adminSession.username, adminSession.password, parsedImportData);
+            if (result.success) {
+                showToast(`导入完成！新增 ${result.imported} 人，跳过 ${result.skipped} 人`, 'success', 4000);
+                closeImportModal();
+                await loadStudents();
+                await loadDashboard();
+            } else { showToast('导入失败：' + (result.error || '未知错误'), 'error'); }
+        }
+
+        // ==================== 进度查看 ====================
+        async function loadProgress() {
+            try {
+                const result = await adminGetAllProgress(adminSession.username, adminSession.password);
+                if (!result.success) { showToast('加载进度失败', 'error'); return; }
+                progressData = result.data || [];
+                updateClassFilters(progressData);
+                renderProgressList();
+            } catch (err) { console.error('加载进度失败:', err); }
+        }
+
+        function renderProgressList() {
+            const container = document.getElementById('progressList');
+            const classFilter = document.getElementById('progressClassFilter').value;
+
+            if (progressData.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">👥</div><div class="empty-state-title">暂无学生数据</div><div class="empty-state-desc">请先导入学生或等待学生注册</div></div>`;
+                return;
+            }
+
+            let filtered = [...progressData];
+
+            // 班级筛选
+            if (classFilter) {
+                filtered = filtered.filter(s => s.class_name === classFilter);
+            }
+
+            // 排序
+            sortProgressData(filtered);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">该班级暂无学生</div></div>`;
+                return;
+            }
+
+            let html = '';
+            filtered.forEach((student, index) => {
+                const totalChapters = student.total_chapters || 0;
+                const completedChapters = student.completed_chapters || 0;
+                const percent = totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) : 0;
+
+                html += `
+                    <div class="student-progress-card">
+                        <div class="student-progress-header" onclick="toggleProgressDetail(${index})">
+                            <div class="student-progress-left">
+                                <div class="student-progress-avatar">${student.name ? student.name.charAt(0) : '?'}</div>
+                                <div>
+                                    <div class="student-progress-name">${escapeHtml(student.name)}</div>
+                                    <div class="student-progress-id">${student.student_id}</div>
+                                    ${student.class_name ? `<div class="student-progress-class">🏫 ${escapeHtml(student.class_name)}</div>` : ''}
+                                </div>
+                            </div>
+                            <div class="student-progress-right">
+                                <div class="student-progress-mini-bar">
+                                    <div class="student-progress-mini-fill" style="width: ${percent}%;"></div>
+                                </div>
+                                <div class="student-progress-percent">${percent}%</div>
+                                <span class="badge ${percent >= 100 ? 'badge-success' : percent > 0 ? 'badge-primary' : 'badge-muted'}">${completedChapters}/${totalChapters}</span>
+                                <span class="student-progress-toggle" id="progressToggle${index}">▼</span>
+                            </div>
+                        </div>
+                        <div class="student-progress-detail" id="progressDetail${index}">
+                            ${renderProgressDetail(student)}
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderProgressDetail(student) {
+            const progress = student.progress || [];
+            if (progress.length === 0) {
+                return '<p style="text-align:center;color:var(--text-muted);padding:var(--space-md);font-size:var(--text-sm);">暂无学习记录</p>';
+            }
+            let html = '<div class="detail-chapter-list">';
+            progress.forEach(p => {
+                const statusClass = p.is_completed ? 'completed' : (p.is_read ? 'in-progress' : '');
+                const statusIcon = p.is_completed ? '✅' : (p.is_read ? '📖' : '⬜');
+                const score = p.quiz_total > 0 ? `${p.quiz_score}/${p.quiz_total}` : '-';
+                html += `<div class="detail-chapter-item ${statusClass}"><span class="detail-chapter-num">${p.chapter_id}</span><span>${statusIcon}</span><span class="detail-chapter-title">${escapeHtml(p.chapter_title || '第' + p.chapter_id + '课')}</span><span class="detail-chapter-score">${score}</span></div>`;
+            });
+            html += '</div>';
+            return html;
+        }
+
+        function toggleProgressDetail(index) {
+            const detail = document.getElementById('progressDetail' + index);
+            const toggle = document.getElementById('progressToggle' + index);
+            if (detail.classList.contains('show')) {
+                detail.classList.remove('show');
+                toggle.textContent = '▼';
+            } else {
+                detail.classList.add('show');
+                toggle.textContent = '▲';
+            }
+        }
+
+        function sortProgressData(data) {
+            const sortBy = document.getElementById('progressSortSelect').value;
+            switch (sortBy) {
+                case 'id': data.sort((a, b) => a.student_id.localeCompare(b.student_id)); break;
+                case 'progress-desc': data.sort((a, b) => (b.completed_chapters || 0) - (a.completed_chapters || 0)); break;
+                case 'progress-asc': data.sort((a, b) => (a.completed_chapters || 0) - (b.completed_chapters || 0)); break;
+                case 'name': data.sort((a, b) => a.name.localeCompare(b.name, 'zh')); break;
+            }
+        }
+
+        // ==================== 导出CSV ====================
+        function exportProgressCSV() {
+            if (progressData.length === 0) { showToast('暂无数据可导出', 'warning'); return; }
+
+            const classFilter = document.getElementById('progressClassFilter').value;
+            let exportData = classFilter ? progressData.filter(s => s.class_name === classFilter) : progressData;
+
+            let csv = '\uFEFF';
+            csv += '学号,姓名,班级,已完成章节数,总开放章节数,完成率';
+
+            const allChapterIds = new Set();
+            exportData.forEach(s => { if (s.progress) { s.progress.forEach(p => allChapterIds.add(p.chapter_id)); } });
+            const sortedChapterIds = [...allChapterIds].sort((a, b) => a - b);
+            sortedChapterIds.forEach(id => { csv += `,第${id}课得分`; });
+            csv += '\n';
+
+            exportData.forEach(student => {
+                const totalChapters = student.total_chapters || 0;
+                const completedChapters = student.completed_chapters || 0;
+                const percent = totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) + '%' : '0%';
+                csv += `${student.student_id},${student.name},${student.class_name || ''},${completedChapters},${totalChapters},${percent}`;
+                sortedChapterIds.forEach(chId => {
+                    const p = (student.progress || []).find(pr => pr.chapter_id === chId);
+                    csv += `,${p && p.quiz_total > 0 ? p.quiz_score + '/' + p.quiz_total : '-'}`;
+                });
+                csv += '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            const suffix = classFilter ? `_${classFilter}` : '';
+            a.download = `PPT学习站_学习进度${suffix}_${formatDate(new Date().toISOString())}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('CSV文件已下载', 'success');
+        }
+    </script>
+</body>
+
+</html>
