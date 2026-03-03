@@ -1391,14 +1391,17 @@
             sortedChapterIds.forEach(id => { csv += `,第${id}课得分`; });
             csv += '\n';
 
-            exportData.forEach(student => {
+           
+              exportData.forEach(student => {
                 const totalChapters = student.total_chapters || 0;
                 const completedChapters = student.completed_chapters || 0;
                 const percent = totalChapters > 0 ? Math.round((completedChapters / totalChapters) * 100) + '%' : '0%';
                 csv += `${student.student_id},${student.name},${student.class_name || ''},${completedChapters},${totalChapters},${percent}`;
                 sortedChapterIds.forEach(chId => {
                     const p = (student.progress || []).find(pr => pr.chapter_id === chId);
-                    csv += `,${p && p.quiz_total > 0 ? p.quiz_score + '/' + p.quiz_total : '-'}`;
+                    // 【核心修改点】将 p.quiz_score + '/' + p.quiz_total 替换为 `="${p.quiz_score}/${p.quiz_total}"`
+                    const scoreStr = p && p.quiz_total > 0 ? `="${p.quiz_score}/${p.quiz_total}"` : '-';
+                    csv += `,${scoreStr}`;
                 });
                 csv += '\n';
             });
