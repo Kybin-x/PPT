@@ -347,3 +347,26 @@ window.lessonData = {
             5. <strong>颜色搭配不当</strong>：颜色与幻灯片背景不协调<br><br>
             建议：选择合适的图表类型、简化数据、合理设置坐标轴、添加清晰的标题和标签。
         </div>
+        <div class="tip-box tip-success">
+            <strong>图表的高级技巧</strong><br>
+            • 可以在图表中添加趋势线，显示数据的发展方向<br>
+            • 可以使用双坐标轴，展示两个不同单位的数据<br>
+            • 可以添加数据表，在图表下方显示具体数值<br>
+            • 可以从Excel中直接导入数据，自动生成图表<br><br>
+            这些技巧能让你的图表更加专业和信息丰富！
+        </div>
+    `,
+
+    summary: `
+        <div class="tip-box tip-success">
+            <strong>完成本课后，你已经掌握了：</strong><br>
+            ✅ 常见的图表类型和用途<br>
+            ✅ 插入图表的方法<br>
+            ✅ 编辑图表数据<br>
+            ✅ 图表的美化（样式、颜色、数据标签）<br>
+            ✅ 图表设计的最佳实践<br>
+            ✅ 从Excel导入数据到图表<br><br>
+            下一课我们将学习<strong>动画与过渡效果</strong>——让你的PPT动起来，用动画吸引观众的注意力！
+        </div>
+    `
+};
