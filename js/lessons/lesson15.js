@@ -1,513 +1,629 @@
 /**
- * PPT学习站 - 第15课：演讲者视图与放映技巧
+ * PPT学习站 - 第15课：使用与自制模板
  * 文件路径: js/lessons/lesson15.js
- * 模块：演示与输出
- * 任务情境：准备季度汇报演讲
+ * 模块：母版与模板
+ * 任务情境：制作可复用的周报模板
  */
 
 window.lessonData = {
-    scenario: '电商公司季度末了，老板要求你在会议室进行季度业绩汇报。你已经做好了PPT，但还从来没有正式演讲过。放映PPT时怎么操作？怎么看到自己的备注？怎么用激光笔指出重点？万一需要跳到某一页怎么办？掌握这些放映技巧，能让你在演讲时更加从容自信，不再手忙脚乱。',
+
+    scenario: '运营主管说："每周五大家都要交周报PPT，但每个人做出来的格式五花八门，有人用了10分钟就做好了，有人折腾了2个小时还在调排版。你能不能做一个周报模板，大家每周只需要填数据就行？"模板是PPT效率的终极武器——做好一次，复用一百次！',
 
     knowledge: `
-        <h3>一、PPT的放映模式</h3>
-        <p>PPT有两种主要的放映方式：</p>
-        <ul>
-            <li><strong>从头开始</strong> —— 从第1张幻灯片开始放映（快捷键 <span class="kbd">F5</span>）</li>
-            <li><strong>从当前页开始</strong> —— 从当前选中的幻灯片开始放映（快捷键 <span class="kbd">Shift</span> + <span class="kbd">F5</span>）</li>
-        </ul>
+        <h3>一、什么是PPT模板？</h3>
+        <p>PPT模板就是一个<strong>预先设计好格式和布局的PPT文件</strong>，使用时只需要替换内容即可。</p>
 
-        <h3>二、什么是演讲者视图？</h3>
-        <p><strong>演讲者视图</strong>是一种特殊的放映模式，适用于连接投影仪或外接显示器的场景。</p>
-        <ul>
-            <li><strong>观众看到的</strong> —— 投影仪上只显示当前幻灯片（全屏）</li>
-            <li><strong>你看到的</strong> —— 你的电脑屏幕上显示当前幻灯片 + 备注 + 下一页预览 + 计时器</li>
-        </ul>
-        <p>这样你可以偷偷看备注、预览下一页，而观众完全不知道！</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md); margin:var(--space-md) 0;">
+            <div style="padding:var(--space-md); background:var(--error-light); border-radius:var(--radius-md); border:1px solid var(--error);">
+                <p style="font-size:var(--text-sm); color:var(--error); font-weight:700; margin-bottom:var(--space-sm);">❌ 没有模板</p>
+                <p style="font-size:var(--text-sm); margin:0; color:var(--text-secondary);">每次做PPT都要从零开始——设背景、调字体、放Logo、画色带、排版式……重复劳动2小时</p>
+            </div>
+            <div style="padding:var(--space-md); background:var(--success-light); border-radius:var(--radius-md); border:1px solid var(--success);">
+                <p style="font-size:var(--text-sm); color:var(--success); font-weight:700; margin-bottom:var(--space-sm);">✅ 有模板</p>
+                <p style="font-size:var(--text-sm); margin:0; color:var(--text-secondary);">打开模板 → 填写数据 → 完成！只需要30分钟，而且格式统一、质量稳定</p>
+            </div>
+        </div>
 
-        <h3>三、演讲者视图包含的信息</h3>
+        <p>模板的本质就是<strong>"母版 + 预设版式 + 示例页面"</strong>的组合体。上两节课学的母版和配色，就是制作模板的基础！</p>
+
+        <h3>二、模板的两种形式</h3>
+
         <table style="width:100%; border-collapse:collapse; margin: var(--space-md) 0;">
             <thead>
                 <tr style="background: var(--bg-code);">
-                    <th style="padding: 10px; border: 1px solid var(--border-color);">区域</th>
-                    <th style="padding: 10px; border: 1px solid var(--border-color);">内容</th>
-                    <th style="padding: 10px; border: 1px solid var(--border-color);">作用</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">形式</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">文件格式</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">特点</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">使用方式</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">当前幻灯片</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">正在放映的幻灯片</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">确认观众看到的内容</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);"><strong>模板文件</strong></td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">.potx</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">打开时自动创建新文件，不会覆盖原模板</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">⭐双击打开 → 自动新建</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">下一页预览</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">下一张幻灯片的缩略图</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">提前知道下一页内容，做好衔接</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">备注区域</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">你为每页写的演讲备注</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">提醒自己要讲的要点</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">计时器</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">已经演讲了多长时间</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">控制演讲时间，不超时</td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">工具栏</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">画笔、激光笔、缩略图等工具</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">辅助演讲的各种工具</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);"><strong>普通PPT文件</strong></td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">.pptx</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">打开后需要"另存为"新文件来使用</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">打开 → 另存为新文件 → 修改</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3>四、开启演讲者视图</h3>
+        <div class="tip-box tip-info">
+            <strong>💡 .potx vs .pptx 的区别</strong><br>
+            • <strong>.potx（模板文件）</strong>：双击打开时会<strong>自动创建一个新的.pptx文件</strong>，原模板不会被修改。就像一个"印章"——盖完章原章不变。<br>
+            • <strong>.pptx（普通文件）</strong>：双击打开就是编辑原文件。当模板用的话，需要手动"另存为"新文件，否则会覆盖模板。<br><br>
+            正式的团队模板建议用 .potx 格式，防止有人不小心改了模板。日常个人用 .pptx 也行。
+        </div>
+
+        <h3>三、获取PPT模板的途径</h3>
+
+        <h4>1. WPS自带模板</h4>
+        <p>WPS演示启动页有大量免费和付费模板：</p>
         <ol>
-            <li>点击菜单栏 <strong>"幻灯片放映"</strong></li>
-            <li>勾选 <strong>"使用演讲者视图"</strong></li>
-            <li>然后按 <span class="kbd">F5</span> 开始放映</li>
-            <li>如果连接了投影仪，演讲者视图会自动在你的屏幕上显示</li>
+            <li>打开WPS演示 → 在启动页看到<strong>"模板推荐"</strong></li>
+            <li>可以按分类浏览：工作汇报、教育培训、商务计划、电商等</li>
+            <li>也可以搜索关键词：如"周报""数据分析""产品介绍"</li>
+            <li>选中一个模板 → 点击使用 → 自动基于该模板新建PPT</li>
         </ol>
 
-        <h3>五、放映时的翻页操作</h3>
+        <h4>2. WPS稻壳商城</h4>
+        <p>WPS官方的模板商城，有更多精品模板：</p>
+        <ul>
+            <li>访问：<strong>chn.docer.com</strong> 或在WPS内搜索</li>
+            <li>有免费和付费模板</li>
+            <li>质量比较高，分类也很全</li>
+        </ul>
+
+        <h4>3. 第三方模板网站</h4>
         <table style="width:100%; border-collapse:collapse; margin: var(--space-md) 0;">
             <thead>
                 <tr style="background: var(--bg-code);">
-                    <th style="padding: 10px; border: 1px solid var(--border-color);">操作</th>
-                    <th style="padding: 10px; border: 1px solid var(--border-color);">方法</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">网站</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">特点</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">价格</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">下一页</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">鼠标左键点击 / 按 <span class="kbd">→</span> / 按 <span class="kbd">↓</span> / 按 <span class="kbd">Enter</span> / 按 <span class="kbd">空格</span></td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);"><strong>优品PPT</strong>（ypppt.com）</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">大量免费精品模板</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">⭐免费</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">上一页</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">按 <span class="kbd">←</span> / 按 <span class="kbd">↑</span> / 按 <span class="kbd">Backspace</span></td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);"><strong>叮当设计</strong>（dingdangsheji.com）</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">免费下载，质量不错</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">免费</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">跳到第N页</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">输入数字N + <span class="kbd">Enter</span>（如输入 5 + Enter 跳到第5页）</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);"><strong>51PPT</strong>（51ppt.com.cn）</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">分类齐全</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">部分免费</td>
                 </tr>
                 <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">跳到第1页</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">按 <span class="kbd">Home</span></td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">跳到最后一页</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">按 <span class="kbd">End</span></td>
-                </tr>
-                <tr>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">结束放映</td>
-                    <td style="padding: 10px; border: 1px solid var(--border-color);">按 <span class="kbd">Esc</span></td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);"><strong>OfficePlus</strong></td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">微软官方模板库</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">免费</td>
                 </tr>
             </tbody>
         </table>
 
-        <h3>六、放映时的标注工具</h3>
-        <p>放映时可以使用各种标注工具来辅助演讲：</p>
-        <ul>
-            <li><strong>激光笔</strong> —— 在幻灯片上显示一个红色光点，用于指出重点（快捷键 <span class="kbd">Ctrl</span> + <span class="kbd">L</span>）</li>
-            <li><strong>画笔</strong> —— 可以在幻灯片上画线、圈出重点（快捷键 <span class="kbd">Ctrl</span> + <span class="kbd">P</span>）</li>
-            <li><strong>荧光笔</strong> —— 用半透明的颜色标记重点内容（快捷键 <span class="kbd">Ctrl</span> + <span class="kbd">I</span>）</li>
-            <li><strong>橡皮擦</strong> —— 擦除画笔或荧光笔画的内容（快捷键 <span class="kbd">Ctrl</span> + <span class="kbd">E</span>）</li>
-            <li><strong>清除所有标注</strong> —— 一次性清除所有标注（快捷键 <span class="kbd">E</span>）</li>
-        </ul>
-        <p>使用方法：放映时右键 → 选择"指针选项" → 选择工具</p>
+        <h4>4. 自己制作模板</h4>
+        <p>这是<strong>最高级也是最实用的方式</strong>——根据公司需求自己定制专属模板。今天的重点就是学这个！</p>
 
-        <h3>七、黑屏和白屏</h3>
-        <p>演讲过程中，有时候需要暂时隐藏幻灯片（比如与观众互动或回答问题时）：</p>
-        <ul>
-            <li><strong>黑屏</strong> —— 按 <span class="kbd">B</span> 键，屏幕变黑（再按一次恢复）</li>
-            <li><strong>白屏</strong> —— 按 <span class="kbd">W</span> 键，屏幕变白（再按一次恢复）</li>
-        </ul>
-        <p>这样观众的注意力会回到你身上，而不是PPT上。</p>
+        <div class="tip-box tip-warning">
+            <strong>⚠️ 使用下载模板的注意事项</strong><br>
+            1. <strong>字体问题</strong>：模板用的字体你电脑上可能没有 → 打开后会自动替换为默认字体，排版可能变乱。解决方案：安装缺失字体或在母版中换字体。<br>
+            2. <strong>版权问题</strong>：免费模板用于学习和个人无所谓，但<strong>商用需注意版权</strong><br>
+            3. <strong>内容替换</strong>：模板只是框架，一定要把<strong>示例内容全部替换</strong>为你自己的内容。曾经有人把模板里的示例文字原封不动交上去当工作报告……
+        </div>
 
-        <h3>八、备注的编写</h3>
-        <p>备注是写给演讲者自己看的笔记，观众看不到。</p>
-        <ul>
-            <li>在编辑模式下，点击幻灯片下方的 <strong>"备注"</strong> 区域</li>
-            <li>输入你要讲的要点、数据、提示等</li>
-            <li>放映时在演讲者视图中可以看到备注内容</li>
-        </ul>
-        <p><strong>备注编写的技巧：</strong></p>
-        <ul>
-            <li>用简短的关键词，不要写长段落</li>
-            <li>标注重要的数据和案例</li>
-            <li>写好每页的衔接语（"接下来我们看..."）</li>
-            <li>标注需要强调或停顿的地方</li>
-        </ul>
+        <h3>四、自制模板的完整流程</h3>
+        <p>自制模板的流程就是把前面学的知识串在一起：</p>
 
-        <h3>九、排练计时</h3>
-        <p>正式演讲前，可以使用排练计时功能来练习：</p>
         <ol>
-            <li>点击菜单栏 <strong>"幻灯片放映"</strong> → <strong>"排练计时"</strong></li>
-            <li>PPT会进入放映模式，同时在左上角显示计时器</li>
-            <li>你可以模拟真实演讲，逐页讲解</li>
-            <li>排练结束后，WPS会告诉你总共花了多少时间</li>
-            <li>可以选择是否保存每页的用时，用于自动放映</li>
+            <li><strong>确定需求</strong>：模板要用在什么场景？（周报/月报/产品介绍/述职？）</li>
+            <li><strong>确定配色</strong>：选择配色方案（参考上节课）</li>
+            <li><strong>设计母版</strong>：Logo、色带、页脚、默认字体（参考第13课）</li>
+            <li><strong>设计版式</strong>：封面版式、内容版式、数据版式、结尾版式</li>
+            <li><strong>制作示例页</strong>：每种版式做一个示例页面，填写示例内容</li>
+            <li><strong>添加使用说明</strong>：告诉使用者哪里需要替换</li>
+            <li><strong>保存为 .potx</strong>：另存为模板格式</li>
         </ol>
 
-        <h3>十、自动放映</h3>
-        <p>如果需要PPT自动播放（如展台展示），可以设置自动放映：</p>
+        <div class="tip-box tip-success">
+            <strong>🎯 好模板的标准</strong><br>
+            ✅ <strong>开箱即用</strong>：替换文字和数据就能直接使用<br>
+            ✅ <strong>风格统一</strong>：配色、字体、排版在每一页都一致<br>
+            ✅ <strong>灵活适配</strong>：有多种版式可选，适应不同的内容<br>
+            ✅ <strong>有示例引导</strong>：示例内容告诉使用者"这里应该放什么"<br>
+            ✅ <strong>不怕修改</strong>：使用者调整内容后排版不会崩掉
+        </div>
+
+        <h3>五、周报模板的页面规划</h3>
+        <p>以电商运营周报为例，一个完整的周报模板通常包含以下页面：</p>
+
+        <table style="width:100%; border-collapse:collapse; margin: var(--space-md) 0;">
+            <thead>
+                <tr style="background: var(--bg-code);">
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">页码</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">页面类型</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">版式</th>
+                    <th style="padding: 10px; border: 1px solid var(--border-color); text-align:left;">内容</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">1</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">封面</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">标题幻灯片</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">周报标题 + 部门 + 日期 + 汇报人</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">2</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">目录</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">标题和内容</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">本周概览 / 数据分析 / 问题总结 / 下周计划</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">3</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">数据概览</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">自定义</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">4个数据卡片（销售额、订单数、转化率、客单价）</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">4</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">数据图表</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">标题和内容</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">本周销售趋势图表</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">5</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">工作总结</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">标题和内容</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">本周完成的工作列表</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">6</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">问题与对策</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">两栏内容</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">左：问题列表 / 右：对策方案</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">7</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">下周计划</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">标题和内容</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">下周工作计划列表</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">8</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">结尾</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">标题幻灯片</td>
+                    <td style="padding: 10px; border: 1px solid var(--border-color);">感谢 / Q&A</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>六、模板中的占位符技巧</h3>
+        <p>好的模板会用<strong>"占位提示文字"</strong>告诉使用者每个区域应该填什么内容：</p>
         <ul>
-            <li>点击菜单栏 <strong>"幻灯片放映"</strong> → <strong>"设置放映方式"</strong></li>
-            <li>选择 <strong>"在展台浏览（全屏幕）"</strong></li>
-            <li>设置每页的停留时间</li>
-            <li>选择是否循环播放</li>
+            <li>标题区域：<strong>【在此输入周报标题】</strong></li>
+            <li>数据区域：<strong>【替换为本周销售额】</strong></li>
+            <li>列表区域：<strong>【列出本周完成的3-5项工作】</strong></li>
+            <li>图表区域：<strong>【双击图表编辑本周数据】</strong></li>
         </ul>
+        <p>使用中括号【】或其他显眼的标记，让使用者一眼就知道哪些内容需要替换。</p>
+
+        <div class="tip-box tip-info">
+            <strong>💡 占位文字的颜色提示</strong><br>
+            可以把占位提示文字设为<strong>浅灰色</strong>或<strong>红色</strong>，和正式内容区分开。使用者替换内容后改回正常颜色即可。<br><br>
+            例如：<br>
+            <span style="color:#999;">【在此输入本周总结，建议3-5条要点】</span><br><br>
+            这样使用者不会忘记替换，也不会误以为占位文字就是正式内容。
+        </div>
+
+        <h3>七、使用模板的正确流程</h3>
+        <ol>
+            <li><strong>打开模板</strong>：双击 .potx 文件（自动新建）或打开 .pptx 后另存为新文件</li>
+            <li><strong>替换内容</strong>：逐页替换占位文字和示例数据</li>
+            <li><strong>调整页面</strong>：根据实际内容增减页面
+                <ul>
+                    <li>需要更多页？复制已有页面然后修改内容</li>
+                    <li>某页不需要？直接删除</li>
+                </ul>
+            </li>
+            <li><strong>更新图表</strong>：双击图表编辑数据</li>
+            <li><strong>检查格式</strong>：确保替换内容后排版没有乱</li>
+            <li><strong>另存为新文件</strong>：保存为 .pptx，文件名包含日期和项目名</li>
+        </ol>
+
+        <div class="tip-box tip-warning">
+            <strong>⚠️ 使用模板的常见错误</strong><br>
+            1. <strong>忘记替换示例内容</strong>：交出去的PPT上还写着"在此输入标题"…… 💀<br>
+            2. <strong>直接改模板文件</strong>：在.pptx模板上直接编辑没有另存为，下次再用模板就没了<br>
+            3. <strong>强行塞太多内容</strong>：模板设计的空间有限，内容太多排版会崩<br>
+            4. <strong>改了字体和颜色</strong>：破坏了统一的品牌风格
+        </div>
     `,
 
-    keyPoints: [
-        { title: '放映快捷键', content: 'F5从头放映，Shift+F5从当前页放映' },
-        { title: '演讲者视图', content: '你看到备注和预览，观众只看到幻灯片' },
-        { title: '翻页操作', content: '鼠标点击、方向键、空格键、数字+Enter跳页' },
-        { title: '标注工具', content: '激光笔(Ctrl+L)、画笔(Ctrl+P)、荧光笔(Ctrl+I)' },
-        { title: '黑屏/白屏', content: 'B键黑屏、W键白屏，再按恢复' },
-        { title: '备注编写', content: '简短关键词、标注数据、写好衔接语' },
-        { title: '排练计时', content: '模拟演讲并记录时间，控制演讲节奏' }
-    ],
+    steps: `
+        <p>现在我们来<strong>自制一个电商运营周报模板</strong>，综合运用前面学的所有技能。</p>
+
+        <div class="step-card">
+            <div class="step-card-number">1</div>
+            <div class="step-card-title">从上节课的模板文件开始</div>
+            <div class="step-card-desc">
+                <p>打开上节课保存的公司品牌模板文件（已有母版+配色），或者新建空白文件后快速设置：</p>
+                <ul>
+                    <li>母版：底部品牌色带 + 右上角Logo</li>
+                    <li>配色：使用你上节课设好的主题颜色</li>
+                    <li>字体：微软雅黑</li>
+                </ul>
+                <p>保存为 <code>电商周报模板.pptx</code></p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">2</div>
+            <div class="step-card-title">第1页：封面</div>
+            <div class="step-card-desc">
+                <p>使用"标题幻灯片"版式，设计封面：</p>
+                <ul>
+                    <li>标题：<strong>【第X周 运营周报】</strong>（36pt，品牌色/深色，居中）</li>
+                    <li>副标题区域包含四行信息：
+                        <ul>
+                            <li><strong>【部门名称】</strong></li>
+                            <li><strong>【汇报人：XXX】</strong></li>
+                            <li><strong>【日期：2024.XX.XX - XX.XX】</strong></li>
+                        </ul>
+                    </li>
+                    <li>所有占位文字用<strong>浅灰色</strong>，提示使用者需要替换</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">3</div>
+            <div class="step-card-title">第2页：目录</div>
+            <div class="step-card-desc">
+                <p>标题：<strong>"本周汇报目录"</strong></p>
+                <p>用4个带编号的圆角矩形做目录导航：</p>
+                <ol>
+                    <li>画4个同样大小的圆角矩形，排成2×2网格或一行</li>
+                    <li>分别写上：<strong>01 数据概览</strong>、<strong>02 工作总结</strong>、<strong>03 问题分析</strong>、<strong>04 下周计划</strong></li>
+                    <li>矩形填充为<strong>浅色</strong>（品牌色的20%透明度），文字用深色</li>
+                    <li>对齐排列整齐</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">4</div>
+            <div class="step-card-title">第3页：数据概览（数据卡片）</div>
+            <div class="step-card-desc">
+                <p>标题：<strong>"本周数据概览"</strong></p>
+                <p>用4个数据卡片展示关键指标：</p>
+                <ol>
+                    <li>画4个<strong>圆角矩形</strong>（白色填充+阴影），排成一行</li>
+                    <li>每个卡片内放：
+                        <ul>
+                            <li>上方小字标签：<strong>【本周销售额】</strong>（12pt，灰色）</li>
+                            <li>中间大数字：<strong>【¥0,000】</strong>（36pt，品牌色，加粗）</li>
+                            <li>下方趋势：<strong>【↑ 0% vs上周】</strong>（12pt，绿色）</li>
+                        </ul>
+                    </li>
+                    <li>四个卡片分别是：销售额、订单数、转化率、客单价</li>
+                    <li>用对齐工具让4个卡片<strong>顶端对齐 + 横向分布</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">5</div>
+            <div class="step-card-title">第4页：数据图表</div>
+            <div class="step-card-desc">
+                <p>标题：<strong>"本周销售趋势"</strong></p>
+                <ol>
+                    <li>插入一个<strong>折线图</strong></li>
+                    <li>在数据表格中填入7天的示例数据（周一到周日）</li>
+                    <li>美化图表：品牌色线条、数据标签、清晰标题</li>
+                    <li>在图表旁边添加一个文本框：<strong>【在此写数据分析结论】</strong></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">6</div>
+            <div class="step-card-title">第5页：工作总结</div>
+            <div class="step-card-desc">
+                <p>标题：<strong>"本周工作总结"</strong></p>
+                <p>内容区域使用编号列表：</p>
+                <ul>
+                    <li>1. 【完成了XXX工作，达成了XXX效果】</li>
+                    <li>2. 【完成了XXX工作，达成了XXX效果】</li>
+                    <li>3. 【完成了XXX工作，达成了XXX效果】</li>
+                    <li>4. 【完成了XXX工作，达成了XXX效果】</li>
+                    <li>5. 【如有更多可继续添加】</li>
+                </ul>
+                <p>占位文字用灰色，格式设为20pt、1.3倍行距。</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">7</div>
+            <div class="step-card-title">第6页：问题与对策</div>
+            <div class="step-card-desc">
+                <p>标题：<strong>"问题与对策"</strong></p>
+                <p>使用左右两栏布局：</p>
+                <ul>
+                    <li><strong>左栏标题</strong>："⚠️ 存在问题"（红色标题）</li>
+                    <li>左栏内容：3个问题的占位列表</li>
+                    <li><strong>右栏标题</strong>："✅ 解决对策"（绿色标题）</li>
+                    <li>右栏内容：3个对策的占位列表</li>
+                    <li>中间用一条<strong>垂直细线</strong>做分隔</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">8</div>
+            <div class="step-card-title">第7页：下周计划</div>
+            <div class="step-card-desc">
+                <p>标题：<strong>"下周工作计划"</strong></p>
+                <p>可以做成表格式或列表式：</p>
+
+                <p><strong>方案A：表格式</strong></p>
+                <p>插入一个3列×5行的表格：</p>
+                <ul>
+                    <li>列标题：序号 | 工作内容 | 预计完成时间</li>
+                    <li>数据行填写占位文字</li>
+                    <li>美化表格样式</li>
+                </ul>
+
+                <p><strong>方案B：列表式</strong></p>
+                <p>用编号列表列出计划项，和工作总结页类似。</p>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">9</div>
+            <div class="step-card-title">第8页：结尾页</div>
+            <div class="step-card-desc">
+                <p>使用"标题幻灯片"版式：</p>
+                <ul>
+                    <li>标题：<strong>"感谢聆听"</strong>（或"Thanks / Q&A"）</li>
+                    <li>副标题：<strong>【汇报人：XXX | 联系方式：XXX】</strong></li>
+                    <li>可以加一个品牌色的装饰形状</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="step-card">
+            <div class="step-card-number">10</div>
+            <div class="step-card-title">保存为模板文件</div>
+            <div class="step-card-desc">
+                <ol>
+                    <li>先按 <span class="kbd">Ctrl</span> + <span class="kbd">S</span> 正常保存一份 .pptx</li>
+                    <li>然后 <strong>文件 → 另存为</strong></li>
+                    <li>文件类型选择 <strong>".potx"</strong>（WPS演示模板）</li>
+                    <li>文件名：<strong>"电商运营周报模板"</strong></li>
+                    <li>保存位置选择方便找到的文件夹</li>
+                    <li>点击保存</li>
+                </ol>
+                <p>现在你有了两个文件：.pptx（可编辑版本）和 .potx（模板文件）。</p>
+            </div>
+        </div>
+    `,
+
+    tips: `
+        <div class="tip-box tip-success">
+            <strong>🌟 模板制作的高级技巧</strong><br>
+            1. <strong>多留空间少放内容</strong>：模板的内容区域留足够空间，使用者可能比你预设的内容更多<br>
+            2. <strong>可复制的模块</strong>：数据卡片、列表页等如果使用者需要更多，应该能方便地复制页面<br>
+            3. <strong>写使用说明</strong>：在模板的最后加一页"使用指南"，说明如何使用模板（发布前删掉这页）<br>
+            4. <strong>测试替换</strong>：自己尝试用模板做一份真正的周报，看看流程是否顺畅<br>
+            5. <strong>征求反馈</strong>：让团队成员试用后提出改进意见
+        </div>
+
+        <div class="tip-box tip-warning">
+            <strong>⚠️ 分享模板给同事的注意事项</strong><br>
+            • 确保模板中<strong>没有敏感/机密数据</strong>（示例数据要用虚拟数据）<br>
+            • 如果用了<strong>特殊字体</strong>，提前告知同事安装，或嵌入字体<br>
+            • <strong>.potx 比 .pptx 更安全</strong>——不会被误修改<br>
+            • 最好<strong>配一个简短的使用说明</strong>（文字文档或邮件说明）
+        </div>
+
+        <div class="tip-box tip-info">
+            <strong>💡 模板的迭代更新</strong><br>
+            模板不是做一次就完事了，应该不断优化：<br>
+            • 每使用几次后<strong>收集反馈</strong>：哪些页面最常用？哪些页面多余？<br>
+            • <strong>添加新版式</strong>：团队出现新的汇报需求时增加对应版式<br>
+            • <strong>更新配色</strong>：公司品牌色升级时同步更新模板<br>
+            • <strong>版本管理</strong>：模板文件名加版本号，如"周报模板_v2.potx"
+        </div>
+
+        <div class="tip-box tip-danger">
+            <strong>🚨 使用模板的终极提醒</strong><br>
+            模板使用完毕交付之前，做最后一次<strong>"全篇检查"</strong>：<br>
+            ☐ 所有占位文字【XXX】都已替换为真实内容？<br>
+            ☐ 图表数据已更新为最新数据？<br>
+            ☐ 日期、姓名、部门信息是否正确？<br>
+            ☐ 字体和颜色没有被意外修改？<br>
+            ☐ 全屏放映一遍确认没有错误？<br><br>
+            <strong>特别注意第一条——忘记替换占位文字是最尴尬的失误！</strong>
+        </div>
+
+        <div class="tip-box tip-info">
+            <strong>💡 团队模板管理的最佳实践</strong><br>
+            如果你是团队中负责模板的人，建议：<br>
+            • 把模板存放在<strong>共享文件夹或云盘</strong>中，大家都能访问<br>
+            • 用<strong>WPS云文档</strong>共享，随时更新大家自动同步<br>
+            • 建立一个<strong>"模板素材库"</strong>文件夹，包含：
+                <ul>
+                    <li>周报模板.potx</li>
+                    <li>月报模板.potx</li>
+                    <li>产品介绍模板.potx</li>
+                    <li>述职报告模板.potx</li>
+                    <li>使用说明.docx</li>
+                </ul>
+        </div>
+    `,
 
     quiz: [
         {
             type: 'single',
-            question: '想从第3张幻灯片开始放映，应该怎么操作？',
+            question: '.potx 和 .pptx 文件的主要区别是什么？',
             options: [
-                '按F5',
-                '先选中第3张幻灯片，然后按Shift+F5',
-                '按Ctrl+F5',
-                '在放映模式中按数字3'
+                '.potx 文件更小',
+                '.potx 打开时自动创建新文件，原模板不会被修改',
+                '.potx 只能查看不能编辑',
+                '两者没有区别'
             ],
             answer: 1,
-            explanation: 'Shift+F5是从当前选中的幻灯片开始放映。所以先选中第3张，再按Shift+F5就能从第3张开始放映。F5是从第1张开始放映。'
+            explanation: '.potx 是模板文件格式，双击打开时会自动基于该模板创建一个新的.pptx文件，原模板保持不变。.pptx 打开就是编辑原文件，容易被覆盖。'
         },
         {
             type: 'single',
-            question: '放映时想跳到第8页，最快的方法是？',
+            question: '自制PPT模板的正确流程顺序是？',
             options: [
-                '一直按右箭头翻到第8页',
-                '按Esc退出，手动选中第8页再放映',
-                '直接输入数字8然后按Enter',
-                '右键选择"跳转到第8页"'
+                '写内容 → 设计母版 → 选配色',
+                '确定需求 → 选配色 → 设计母版 → 设计版式 → 制作示例页 → 保存为模板',
+                '随便做一个PPT然后改名为模板',
+                '下载别人的模板直接用'
+            ],
+            answer: 1,
+            explanation: '正确流程是：先确定模板用途和需求 → 选择配色方案 → 设计母版（Logo、色带、字体）→ 设计各种版式 → 制作示例页面 → 保存为.potx模板文件。'
+        },
+        {
+            type: 'single',
+            question: '模板中使用【在此输入标题】这样的占位文字，目的是什么？',
+            options: [
+                '让模板看起来更复杂',
+                '提示使用者这里需要替换为自己的内容',
+                '作为正式内容直接使用',
+                '测试字体效果'
+            ],
+            answer: 1,
+            explanation: '占位文字用于提示使用者"这里应该填什么内容"，使用时必须替换为真实内容。建议用灰色或红色显示占位文字，和正式内容区分。'
+        },
+        {
+            type: 'judge',
+            question: '使用别人的PPT模板时，可以直接提交而不需要替换示例内容。',
+            options: ['对', '错'],
+            answer: 1,
+            explanation: '绝对错误！模板中的示例内容（文字、数据、图片）必须全部替换为你自己的真实内容。提交包含示例内容的PPT是非常严重的失误。'
+        },
+        {
+            type: 'multiple',
+            question: '以下哪些是好模板应该具备的特点？（多选）',
+            options: [
+                '开箱即用，替换内容即可',
+                '风格统一，配色字体一致',
+                '页面固定不能增减',
+                '有占位文字引导使用者'
+            ],
+            answer: [0, 1, 3],
+            explanation: '好的模板应该开箱即用、风格统一、有占位引导。但不应该限制使用者增减页面——使用者应该能根据实际需要灵活复制或删除页面。'
+        },
+        {
+            type: 'single',
+            question: '团队模板更新后，最好的分发方式是？',
+            options: [
+                '每次都用U盘拷给每个人',
+                '存放在共享文件夹或云盘中，大家自行获取',
+                '打印出来发给大家',
+                '只自己用不分享'
+            ],
+            answer: 1,
+            explanation: '最好的方式是将模板存放在共享文件夹或WPS云文档中。模板更新后大家自动获取最新版本，不需要每次手动分发。'
+        },
+        {
+            type: 'single',
+            question: '使用下载的PPT模板后发现字体显示异常，最可能的原因是？',
+            options: [
+                'PPT文件损坏了',
+                '模板使用的字体你的电脑上没有安装',
+                '电脑屏幕分辨率不对',
+                'WPS版本太旧'
+            ],
+            answer: 1,
+            explanation: '字体异常最常见的原因是模板使用了你电脑上没有安装的字体。解决方法：安装缺失的字体，或在母版中将字体替换为系统自带字体（如微软雅黑）。'
+        },
+        {
+            type: 'single',
+            question: '电商运营周报模板通常不需要包含以下哪个页面？',
+            options: [
+                '封面页',
+                '数据概览页',
+                '公司历史介绍页',
+                '下周计划页'
             ],
             answer: 2,
-            explanation: '在放映模式下，直接输入页码数字然后按Enter，就能快速跳转到指定页面。这是最快的跳页方法。'
-        },
-        {
-            type: 'single',
-            question: '演讲者视图中，观众能看到什么？',
-            options: [
-                '观众能看到备注和下一页预览',
-                '观众只能看到当前幻灯片（全屏）',
-                '观众能看到计时器',
-                '观众能看到演讲者视图的所有内容'
-            ],
-            answer: 1,
-            explanation: '演讲者视图的核心就是：观众只能看到全屏的当前幻灯片，而演讲者可以看到备注、下一页预览、计时器等辅助信息。'
-        },
-        {
-            type: 'single',
-            question: '演讲过程中想让观众关注你而不是PPT，应该怎么做？',
-            options: [
-                '按Esc退出放映',
-                '按B键让屏幕变黑或按W键让屏幕变白',
-                '关闭投影仪',
-                '切换到桌面'
-            ],
-            answer: 1,
-            explanation: '按B键屏幕变黑，按W键屏幕变白，这样观众的注意力会从PPT转回到你身上。再按一次就能恢复幻灯片显示。'
-        },
-        {
-            type: 'single',
-            question: '放映时想在幻灯片上圈出一个重点数据，应该用什么工具？',
-            options: [
-                '激光笔',
-                '画笔',
-                '荧光笔',
-                '橡皮擦'
-            ],
-            answer: 1,
-            explanation: '画笔（Ctrl+P）可以在幻灯片上画线和圈出内容。激光笔只能显示光点不能画线，荧光笔适合标记文字，橡皮擦用于擦除标注。'
+            explanation: '周报是周期性的工作汇报，需要封面、数据概览、工作总结、问题分析、下周计划等。"公司历史介绍"不是周报内容，更适合放在公司介绍PPT中。'
         }
     ],
 
     practice: `
         <div class="practice-task">
             <div class="practice-task-header">
-                <span></span> 实战任务：准备季度汇报演讲
+                <span>🎯</span> 实战任务：制作电商运营周报模板
             </div>
             <div class="practice-task-body">
-                <p>请使用之前制作的任何PPT（或新建一个至少5页的PPT），练习以下放映技巧：</p>
+                <p>请制作一个完整的周报PPT模板（至少7页），要求：</p>
                 <ol>
                     <li>
-                        <strong>编写备注</strong><br>
-                        • 为每一页幻灯片添加演讲备注<br>
-                        • 备注内容包括：要讲的要点、重要数据、衔接语<br>
-                        • 备注要简洁，用关键词而不是长段落
+                        <strong>基础设置</strong>
+                        <ul>
+                            <li>使用你设计的母版（Logo、色带、页脚、页码）</li>
+                            <li>使用你设计的配色方案</li>
+                            <li>统一字体（微软雅黑）</li>
+                        </ul>
                     </li>
                     <li>
-                        <strong>练习放映操作</strong><br>
-                        • 按F5从头开始放映<br>
-                        • 练习用不同方式翻页（鼠标、方向键、空格键）<br>
-                        • 练习用数字+Enter跳转到指定页面<br>
-                        • 练习按Home跳到第1页，按End跳到最后一页<br>
-                        • 按Esc结束放映
+                        <strong>必须包含的页面</strong>
+                        <ul>
+                            <li>封面页（标题+部门+日期+汇报人）</li>
+                            <li>目录页（至少4个章节）</li>
+                            <li>数据概览页（至少3个数据卡片）</li>
+                            <li>图表页（包含一个可编辑的图表）</li>
+                            <li>工作总结页（编号列表）</li>
+                            <li>下周计划页（列表或表格）</li>
+                            <li>结尾页</li>
+                        </ul>
                     </li>
                     <li>
-                        <strong>练习标注工具</strong><br>
-                        • 使用激光笔指出重点（Ctrl+L）<br>
-                        • 使用画笔圈出重要数据（Ctrl+P）<br>
-                        • 使用荧光笔标记关键文字（Ctrl+I）<br>
-                        • 使用橡皮擦清除标注（Ctrl+E）<br>
-                        • 按E清除所有标注
-                    </li>
-                    <li>
-                        <strong>练习黑屏/白屏</strong><br>
-                        • 放映时按B键，观察屏幕变黑<br>
-                        • 再按B键，屏幕恢复<br>
-                        • 放映时按W键，观察屏幕变白<br>
-                        • 再按W键，屏幕恢复
-                    </li>
-                    <li>
-                        <strong>使用排练计时</strong><br>
-                        • 点击"幻灯片放映" → "排练计时"<br>
-                        • 模拟真实演讲，从头到尾讲一遍<br>
-                        • 记录总用时<br>
-                        • 调整节奏，确保在规定时间内完成
+                        <strong>模板规范</strong>
+                        <ul>
+                            <li>所有需要使用者替换的内容用【】标记并设为灰色</li>
+                            <li>页面风格统一（配色、字体、排版一致）</li>
+                            <li>保存为 .potx 模板文件</li>
+                        </ul>
                     </li>
                 </ol>
-                <p><strong>目标：</strong></p>
+                <p><strong>加分项：</strong></p>
                 <ul>
-                    <li>能熟练使用至少5个放映快捷键</li>
-                    <li>能流畅地完成一次完整的模拟演讲</li>
-                    <li>总用时控制在5-10分钟内</li>
+                    <li>增加一个"问题与对策"的左右分栏页面</li>
+                    <li>在模板最后添加一页"使用说明"</li>
+                    <li>用这个模板做一份真正的周报验证可用性</li>
+                    <li>分享给同学让他们试用并给反馈</li>
                 </ul>
             </div>
         </div>
-    `,
 
-    steps: `
-        <p>现在我们来<strong>准备一次季度汇报演讲</strong>，实战掌握放映技巧和演讲者视图的使用。</p>
-        <div class="step-card">
-            <div class="step-card-number">1</div>
-            <div class="step-card-title">准备PPT文件</div>
-            <div class="step-card-desc">
-                <p>打开之前制作的任何PPT，或者新建一个PPT</p>
-                <p>确保PPT至少有5页内容</p>
-                <p>保存为 <code>季度汇报.pptx</code></p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">2</div>
-            <div class="step-card-title">为每页编写备注</div>
-            <div class="step-card-desc">
-                <p>点击幻灯片下方的 <strong>"备注"</strong> 区域（如果看不到，可以拖拽分隔线向上拉）</p>
-                <p>为第1页写备注，例如：</p>
-                <ul>
-                    <li>"开场白：大家好，今天汇报本季度的业绩情况"</li>
-                    <li>"重点：总销售额增长了20%"</li>
-                    <li>"衔接：接下来看各部门的具体数据"</li>
-                </ul>
-                <p>为每一页都写好备注</p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">3</div>
-            <div class="step-card-title">开启演讲者视图</div>
-            <div class="step-card-desc">
-                <p>点击菜单栏 <strong>"幻灯片放映"</strong></p>
-                <p>勾选 <strong>"使用演讲者视图"</strong></p>
-                <p>注意：如果没有连接投影仪，可能需要右键放映界面底部工具栏，选择"显示演讲者视图"</p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">4</div>
-            <div class="step-card-title">按F5开始放映</div>
-            <div class="step-card-desc">
-                <p>按 <span class="kbd">F5</span> 从第1页开始放映</p>
-                <p>如果开启了演讲者视图，你的屏幕上会显示：</p>
-                <ul>
-                    <li>左侧：当前幻灯片</li>
-                    <li>右上：下一页预览</li>
-                    <li>右下：备注内容</li>
-                    <li>底部：工具栏和计时器</li>
-                </ul>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">5</div>
-            <div class="step-card-title">练习翻页操作</div>
-            <div class="step-card-desc">
-                <p>试试不同的翻页方式：</p>
-                <ul>
-                    <li>点击鼠标左键 → 下一页</li>
-                    <li>按 <span class="kbd">→</span> 键 → 下一页</li>
-                    <li>按 <span class="kbd">空格</span> 键 → 下一页</li>
-                    <li>按 <span class="kbd">←</span> 键 → 上一页</li>
-                    <li>输入 <span class="kbd">3</span> + <span class="kbd">Enter</span> → 跳到第3页</li>
-                    <li>按 <span class="kbd">Home</span> → 回到第1页</li>
-                    <li>按 <span class="kbd">End</span> → 跳到最后一页</li>
-                </ul>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">6</div>
-            <div class="step-card-title">练习激光笔</div>
-            <div class="step-card-desc">
-                <p>按 <span class="kbd">Ctrl</span> + <span class="kbd">L</span> 启用激光笔</p>
-                <p>移动鼠标，可以看到一个红色光点跟随鼠标移动</p>
-                <p>用激光笔指向幻灯片上的重点内容</p>
-                <p>按 <span class="kbd">Esc</span> 或右键取消激光笔，回到正常鼠标</p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">7</div>
-            <div class="step-card-title">练习画笔</div>
-            <div class="step-card-desc">
-                <p>按 <span class="kbd">Ctrl</span> + <span class="kbd">P</span> 启用画笔</p>
-                <p>在幻灯片上画线或圈出重要内容</p>
-                <p>试着圈出一个重要的数据或标题</p>
-                <p>按 <span class="kbd">E</span> 清除所有标注</p>
-                <p>按 <span class="kbd">Esc</span> 回到正常鼠标</p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">8</div>
-            <div class="step-card-title">练习荧光笔</div>
-            <div class="step-card-desc">
-                <p>按 <span class="kbd">Ctrl</span> + <span class="kbd">I</span> 启用荧光笔</p>
-                <p>在幻灯片上的文字下方画线，标记重点</p>
-                <p>荧光笔是半透明的，不会遮挡文字</p>
-                <p>按 <span class="kbd">E</span> 清除所有标注</p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">9</div>
-            <div class="step-card-title">练习黑屏和白屏</div>
-            <div class="step-card-desc">
-                <p>放映时按 <span class="kbd">B</span> 键</p>
-                <p>观察屏幕变黑 → 这时可以与观众互动或回答问题</p>
-                <p>再按 <span class="kbd">B</span> 键 → 屏幕恢复</p>
-                <p>放映时按 <span class="kbd">W</span> 键</p>
-                <p>观察屏幕变白 → 再按 <span class="kbd">W</span> 键恢复</p>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">10</div>
-            <div class="step-card-title">按Esc结束放映</div>
-            <div class="step-card-desc">
-                <p>按 <span class="kbd">Esc</span> 结束放映，返回编辑模式</p>
-                <p>如果放映时使用了画笔或荧光笔，WPS会询问是否保存标注</p>
-                <ul>
-                    <li>选择"保留" → 标注会保留在幻灯片上</li>
-                    <li>选择"放弃" → 标注被清除</li>
-                </ul>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">11</div>
-            <div class="step-card-title">使用排练计时</div>
-            <div class="step-card-desc">
-                <p>点击菜单栏 <strong>"幻灯片放映"</strong> → <strong>"排练计时"</strong></p>
-                <p>PPT进入放映模式，左上角显示计时器</p>
-                <p>模拟真实演讲：</p>
-                <ul>
-                    <li>看着备注，讲解每一页的内容</li>
-                    <li>每讲完一页，点击鼠标翻到下一页</li>
-                    <li>讲完所有页面后，WPS会显示总用时</li>
-                </ul>
-            </div>
-        </div>
-        <div class="step-card">
-            <div class="step-card-number">12</div>
-            <div class="step-card-title">保存并记录练习结果</div>
-            <div class="step-card-desc">
-                <p>按 <span class="kbd">Ctrl</span> + <span class="kbd">S</span> 保存PPT</p>
-                <p>记录你的排练时间，看看是否在合理范围内</p>
-                <p>如果时间太长，精简内容；如果太短，增加讲解</p>
-            </div>
-        </div>
-    `,
-
-    tips: `
-        <div class="tip-box tip-info">
-            <strong>放映快捷键速查表</strong><br>
-            <table style="width:100%; border-collapse:collapse; margin-top: 8px;">
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">F5</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">从头开始放映</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">Shift+F5</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">从当前页开始放映</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">Esc</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">结束放映</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">B</span> / <span class="kbd">W</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">黑屏 / 白屏</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">Ctrl+L</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">激光笔</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">Ctrl+P</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">画笔</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">Ctrl+I</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">荧光笔</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">E</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">清除所有标注</td>
-                </tr>
-                <tr>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);"><span class="kbd">数字+Enter</span></td>
-                    <td style="padding: 4px 8px; border: 1px solid var(--border-color);">跳到指定页</td>
-                </tr>
-            </table>
-            <br>打印出来贴在电脑旁边，每次演讲前看一遍！
-        </div>
-        <div class="tip-box tip-warning">
-            <strong>⚠️ 演讲时的常见失误</strong><br>
-            1. <strong>不知道怎么翻页</strong>：提前练习翻页操作，至少掌握两种方法<br>
-            2. <strong>误按了键盘</strong>：放映时不要乱按键盘，特别是Esc会直接退出<br>
-            3. <strong>忘了写备注</strong>：演讲前一定要写好备注，否则上台后容易忘词<br>
-            4. <strong>没有排练</strong>：至少排练2-3次，熟悉内容和节奏<br>
-            5. <strong>时间失控</strong>：用排练计时功能控制好时间<br>
-            6. <strong>背对观众看PPT</strong>：使用演讲者视图，面对观众而不是转身看屏幕<br><br>
-            建议：正式演讲前至少完整排练3次！
-        </div>
         <div class="tip-box tip-success">
-            <strong>演讲高手的技巧</strong><br>
-            • <strong>6×6原则</strong>：每页不超过6行文字，每行不超过6个词<br>
-            • <strong>10-20-30原则</strong>：最多10页，最多20分钟，字号不小于30pt<br>
-            • <strong>先说结论</strong>：每页先说结论，再展开细节<br>
-            • <strong>讲故事</strong>：用故事来包装数据，更容易被记住<br>
-            • <strong>眼神交流</strong>：看观众而不是看PPT<br>
-            • <strong>适当停顿</strong>：重要观点后停顿2-3秒，让观众消化<br><br>
-            PPT只是工具，真正打动人的是你的演讲内容和表达方式！
-        </div>
-    `,
-
-    summary: `
-        <div class="tip-box tip-success">
-            <strong>完成本课后，你已经掌握了：</strong><br>
-            ✅ PPT的放映模式（F5和Shift+F5）<br>
-            ✅ 演讲者视图的开启和使用<br>
-            ✅ 放映时的翻页操作和跳页技巧<br>
-            ✅ 标注工具（激光笔、画笔、荧光笔）<br>
-            ✅ 黑屏和白屏操作<br>
-            ✅ 备注的编写技巧<br>
-            ✅ 排练计时的使用<br>
-            ✅ 自动放映的设置<br><br>
-            下一课我们将学习<strong>导出与分享</strong>——把你做好的PPT导出为PDF、图片、视频等格式，分享给他人！这是最后一课，学完之后你就是PPT高手了！
+            <strong>🎉 恭喜！"母版与模板"模块全部完成！</strong><br>
+            经过第13-15课的学习，你已经掌握了：<br>
+            ✅ 幻灯片母版的概念和编辑<br>
+            ✅ 在母版中添加Logo、色带、页脚等公共元素<br>
+            ✅ 配色方案的选择和自定义主题颜色<br>
+            ✅ 取色器和配色工具的使用<br>
+            ✅ PPT模板的获取和使用<br>
+            ✅ 从零自制专业PPT模板<br><br>
+            下一模块我们将进入<strong>"动画与切换"</strong>，第16课将学习<strong>幻灯片切换效果</strong>——让你的PPT演示更流畅更有节奏感！
         </div>
     `
 };
