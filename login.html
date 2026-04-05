@@ -1,248 +1,393 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>登录 - PPT学习站</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body>
+    <!-- 导航栏 -->
+    <header class="header"></header>
 
-<div class="login-page">
+    <!-- 主内容 -->
+    <main class="login-page">
+        <!-- 装饰背景 -->
+        <div class="login-bg">
+            <div class="login-bg-shape shape-1"></div>
+            <div class="login-bg-shape shape-2"></div>
+            <div class="login-bg-shape shape-3"></div>
+        </div>
 
-    <!-- 左侧装饰 -->
-    <div class="login-hero">
-        <div class="hero-content">
-            <div class="hero-icon">🎯</div>
-            <h1 class="hero-title">PPT学习站</h1>
-            <p class="hero-sub">WPS演示专业技能课程</p>
-            <div class="hero-features">
-                <div class="hero-feature">📖 26节系统课程</div>
-                <div class="hero-feature">✏️ 每课练习题</div>
-                <div class="hero-feature">🎯 综合实战项目</div>
-                <div class="hero-feature">📊 学习进度追踪</div>
+        <div class="login-container">
+            <!-- 左侧欢迎区 -->
+            <div class="login-welcome">
+                <div class="login-welcome-inner">
+                    <div class="login-welcome-icon">📊</div>
+                    <h1>欢迎来到<br><span class="highlight">PPT学习站</span></h1>
+                    <p class="login-welcome-desc">从零开始，掌握WPS演示文稿，打造你的职场竞争力！</p>
+                    <div class="login-features">
+                        <div class="login-feature">
+                            <span class="login-feature-icon">📚</span>
+                            <span>26节精品课程</span>
+                        </div>
+                        <div class="login-feature">
+                            <span class="login-feature-icon">🎯</span>
+                            <span>实战任务驱动</span>
+                        </div>
+                        <div class="login-feature">
+                            <span class="login-feature-icon">📈</span>
+                            <span>学习进度追踪</span>
+                        </div>
+                        <div class="login-feature">
+                            <span class="login-feature-icon">🏆</span>
+                            <span>电商场景实操</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧登录表单 -->
+            <div class="login-form-wrapper">
+                <div class="login-form-card">
+                    <div class="login-form-header">
+                        <h2>学生登录</h2>
+                        <p>输入信息开始你的学习之旅</p>
+                    </div>
+
+                    <form id="loginForm" class="login-form" onsubmit="return false;">
+                        <!-- 姓名 -->
+                        <div class="form-group">
+                            <label class="form-label" for="studentName">
+                                <span>👤</span> 姓名
+                            </label>
+                            <input type="text" id="studentName" class="form-input" placeholder="请输入你的姓名" maxlength="20"
+                                autocomplete="name" required>
+                            <div class="form-error" id="nameError"></div>
+                        </div>
+
+                        <!-- 学号 -->
+                        <div class="form-group">
+                            <label class="form-label" for="studentId">
+                                <span>🎓</span> 学号
+                            </label>
+                            <input type="text" id="studentId" class="form-input" placeholder="例如：124030601"
+                                maxlength="15" autocomplete="off" required>
+                            <div class="form-error" id="idError"></div>
+                        </div>
+
+                        <!-- 班级 -->
+                        <div class="form-group" id="classNameGroup">
+                            <label class="form-label" for="className">
+                                <span>🏫</span> 班级
+                            </label>
+                            <input type="text" id="className" class="form-input" placeholder="例如：24电商6班" maxlength="30"
+                                autocomplete="off">
+                            <div class="form-hint" id="classNameHint" style="display:none;">
+                                💡 首次登录请填写班级，之后登录无需再填
+                            </div>
+                            <div class="form-error" id="classError"></div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg login-btn" id="loginBtn"
+                            onclick="handleStudentLogin()">
+                            <span class="login-btn-text">🚀 开始学习</span>
+                            <span class="login-btn-loading hidden">
+                                <span class="loading-spinner"></span> 登录中...
+                            </span>
+                        </button>
+                    </form>
+
+                    <div class="login-tips">
+                        <div class="login-tip">
+                            <span>💡</span>
+                            <span>首次登录将自动注册，无需密码</span>
+                        </div>
+                        <div class="login-tip">
+                            <span>🔄</span>
+                            <span>学习进度云端同步，换电脑也不怕</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- 右侧表单 -->
-    <div class="login-panel">
-        <div class="login-box">
-            <div class="login-logo">
-                <span class="logo-icon">🎯</span>
-                <span class="logo-text">PPT学习站</span>
-            </div>
+    <!-- Supabase CDN -->
+    <script src="js/supabase.min.js"></script>
+    <!-- 项目脚本 -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/theme.js"></script>
 
-            <!-- 标签切换 -->
-            <div class="tab-wrap">
-                <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">登录</button>
-                <button class="tab-btn" id="tab-register" onclick="switchTab('register')">注册</button>
-            </div>
+    <script>
+        // ==================== 页面初始化 ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // 渲染导航栏
+            renderHeader('');
 
-            <!-- 登录表单 -->
-            <form id="form-login" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label>班级</label>
-                    <input type="text" id="login-class" placeholder="如：24电商6班" required>
-                </div>
-                <div class="form-group">
-                    <label>学号</label>
-                    <input type="text" id="login-sid" placeholder="输入你的学号" required>
-                </div>
-                <div class="form-group">
-                    <label>姓名</label>
-                    <input type="text" id="login-name" placeholder="输入你的姓名" required>
-                </div>
-                <button type="submit" class="btn-submit" id="btn-login">登录</button>
-                <div class="form-hint">首次使用请先注册账号</div>
-            </form>
+            // 如果已登录，跳转首页
+            const student = getStudentSession();
+            if (student) {
+                window.location.href = 'index.html';
+                return;
+            }
 
-            <!-- 注册表单 -->
-            <form id="form-register" class="hidden" onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <label>班级 <span class="req">*</span></label>
-                    <input type="text" id="reg-class" placeholder="如：24电商6班" required>
-                </div>
-                <div class="form-group">
-                    <label>学号 <span class="req">*</span></label>
-                    <input type="text" id="reg-sid" placeholder="你的学号" required>
-                </div>
-                <div class="form-group">
-                    <label>姓名 <span class="req">*</span></label>
-                    <input type="text" id="reg-name" placeholder="你的真实姓名" required>
-                </div>
-                <button type="submit" class="btn-submit" id="btn-register">注册</button>
-                <div id="reg-closed-tip" class="closed-tip hidden">
-                    🔒 注册已关闭，请联系老师开放注册
-                </div>
-            </form>
+            // 学号输入完成后检查是否已注册
+            const studentIdInput = document.getElementById('studentId');
+            let checkTimer = null;
 
-            <!-- 消息区 -->
-            <div id="login-msg" class="login-msg hidden"></div>
-        </div>
-    </div>
+            studentIdInput.addEventListener('input', () => {
+                clearTimeout(checkTimer);
+                const val = studentIdInput.value.trim();
 
-</div>
+                if (val.length >= 6) {
+                    checkTimer = setTimeout(() => {
+                        checkExistingStudent(val);
+                    }, 500);
+                } else {
+                    // 重置为新用户模式
+                    setNewUserMode();
+                }
+            });
 
-<script src="js/supabase-config.js"></script>
-<script src="js/supabase.min.js"></script>
-<script src="js/theme.js"></script>
+            // 回车提交
+            document.getElementById('loginForm').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleStudentLogin();
+                }
+            });
 
-<script>
-const { createClient } = supabase;
-const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            // 自动聚焦姓名输入框
+            document.getElementById('studentName').focus();
+        });
 
-let isRegistrationOpen = true; // 默认开放
+        // ==================== 检查学号是否已注册 ====================
+        let isExistingStudent = false;
+        let existingStudentName = '';
 
-// ══════════════════════════════════════════════
-//  初始化：检查注册状态
-// ══════════════════════════════════════════════
-async function init() {
-    const { data } = await _supabase
-        .from('system_settings')
-        .select('value')
-        .eq('key', 'registration_open')
-        .single();
+        async function checkExistingStudent(studentId) {
+            try {
+                const result = await checkStudent(studentId);
 
-    isRegistrationOpen = !data || data.value === 'true' || data.value === true;
-    updateRegisterUI();
-}
+                if (result.exists) {
+                    // 已注册的学生
+                    isExistingStudent = true;
+                    existingStudentName = result.name;
+                    setReturningUserMode(result.name, result.class_name || '');
+                } else {
+                    // 新学生
+                    isExistingStudent = false;
+                    existingStudentName = '';
+                    setNewUserMode();
+                }
+            } catch (err) {
+                console.error('检查学号失败:', err);
+            }
+        }
 
-function updateRegisterUI() {
-    const tip     = document.getElementById('reg-closed-tip');
-    const btn     = document.getElementById('btn-register');
-    const tabReg  = document.getElementById('tab-register');
+        /**
+         * 设置为老用户模式：隐藏班级输入，显示欢迎提示
+         */
+        function setReturningUserMode(name, className) {
+            const classGroup = document.getElementById('classNameGroup');
+            const nameInput = document.getElementById('studentName');
+            const classHint = document.getElementById('classNameHint');
 
-    if (!isRegistrationOpen) {
-        if (tip) tip.classList.remove('hidden');
-        if (btn) { btn.disabled = true; btn.textContent = '注册已关闭'; }
-        if (tabReg) tabReg.title = '注册暂时关闭';
-    } else {
-        if (tip) tip.classList.add('hidden');
-        if (btn) { btn.disabled = false; btn.textContent = '注册'; }
-    }
-}
+            // 自动填充姓名
+            nameInput.value = name;
+            nameInput.setAttribute('readonly', 'readonly');
+            nameInput.style.opacity = '0.7';
 
-// ══════════════════════════════════════════════
-//  标签切换
-// ══════════════════════════════════════════════
-function switchTab(tab) {
-    const isLogin = tab === 'login';
-    document.getElementById('form-login').classList.toggle('hidden', !isLogin);
-    document.getElementById('form-register').classList.toggle('hidden', isLogin);
-    document.getElementById('tab-login').classList.toggle('active', isLogin);
-    document.getElementById('tab-register').classList.toggle('active', !isLogin);
-    hideMsg();
-    updateRegisterUI();
-}
+            // 隐藏班级输入框
+            classGroup.style.display = 'none';
 
-// ══════════════════════════════════════════════
-//  登录
-// ══════════════════════════════════════════════
-async function handleLogin(e) {
-    e.preventDefault();
-    const className = document.getElementById('login-class').value.trim();
-    const studentId = document.getElementById('login-sid').value.trim();
-    const name      = document.getElementById('login-name').value.trim();
-    if (!className || !studentId || !name) return showMsg('请填写完整信息', 'error');
+            // 显示欢迎提示
+            classHint.style.display = 'none';
 
-    const btn = document.getElementById('btn-login');
-    btn.disabled = true; btn.textContent = '登录中...';
+            // 显示返回用户提示
+            showReturnHint(name, className);
+        }
 
-    const { data, error } = await _supabase
-        .from('students')
-        .select('*')
-        .eq('class_name', className)
-        .eq('student_id', studentId)
-        .eq('name', name)
-        .single();
+        /**
+         * 设置为新用户模式：显示班级输入
+         */
+        function setNewUserMode() {
+            const classGroup = document.getElementById('classNameGroup');
+            const nameInput = document.getElementById('studentName');
+            const classHint = document.getElementById('classNameHint');
+            const returnHint = document.getElementById('returnHint');
 
-    btn.disabled = false; btn.textContent = '登录';
+            // 恢复姓名输入
+            nameInput.removeAttribute('readonly');
+            nameInput.style.opacity = '1';
 
-    if (error || !data) {
-        showMsg('登录失败：班级、学号或姓名不匹配，请检查后重试', 'error');
-        return;
-    }
+            // 显示班级输入框
+            classGroup.style.display = 'block';
 
-    // 更新最后活跃时间
-    await _supabase.from('students').update({ last_active: new Date().toISOString() }).eq('id', data.id);
+            // 显示提示
+            classHint.style.display = 'block';
 
-    sessionStorage.setItem('currentStudent', JSON.stringify(data));
-    window.location.href = 'index.html';
-}
+            // 隐藏返回用户提示
+            if (returnHint) {
+                returnHint.remove();
+            }
+        }
 
-// ══════════════════════════════════════════════
-//  注册
-// ══════════════════════════════════════════════
-async function handleRegister(e) {
-    e.preventDefault();
+        /**
+         * 显示欢迎回来的提示
+         */
+        function showReturnHint(name, className) {
+            // 移除旧提示
+            const oldHint = document.getElementById('returnHint');
+            if (oldHint) oldHint.remove();
 
-    // 再次检查注册状态
-    if (!isRegistrationOpen) {
-        showMsg('注册已关闭，请联系老师', 'error');
-        return;
-    }
+            // 创建新提示
+            const hint = document.createElement('div');
+            hint.id = 'returnHint';
+            hint.style.cssText = `
+                padding: 12px 16px;
+                background: var(--success-light);
+                border: 1px solid var(--success);
+                border-radius: var(--radius-md);
+                font-size: var(--text-sm);
+                color: var(--success);
+                margin-bottom: var(--space-md);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                animation: fadeIn 0.3s ease;
+            `;
+            hint.innerHTML = `
+                <span>👋</span>
+                <span>欢迎回来，<strong>${escapeHtml(name)}</strong>${className ? '（' + escapeHtml(className) + '）' : ''}！直接点击下方按钮登录</span>
+            `;
 
-    const className = document.getElementById('reg-class').value.trim();
-    const studentId = document.getElementById('reg-sid').value.trim();
-    const name      = document.getElementById('reg-name').value.trim();
-    if (!className || !studentId || !name) return showMsg('请填写完整信息', 'error');
+            // 插入到表单前面
+            const form = document.getElementById('loginForm');
+            form.insertBefore(hint, form.firstChild);
+        }
 
-    const btn = document.getElementById('btn-register');
-    btn.disabled = true; btn.textContent = '注册中...';
+        // ==================== 登录处理 ====================
+        let isLoggingIn = false;
 
-    // 检查是否已注册
-    const { data: existing } = await _supabase
-        .from('students')
-        .select('id')
-        .eq('class_name', className)
-        .eq('student_id', studentId)
-        .single();
+        async function handleStudentLogin() {
+            if (isLoggingIn) return;
 
-    if (existing) {
-        btn.disabled = false; btn.textContent = '注册';
-        showMsg('该学号已注册，请直接登录', 'warning');
-        return;
-    }
+            const nameInput = document.getElementById('studentName');
+            const idInput = document.getElementById('studentId');
+            const classInput = document.getElementById('className');
+            const nameError = document.getElementById('nameError');
+            const idError = document.getElementById('idError');
+            const classError = document.getElementById('classError');
+            const loginBtn = document.getElementById('loginBtn');
 
-    const { data, error } = await _supabase
-        .from('students')
-        .insert({
-            class_name: className,
-            student_id: studentId,
-            name: name,
-            completed_lessons: [],
-            last_active: new Date().toISOString(),
-        })
-        .select()
-        .single();
+            // 清除错误
+            nameError.classList.remove('show');
+            idError.classList.remove('show');
+            classError.classList.remove('show');
+            nameError.textContent = '';
+            idError.textContent = '';
+            classError.textContent = '';
 
-    btn.disabled = false; btn.textContent = '注册';
+            const name = nameInput.value.trim();
+            const studentId = idInput.value.trim();
+            const className = classInput.value.trim();
 
-    if (error) {
-        showMsg('注册失败：' + error.message, 'error');
-        return;
-    }
+            // 表单验证
+            let hasError = false;
 
-    sessionStorage.setItem('currentStudent', JSON.stringify(data));
-    showMsg('注册成功！正在跳转...', 'success');
-    setTimeout(() => window.location.href = 'index.html', 1200);
-}
+            if (!name) {
+                nameError.textContent = '请输入姓名';
+                nameError.classList.add('show');
+                nameInput.focus();
+                hasError = true;
+            } else if (name.length < 2) {
+                nameError.textContent = '姓名至少2个字符';
+                nameError.classList.add('show');
+                nameInput.focus();
+                hasError = true;
+            }
 
-// ══════════════════════════════════════════════
-//  消息显示
-// ══════════════════════════════════════════════
-function showMsg(text, type = 'info') {
-    const el = document.getElementById('login-msg');
-    el.textContent = text;
-    el.className = `login-msg show ${type}`;
-}
-function hideMsg() {
-    document.getElementById('login-msg').classList.remove('show');
-}
+            if (!studentId) {
+                idError.textContent = '请输入学号';
+                idError.classList.add('show');
+                if (!hasError) idInput.focus();
+                hasError = true;
+            } else if (!/^\d{6,15}$/.test(studentId)) {
+                idError.textContent = '学号应为6-15位数字';
+                idError.classList.add('show');
+                if (!hasError) idInput.focus();
+                hasError = true;
+            }
 
-document.addEventListener('DOMContentLoaded', init);
-</script>
+            // 新用户必须填写班级
+            if (!isExistingStudent && !className) {
+                classError.textContent = '首次登录请填写班级';
+                classError.classList.add('show');
+                if (!hasError) classInput.focus();
+                hasError = true;
+            }
+
+            if (hasError) return;
+
+            // 开始登录
+            isLoggingIn = true;
+            loginBtn.disabled = true;
+            loginBtn.querySelector('.login-btn-text').classList.add('hidden');
+            loginBtn.querySelector('.login-btn-loading').classList.remove('hidden');
+
+            try {
+                const result = await studentLogin(studentId, name, className);
+
+                if (result.success) {
+                    // 保存登录信息
+                    saveStudentSession({
+                        id: result.student.id,
+                        student_id: result.student.student_id,
+                        name: result.student.name,
+                        class_name: result.student.class_name || className
+                    });
+
+                    if (result.is_new) {
+                        showToast(`欢迎 ${name} 同学！已为你创建账号`, 'success');
+                    } else {
+                        showToast(`欢迎回来，${name} 同学！`, 'success');
+                    }
+
+                    // 延迟跳转
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 800);
+                } else {
+                    showToast(result.error || '登录失败', 'error');
+
+                    if (result.error && result.error.includes('不匹配')) {
+                        idError.textContent = result.error;
+                        idError.classList.add('show');
+                    }
+
+                    isLoggingIn = false;
+                    loginBtn.disabled = false;
+                    loginBtn.querySelector('.login-btn-text').classList.remove('hidden');
+                    loginBtn.querySelector('.login-btn-loading').classList.add('hidden');
+                }
+            } catch (err) {
+                console.error('登录异常:', err);
+                showToast('网络异常，请稍后重试', 'error');
+
+                isLoggingIn = false;
+                loginBtn.disabled = false;
+                loginBtn.querySelector('.login-btn-text').classList.remove('hidden');
+                loginBtn.querySelector('.login-btn-loading').classList.add('hidden');
+            }
+        }
+    </script>
 </body>
+
 </html>
