@@ -1082,12 +1082,18 @@
             let html = '';
             chaptersData.forEach(ch => {
                 html += `<tr>
-                    <td><strong>${ch.id}</strong></td>
-                    <td>${escapeHtml(ch.title)}</td>
-                    <td><span class="badge badge-muted">${escapeHtml(ch.module)}</span></td>
-                    <td><span class="${ch.is_open ? 'status-open' : 'status-closed'}">${ch.is_open ? '✅ 已开放' : '🔒 已关闭'}</span></td>
-                    <td><label class="toggle-switch" title="${ch.is_open ? '点击关闭' : '点击开放'}"><input type="checkbox" ${ch.is_open ? 'checked' : ''} onchange="toggleChapter(${ch.id}, this.checked)"><span class="toggle-slider"></span></label></td>
-                </tr>`;
+        <td><strong>${ch.id}</strong></td>
+        <td>${escapeHtml(ch.title)}</td>
+        <td><span class="badge">${escapeHtml(ch.module)}</span></td>
+        <td>
+            <input type="text" class="form-input btn-sm" 
+                   placeholder="输入班级名，逗号隔开" 
+                   value="${escapeHtml(ch.allowed_classes || '')}"
+                   onchange="updateChapterClasses(${ch.id}, this.value)">
+        </td>
+        <td><span class="${ch.is_open ? 'status-open' : 'status-closed'}">...</span></td>
+        <td>...开关...</td>
+    </tr>`;
             });
             tbody.innerHTML = html;
         }
