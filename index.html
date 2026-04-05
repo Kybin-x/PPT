@@ -1,347 +1,515 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPT学习站 · WPS演示课程</title>
+    <title>PPT学习站 - WPS演示文稿从入门到精通</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
+
 <body>
+    <!-- 导航栏 -->
+    <header class="header"></header>
 
-<!-- ═══ 顶部导航 ═══ -->
-<header class="home-header">
-    <div class="header-inner">
-        <div class="header-logo">
-            <span class="logo-icon">🎯</span>
-            <span class="logo-text">PPT学习站</span>
-        </div>
-        <div class="header-right">
-            <div class="user-card" id="user-card">
-                <span class="user-avatar" id="user-avatar">?</span>
-                <div class="user-detail">
-                    <span class="user-name" id="user-name">未登录</span>
-                    <span class="user-meta" id="user-meta">—</span>
+    <!-- 主内容 -->
+    <main class="main-content">
+
+        <!-- 英雄区域 -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">🔥 专为电商学子打造</div>
+                    <h1 class="hero-title">
+                        WPS演示文稿<br>
+                        <span class="hero-highlight">从入门到精通</span>
+                    </h1>
+                    <p class="hero-desc">
+                        26节精品课程，结合电商真实工作场景，从零基础到职场达人。
+                        边学边练，轻松掌握PPT制作技能！
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary btn-lg" id="heroStartBtn" onclick="handleHeroStart()">
+                            🚀 开始学习
+                        </button>
+                        <a href="#courseMap" class="btn btn-secondary btn-lg">📋 查看大纲</a>
+                    </div>
+                    <div class="hero-stats" id="heroStats"></div>
+                </div>
+                <div class="hero-illustration">
+                    <div class="hero-card hero-card-1">
+                        <div class="hero-card-icon">📊</div>
+                        <div class="hero-card-label">数据报告</div>
+                    </div>
+                    <div class="hero-card hero-card-2">
+                        <div class="hero-card-icon">🎨</div>
+                        <div class="hero-card-label">创意设计</div>
+                    </div>
+                    <div class="hero-card hero-card-3">
+                        <div class="hero-card-icon">🏆</div>
+                        <div class="hero-card-label">职场述职</div>
+                    </div>
+                    <div class="hero-card hero-card-4">
+                        <div class="hero-card-icon">🛒</div>
+                        <div class="hero-card-label">电商运营</div>
+                    </div>
                 </div>
             </div>
-            <button class="theme-btn" id="theme-btn" title="切换主题">🌙</button>
-            <button class="logout-btn" onclick="logout()">退出</button>
-        </div>
-    </div>
-</header>
+        </section>
 
-<!-- ═══ 主体 ═══ -->
-<main class="home-main">
-
-    <!-- 进度横幅 -->
-    <section class="progress-banner">
-        <div class="progress-banner-inner">
-            <div class="progress-info">
-                <h2 id="progress-title">课程进度</h2>
-                <p id="progress-sub">正在加载...</p>
-            </div>
-            <div class="progress-right">
-                <div class="big-progress-ring" id="progress-ring">
-                    <svg viewBox="0 0 80 80">
-                        <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="6"/>
-                        <circle cx="40" cy="40" r="34" fill="none" stroke="#fff" stroke-width="6"
-                            stroke-dasharray="213.6" stroke-dashoffset="213.6"
-                            stroke-linecap="round" transform="rotate(-90 40 40)"
-                            id="progress-ring-fill"/>
-                    </svg>
-                    <div class="ring-label" id="ring-label">0%</div>
+        <!-- 学习进度概览（已登录时显示） -->
+        <section class="progress-overview hidden" id="progressOverview">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📈 我的学习进度</h3>
+                    <span class="badge badge-primary" id="progressBadge">加载中...</span>
+                </div>
+                <div class="progress-bar" style="height: 12px;">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
+                <div class="progress-details" id="progressDetails">
+                    <div class="progress-detail-item">
+                        <span class="progress-detail-label">已完成</span>
+                        <span class="progress-detail-value" id="completedCount">0</span>
+                    </div>
+                    <div class="progress-detail-item">
+                        <span class="progress-detail-label">已开放</span>
+                        <span class="progress-detail-value" id="openCount">0</span>
+                    </div>
+                    <div class="progress-detail-item">
+                        <span class="progress-detail-label">总课程</span>
+                        <span class="progress-detail-value">26</span>
+                    </div>
+                    <div class="progress-detail-item">
+                        <span class="progress-detail-label">继续学习</span>
+                        <span class="progress-detail-value" id="nextLesson">-</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 课程大纲 -->
-    <section class="course-section">
-        <div class="section-header">
-            <h2 class="section-title">📚 课程大纲</h2>
-            <span class="section-sub" id="opened-tip"></span>
-        </div>
-        <div id="modules-container">
-            <!-- 由JS渲染 -->
-            <div style="text-align:center;padding:60px;color:var(--text-muted);">加载中...</div>
-        </div>
-    </section>
-
-</main>
-
-<!-- Toast -->
-<div id="home-toast" class="home-toast hidden"></div>
-
-<script src="js/supabase-config.js"></script>
-<script src="js/supabase.min.js"></script>
-<script src="js/theme.js"></script>
-
-<script>
-// ══════════════════════════════════════════════
-//  课程结构定义
-// ══════════════════════════════════════════════
-const MODULES = [
-    {
-        name: '🌱 基础入门',
-        desc: '认识WPS演示界面，掌握基础操作',
-        lessons: [
-            { num:1,  name:'初识WPS演示' },
-            { num:2,  name:'新建与基本操作' },
-            { num:3,  name:'文字排版' },
-            { num:4,  name:'插入图片' },
-            { num:5,  name:'形状与SmartArt' },
-        ]
-    },
-    {
-        name: '🎨 设计进阶',
-        desc: '色彩、布局、图表、多媒体全覆盖',
-        lessons: [
-            { num:6,  name:'配色基础' },
-            { num:7,  name:'版式与布局' },
-            { num:8,  name:'图表制作' },
-            { num:9,  name:'表格设计' },
-            { num:10, name:'多媒体嵌入' },
-        ]
-    },
-    {
-        name: '⚡ 高效制作',
-        desc: '对齐规范、素材技巧、协作分享',
-        lessons: [
-            { num:11, name:'对齐与规范' },
-            { num:12, name:'素材处理' },
-            { num:13, name:'统一风格' },
-            { num:14, name:'审阅与协作' },
-            { num:15, name:'打包与分享' },
-        ]
-    },
-    {
-        name: '✨ 动画与切换',
-        desc: '让你的PPT动起来',
-        lessons: [
-            { num:16, name:'幻灯片切换效果' },
-            { num:17, name:'元素动画效果' },
-            { num:18, name:'排练计时与演讲者视图' },
-        ]
-    },
-    {
-        name: '📤 放映与输出',
-        desc: '专业放映技巧与多格式导出',
-        lessons: [
-            { num:19, name:'放映设置与演示技巧' },
-            { num:20, name:'PPT导出为多种格式' },
-        ]
-    },
-    {
-        name: '🤖 WPS特色功能',
-        desc: 'AI工具、云文档、模板、母版设计',
-        lessons: [
-            { num:21, name:'WPS AI智能功能' },
-            { num:22, name:'云文档与多端同步' },
-            { num:23, name:'稻壳模板与资源库' },
-            { num:24, name:'母版设计' },
-        ]
-    },
-    {
-        name: '🏆 综合实战',
-        desc: '真实职场项目完整实战',
-        lessons: [
-            { num:25, name:'综合实战一：月度数据汇报' },
-            { num:26, name:'综合实战二：产品发布会PPT' },
-        ]
-    },
-];
-
-const TOTAL_LESSONS = 26;
-
-const { createClient } = supabase;
-const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-let student      = null;
-let completedSet = new Set();
-let maxAllowed   = TOTAL_LESSONS;
-
-// ══════════════════════════════════════════════
-//  初始化
-// ══════════════════════════════════════════════
-async function init() {
-    const saved = sessionStorage.getItem('currentStudent');
-    if (!saved) { window.location.href = 'login.html'; return; }
-    student = JSON.parse(saved);
-
-    // 从数据库刷新最新进度
-    await refreshStudentFromDB();
-
-    // 读取班级课程上限
-    await loadClassLimit();
-
-    // 渲染页面
-    renderUserInfo();
-    renderProgress();
-    renderModules();
-    initThemeBtn();
-}
-
-async function refreshStudentFromDB() {
-    const { data, error } = await _supabase
-        .from('students')
-        .select('completed_lessons, last_active')
-        .eq('id', student.id)
-        .single();
-
-    if (!error && data) {
-        const cl = Array.isArray(data.completed_lessons) ? data.completed_lessons : [];
-        completedSet = new Set(cl.map(Number));
-        student.completed_lessons = cl;
-        sessionStorage.setItem('currentStudent', JSON.stringify(student));
-    } else {
-        completedSet = new Set((student.completed_lessons || []).map(Number));
-    }
-}
-
-async function loadClassLimit() {
-    if (!student?.class_name) return;
-    const key = 'class_lesson_limit_' + student.class_name;
-    const { data } = await _supabase
-        .from('system_settings')
-        .select('value')
-        .eq('key', key)
-        .single();
-    maxAllowed = data ? (parseInt(data.value) || TOTAL_LESSONS) : TOTAL_LESSONS;
-}
-
-// ══════════════════════════════════════════════
-//  渲染用户信息
-// ══════════════════════════════════════════════
-function renderUserInfo() {
-    document.getElementById('user-name').textContent = student.name || '—';
-    document.getElementById('user-meta').textContent = `${student.class_name||''} · ${student.student_id||''}`;
-    const initials = (student.name || '?').charAt(0);
-    document.getElementById('user-avatar').textContent = initials;
-}
-
-// ══════════════════════════════════════════════
-//  渲染进度横幅
-// ══════════════════════════════════════════════
-function renderProgress() {
-    const completed = completedSet.size;
-    const pct = Math.round(completed / TOTAL_LESSONS * 100);
-    const circumference = 2 * Math.PI * 34; // ≈ 213.6
-
-    document.getElementById('progress-title').textContent =
-        `你好，${student.name}！`;
-    document.getElementById('progress-sub').textContent =
-        `已完成 ${completed} / ${maxAllowed <= TOTAL_LESSONS ? maxAllowed : TOTAL_LESSONS} 课（班级开放 ${maxAllowed} 课）`;
-
-    // 进度圆环
-    const fill = document.getElementById('progress-ring-fill');
-    if (fill) {
-        const offset = circumference * (1 - pct / 100);
-        fill.style.strokeDashoffset = offset;
-    }
-    document.getElementById('ring-label').textContent = pct + '%';
-
-    // 右上角提示
-    const tip = document.getElementById('opened-tip');
-    if (maxAllowed < TOTAL_LESSONS) {
-        tip.textContent = `本班目前开放第 1–${maxAllowed} 课`;
-        tip.style.color = 'var(--accent-warning)';
-    } else {
-        tip.textContent = `全部 ${TOTAL_LESSONS} 课已开放`;
-        tip.style.color = 'var(--text-muted)';
-    }
-}
-
-// ══════════════════════════════════════════════
-//  渲染模块和课程卡片
-// ══════════════════════════════════════════════
-function renderModules() {
-    const container = document.getElementById('modules-container');
-    container.innerHTML = MODULES.map(mod => {
-        // 判断模块内是否有开放的课
-        const hasOpen = mod.lessons.some(l => l.num <= maxAllowed);
-        if (!hasOpen) return ''; // 完全未开放的模块不显示
-
-        const lessonCards = mod.lessons.map(l => {
-            const done    = completedSet.has(l.num);
-            const locked  = l.num > maxAllowed;
-            const current = !locked && !done && (l.num === 1 || completedSet.has(l.num - 1));
-            const prev    = !locked && !done && !current && l.num > 1 && !completedSet.has(l.num - 1);
-
-            let statusClass = '';
-            if (locked)       statusClass = 'locked';
-            else if (done)    statusClass = 'done';
-            else if (current) statusClass = 'current';
-
-            let statusBadge = '';
-            if (locked)       statusBadge = '<span class="lesson-badge-status locked-badge">🔒 未开放</span>';
-            else if (done)    statusBadge = '<span class="lesson-badge-status done-badge">✓ 已完成</span>';
-            else if (current) statusBadge = '<span class="lesson-badge-status current-badge">▶ 开始学习</span>';
-            else              statusBadge = '<span class="lesson-badge-status todo-badge">待解锁</span>';
-
-            return `
-            <div class="lesson-card ${statusClass}" onclick="openLesson(${l.num}, ${locked}, ${prev})" title="${l.name}">
-                <div class="lesson-card-num">第 ${l.num} 课</div>
-                <div class="lesson-card-name">${l.name}</div>
-                ${statusBadge}
-            </div>`;
-        }).join('');
-
-        return `
-        <div class="module-block">
-            <div class="module-header">
-                <div class="module-title">${mod.name}</div>
-                <div class="module-desc">${mod.desc}</div>
+        <!-- 课程地图 -->
+        <section class="course-map" id="courseMap">
+            <div class="section-header">
+                <h2 class="section-title">📚 课程大纲</h2>
+                <p class="section-desc">9大模块 · 26节课程 · 从零到精通</p>
             </div>
-            <div class="module-lessons">
-                ${lessonCards}
+
+            <!-- 加载状态 -->
+            <div class="page-loading" id="courseLoading">
+                <div class="loading-spinner loading-spinner-lg"></div>
+                <p>正在加载课程...</p>
             </div>
-        </div>`;
-    }).join('');
-}
 
-function openLesson(num, locked, prevNotDone) {
-    if (locked) {
-        showToast(`⚠️ 本课尚未开放，班级目前开放到第 ${maxAllowed} 课`, 'warning');
-        return;
-    }
-    if (prevNotDone && num > 1) {
-        showToast('⚠️ 请先完成上一课，再继续学习', 'warning');
-        return;
-    }
-    window.location.href = `lesson.html?lesson=${num}`;
-}
+            <!-- 课程模块列表 -->
+            <div class="module-list hidden" id="moduleList"></div>
 
-// ══════════════════════════════════════════════
-//  主题
-// ══════════════════════════════════════════════
-function initThemeBtn() {
-    const btn = document.getElementById('theme-btn');
-    if (!btn) return;
-    const update = () => {
-        btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-    };
-    update();
-    btn.onclick = () => { if (window._themeManager) { window._themeManager.toggle(); update(); } };
-}
+            <!-- 未登录提示 -->
+            <div class="login-prompt hidden" id="loginPrompt">
+                <div class="card text-center" style="padding: var(--space-2xl);">
+                    <div style="font-size: 48px; margin-bottom: var(--space-md);">🔑</div>
+                    <h3 style="margin-bottom: var(--space-sm);">登录后开始学习</h3>
+                    <p style="color: var(--text-muted); margin-bottom: var(--space-lg);">
+                        登录后可以追踪学习进度，换设备也能同步哦！
+                    </p>
+                    <a href="login.html" class="btn btn-primary btn-lg">立即登录</a>
+                </div>
+            </div>
+        </section>
 
-// ══════════════════════════════════════════════
-//  Toast
-// ══════════════════════════════════════════════
-let _toastTimer = null;
-function showToast(msg, type = 'info') {
-    const t = document.getElementById('home-toast');
-    t.textContent = msg;
-    t.className = `home-toast show ${type}`;
-    if (_toastTimer) clearTimeout(_toastTimer);
-    _toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
+        <!-- 课程特色 -->
+        <section class="features-section">
+            <div class="section-header">
+                <h2 class="section-title">✨ 课程特色</h2>
+                <p class="section-desc">不只是学PPT，更是学职场技能</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h4 class="feature-title">任务驱动教学</h4>
+                    <p class="feature-desc">每节课都有真实的电商工作任务，学了就能用，拒绝枯燥理论</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛒</div>
+                    <h4 class="feature-title">电商场景实战</h4>
+                    <p class="feature-desc">商品展示、数据分析、运营方案...全是你未来工作中要做的</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h4 class="feature-title">多端同步学习</h4>
+                    <p class="feature-desc">学校电脑、家里电脑、手机都能学，进度自动同步不丢失</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏅</div>
+                    <h4 class="feature-title">闯关式进阶</h4>
+                    <p class="feature-desc">完成课程学习和练习题，解锁下一关，像打游戏一样学习</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h4 class="feature-title">WPS特色功能</h4>
+                    <p class="feature-desc">AI排版、在线协作、云文档，掌握这些让你效率翻倍</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h4 class="feature-title">设计思维培养</h4>
+                    <p class="feature-desc">不只会操作，更懂设计原则，做出好看又专业的PPT</p>
+                </div>
+            </div>
+        </section>
 
-function logout() {
-    sessionStorage.removeItem('currentStudent');
-    window.location.href = 'login.html';
-}
+    </main>
 
-document.addEventListener('DOMContentLoaded', init);
-</script>
+    <!-- 页脚 -->
+    <div id="footerArea"></div>
+    <script src="js/supabase.min.js"></script>
+   
+    <!-- 项目脚本 -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/theme.js"></script>
+
+    <script>
+        // ==================== 全局变量 ====================
+        let allChapters = [];
+        let studentProgress = [];
+        let currentStudent = null;
+
+        // ==================== 页面初始化 ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 渲染导航栏
+            renderHeader('home');
+
+            // 渲染页脚
+            document.getElementById('footerArea').innerHTML = getFooterHtml();
+
+            // 获取登录状态
+            currentStudent = getStudentSession();
+
+            // 加载课程数据
+            await loadCourseData();
+        });
+
+        // ==================== 加载课程数据 ====================
+        async function loadCourseData() {
+            const loadingEl = document.getElementById('courseLoading');
+            const moduleListEl = document.getElementById('moduleList');
+
+            try {
+                // 获取所有章节
+                allChapters = await getOpenChapters();
+
+                // 如果已登录，获取学习进度
+                if (currentStudent) {
+                    studentProgress = await getStudentProgress(currentStudent.student_id);
+                    renderProgressOverview();
+                    renderHeroStats();
+                }
+
+                // 渲染课程模块
+                renderModuleList();
+
+                // 隐藏加载，显示内容
+                loadingEl.classList.add('hidden');
+                moduleListEl.classList.remove('hidden');
+
+            } catch (err) {
+                console.error('加载课程数据失败:', err);
+                loadingEl.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">😵</div>
+                        <div class="empty-state-title">加载失败</div>
+                        <div class="empty-state-desc">网络好像出了点问题，请刷新页面重试</div>
+                        <button class="btn btn-primary mt-lg" onclick="location.reload()">刷新页面</button>
+                    </div>
+                `;
+            }
+        }
+
+        // ==================== 渲染学习进度概览 ====================
+        function renderProgressOverview() {
+            if (!currentStudent) return;
+
+            const overviewEl = document.getElementById('progressOverview');
+            overviewEl.classList.remove('hidden');
+
+            const openChapters = allChapters.filter(c => c.is_open);
+            const completedChapters = studentProgress.filter(p => p.is_completed);
+
+            const openCount = openChapters.length;
+            const completedCount = completedChapters.length;
+            const percent = openCount > 0 ? Math.round((completedCount / openCount) * 100) : 0;
+
+            // 更新进度条
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressBadge').textContent = percent + '%';
+            document.getElementById('completedCount').textContent = completedCount;
+            document.getElementById('openCount').textContent = openCount;
+
+            // 找到下一个要学的课程
+            const nextChapter = findNextChapter();
+            const nextEl = document.getElementById('nextLesson');
+            if (nextChapter) {
+                nextEl.innerHTML = `<a href="lesson.html?id=${nextChapter.id}" style="color: var(--primary); font-weight: 600;">第${nextChapter.id}课 →</a>`;
+            } else if (completedCount >= openCount && openCount > 0) {
+                nextEl.textContent = '🎉 全部完成！';
+            } else {
+                nextEl.textContent = '-';
+            }
+        }
+
+        // ==================== 渲染 Hero 区统计 ====================
+        function renderHeroStats() {
+            if (!currentStudent) return;
+
+            const openChapters = allChapters.filter(c => c.is_open);
+            const completedChapters = studentProgress.filter(p => p.is_completed);
+
+            document.getElementById('heroStats').innerHTML = `
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">${completedChapters.length}</span>
+                    <span class="hero-stat-label">已完成</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">${openChapters.length}</span>
+                    <span class="hero-stat-label">已开放</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">${openChapters.length > 0 ? Math.round((completedChapters.length / openChapters.length) * 100) : 0}%</span>
+                    <span class="hero-stat-label">完成率</span>
+                </div>
+            `;
+        }
+
+        // ==================== 找到下一个要学的章节 ====================
+        function findNextChapter() {
+            const openChapters = allChapters.filter(c => c.is_open);
+
+            for (const chapter of openChapters) {
+                const progress = studentProgress.find(p => p.chapter_id === chapter.id);
+                if (!progress || !progress.is_completed) {
+                    return chapter;
+                }
+            }
+            return null;
+        }
+
+        // ==================== 渲染课程模块列表 ====================
+        function renderModuleList() {
+            const moduleListEl = document.getElementById('moduleList');
+
+            // 按模块分组
+            const modules = {};
+            const moduleOrder = [
+                '初识WPS演示', '文字与排版', '图片与图形',
+                '多媒体与表格', '母版与模板', '动画与切换',
+                '放映与输出', 'WPS特色功能', '综合实战'
+            ];
+
+            allChapters.forEach(chapter => {
+                if (!modules[chapter.module]) {
+                    modules[chapter.module] = [];
+                }
+                modules[chapter.module].push(chapter);
+            });
+
+            let html = '';
+
+            moduleOrder.forEach((moduleName, moduleIndex) => {
+                const chapters = modules[moduleName];
+                if (!chapters || chapters.length === 0) return;
+
+                const moduleColor = getModuleColor(moduleName);
+                const moduleIcon = getModuleIcon(moduleName);
+                const moduleNum = moduleIndex + 1;
+
+                // 计算模块完成情况
+                const moduleChapters = chapters.filter(c => c.is_open);
+                const moduleCompleted = moduleChapters.filter(c => {
+                    const p = studentProgress.find(sp => sp.chapter_id === c.id);
+                    return p && p.is_completed;
+                }).length;
+
+                html += `
+                    <div class="module-card" style="--module-color: ${moduleColor};">
+                        <div class="module-header" onclick="toggleModule(${moduleNum})">
+                            <div class="module-header-left">
+                                <div class="module-icon">${moduleIcon}</div>
+                                <div class="module-info">
+                                    <div class="module-label">模块 ${moduleNum}</div>
+                                    <h3 class="module-title">${moduleName}</h3>
+                                </div>
+                            </div>
+                            <div class="module-header-right">
+                                ${currentStudent && moduleChapters.length > 0 ? `
+                                    <span class="module-progress-text">${moduleCompleted}/${moduleChapters.length}</span>
+                                ` : ''}
+                                <span class="module-toggle" id="moduleToggle${moduleNum}">▼</span>
+                            </div>
+                        </div>
+                        <div class="module-chapters" id="moduleChapters${moduleNum}">
+                            ${renderChapterCards(chapters)}
+                        </div>
+                    </div>
+                `;
+            });
+
+            moduleListEl.innerHTML = html;
+        }
+
+        // ==================== 渲染章节卡片 ====================
+        function renderChapterCards(chapters) {
+            let html = '';
+
+            chapters.forEach((chapter, index) => {
+                const progress = studentProgress.find(p => p.chapter_id === chapter.id);
+                const isCompleted = progress && progress.is_completed;
+                const isRead = progress && progress.is_read;
+                const quizScore = progress ? progress.quiz_score : 0;
+                const quizTotal = progress ? progress.quiz_total : 0;
+
+                // 判断是否可访问
+                const isOpen = chapter.is_open;
+                const canAccess = isOpen && (currentStudent !== null);
+
+                // 判断是否解锁（前一章已完成 或 是第一章）
+                let isUnlocked = false;
+                if (!currentStudent) {
+                    isUnlocked = false;
+                } else if (chapter.sort_order === 1) {
+                    isUnlocked = true;
+                } else {
+                    // 找前一个开放的章节
+                    const prevChapter = allChapters
+                        .filter(c => c.is_open && c.sort_order < chapter.sort_order)
+                        .sort((a, b) => b.sort_order - a.sort_order)[0];
+
+                    if (!prevChapter) {
+                        isUnlocked = true;
+                    } else {
+                        const prevProgress = studentProgress.find(p => p.chapter_id === prevChapter.id);
+                        isUnlocked = prevProgress && prevProgress.is_completed;
+                    }
+                }
+
+                // 状态判断
+                let statusClass = '';
+                let statusIcon = '';
+                let statusText = '';
+                let cardClickable = false;
+
+                if (!isOpen) {
+                    statusClass = 'chapter-closed';
+                    statusIcon = '🔒';
+                    statusText = '未开放';
+                } else if (!currentStudent) {
+                    statusClass = 'chapter-login-required';
+                    statusIcon = '🔑';
+                    statusText = '需登录';
+                } else if (isCompleted) {
+                    statusClass = 'chapter-completed';
+                    statusIcon = '✅';
+                    statusText = '已完成';
+                    cardClickable = true;
+                } else if (isUnlocked) {
+                    statusClass = 'chapter-available';
+                    statusIcon = '📖';
+                    statusText = isRead ? '学习中' : '可学习';
+                    cardClickable = true;
+                } else {
+                    statusClass = 'chapter-locked';
+                    statusIcon = '🔒';
+                    statusText = '未解锁';
+                }
+
+                html += `
+                    <div class="chapter-card ${statusClass}" 
+                         ${cardClickable ? `onclick="goToLesson(${chapter.id})"` : ''}
+                         ${!cardClickable && currentStudent && !isOpen ? `onclick="showToast('该章节还未开放，请等待老师开放', 'warning')"` : ''}
+                         ${!cardClickable && currentStudent && isOpen && !isUnlocked ? `onclick="showToast('请先完成前一节课程', 'warning')"` : ''}
+                         ${!currentStudent ? `onclick="window.location.href='login.html'"` : ''}
+                    >
+                        <div class="chapter-number">${chapter.id}</div>
+                        <div class="chapter-info">
+                            <h4 class="chapter-title">${escapeHtml(chapter.title)}</h4>
+                            ${currentStudent && isCompleted && quizTotal > 0 ? `
+                                <div class="chapter-score">
+                                    练习得分：${quizScore}/${quizTotal}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="chapter-status">
+                            <span class="chapter-status-icon">${statusIcon}</span>
+                            <span class="chapter-status-text">${statusText}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            return html;
+        }
+
+        // ==================== 展开/收起模块 ====================
+        function toggleModule(moduleNum) {
+            const chaptersEl = document.getElementById('moduleChapters' + moduleNum);
+            const toggleEl = document.getElementById('moduleToggle' + moduleNum);
+
+            if (chaptersEl.classList.contains('collapsed')) {
+                chaptersEl.classList.remove('collapsed');
+                toggleEl.textContent = '▼';
+            } else {
+                chaptersEl.classList.add('collapsed');
+                toggleEl.textContent = '▶';
+            }
+        }
+
+        // ==================== 跳转到课程 ====================
+        function goToLesson(chapterId) {
+            window.location.href = `lesson.html?id=${chapterId}`;
+        }
+
+        // ==================== Hero 按钮处理 ====================
+        function handleHeroStart() {
+            if (!currentStudent) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const next = findNextChapter();
+            if (next) {
+                // 检查是否解锁
+                const isFirst = next.sort_order === 1;
+                if (isFirst) {
+                    goToLesson(next.id);
+                    return;
+                }
+
+                const prevChapter = allChapters
+                    .filter(c => c.is_open && c.sort_order < next.sort_order)
+                    .sort((a, b) => b.sort_order - a.sort_order)[0];
+
+                if (!prevChapter) {
+                    goToLesson(next.id);
+                    return;
+                }
+
+                const prevProgress = studentProgress.find(p => p.chapter_id === prevChapter.id);
+                if (prevProgress && prevProgress.is_completed) {
+                    goToLesson(next.id);
+                } else {
+                    // 去第一个未完成且已解锁的
+                    goToLesson(next.id);
+                }
+            } else {
+                // 全部完成
+                showToast('🎉 你已完成所有已开放的课程！太棒了！', 'success');
+                document.getElementById('courseMap').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
 </body>
+
 </html>
