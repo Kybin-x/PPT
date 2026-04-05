@@ -352,3 +352,29 @@ async function importStudents() {
         showToast('导入失败: ' + e.message, 'error');
     }
 }
+// 1. 切换注册开关
+async function handleRegToggle(isOpen) {
+    try {
+        const result = await Admin.rpc('admin_toggle_registration', { p_is_open: isOpen });
+        if (result.success) {
+            showToast(isOpen ? '已开启自主注册' : '已关闭自主注册', 'success');
+        }
+    } catch (e) {
+        showToast('操作失败: ' + e.message, 'error');
+    }
+}
+
+// 2. 更新章节所属班级权限
+async function updateChapterClasses(chapterId, classesString) {
+    const classList = classesString.split(/[,，]/).map(c => c.trim()).filter(c => c);
+    try {
+        // 这里需要对应后端增加 admin_update_chapter_access RPC
+        await Admin.rpc('admin_update_chapter_access', { 
+            p_chapter_id: chapterId, 
+            p_allowed_classes: classList 
+        });
+        showToast(`已更新第${chapterId}课的班级访问权限`, 'success');
+    } catch (e) {
+        showToast('更新失败: ' + e.message, 'error');
+    }
+}
