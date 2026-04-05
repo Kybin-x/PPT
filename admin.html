@@ -759,6 +759,16 @@
                     <div class="stat-value" id="statFullComplete">-</div>
                     <div class="stat-label">全部完成人数</div>
                 </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🔐</div>
+                    <div class="stat-value">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="regToggle" onchange="handleRegToggle(this.checked)">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="stat-label">允许新学生注册</div>
+                </div>
             </div>
             <div class="progress-chart-area">
                 <h3 class="progress-chart-title">📊 各章节完成人数</h3>
@@ -768,6 +778,7 @@
                     </div>
                 </div>
             </div>
+            
         </div>
 
         <!-- ======== 面板2：章节管理 ======== -->
