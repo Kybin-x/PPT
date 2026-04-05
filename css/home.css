@@ -1,326 +1,905 @@
-/* ═══════════════════════════════════════════════════════
-   home.css — 首页样式
-═══════════════════════════════════════════════════════ */
+/**
+ * PPT学习站 - 首页专用样式
+ * 文件路径: css/home.css
+ */
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh;
+/* ==================== 1. Hero 区域 ==================== */
+.hero {
+    padding: var(--space-xl) 0 var(--space-3xl);
+    position: relative;
 }
 
-/* ─── 顶部导航 ─── */
-.home-header {
-    background: var(--bg-card);
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.header-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-xl, 24px);
-    height: 60px;
+.hero-content {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+    gap: var(--space-3xl);
 }
-.header-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.logo-icon { font-size: 1.4rem; }
-.logo-text  { font-size: 1.1rem; font-weight: 800; color: var(--accent-primary); }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.hero-text {
+    flex: 1;
+    min-width: 0;
 }
-.user-card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 6px 12px;
-    background: var(--bg-primary);
-    border-radius: 24px;
-    border: 1px solid var(--border-color);
-}
-.user-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--accent-primary);
-    color: #fff;
-    font-weight: 700;
-    font-size: 0.88rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-.user-detail { display: flex; flex-direction: column; }
-.user-name   { font-size: 0.85rem; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
-.user-meta   { font-size: 0.75rem; color: var(--text-muted); }
 
-.theme-btn {
-    background: none;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 6px 10px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: border-color 0.2s;
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-lg);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.2);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(255, 107, 53, 0);
+    }
+}
+
+.hero-title {
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: var(--space-lg);
+    letter-spacing: -0.5px;
+}
+
+.hero-highlight {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-desc {
+    font-size: var(--text-lg);
     color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-xl);
+    max-width: 520px;
 }
-.theme-btn:hover { border-color: var(--accent-primary); }
 
-.logout-btn {
-    padding: 7px 16px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background: transparent;
+/* Hero 按钮组 */
+.hero-actions {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+/* Hero 统计数据 */
+.hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.hero-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 var(--space-lg);
+}
+
+.hero-stat-num {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1.2;
+}
+
+.hero-stat-label {
+    font-size: var(--text-xs);
     color: var(--text-muted);
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: inherit;
-}
-.logout-btn:hover { border-color: #ef4444; color: #ef4444; }
-
-/* ─── 主体 ─── */
-.home-main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 24px 80px;
+    margin-top: 2px;
 }
 
-/* ─── 进度横幅 ─── */
-.progress-banner {
-    background: linear-gradient(135deg, #6366f1, #8b5cf6);
-    border-radius: 18px;
-    margin-bottom: 40px;
-    overflow: hidden;
+.hero-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--border-color);
+}
+
+/* ==================== 2. Hero 插画卡片 ==================== */
+.hero-illustration {
+    flex-shrink: 0;
+    width: 380px;
+    height: 380px;
     position: relative;
 }
-.progress-banner::after {
-    content: '';
+
+.hero-card {
     position: absolute;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.06);
-    right: -80px;
-    top: -80px;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+    cursor: default;
+    white-space: nowrap;
 }
-.progress-banner-inner {
+
+.hero-card:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.hero-card-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.hero-card-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.hero-card-1 {
+    top: 20px;
+    left: 40px;
+    animation: floatCard 6s ease-in-out infinite;
+}
+
+.hero-card-2 {
+    top: 100px;
+    right: 10px;
+    animation: floatCard 6s ease-in-out 1.5s infinite;
+}
+
+.hero-card-3 {
+    bottom: 100px;
+    left: 10px;
+    animation: floatCard 6s ease-in-out 3s infinite;
+}
+
+.hero-card-4 {
+    bottom: 20px;
+    right: 40px;
+    animation: floatCard 6s ease-in-out 4.5s infinite;
+}
+
+@keyframes floatCard {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+/* ==================== 3. 学习进度概览 ==================== */
+.progress-overview {
+    margin-bottom: var(--space-2xl);
+}
+
+.progress-overview .card {
+    background: linear-gradient(135deg, var(--bg-card), var(--primary-light));
+    border: 1px solid var(--border-light);
+}
+
+.progress-overview .progress-bar {
+    margin-bottom: var(--space-md);
+}
+
+.progress-details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+}
+
+.progress-detail-item {
+    text-align: center;
+    padding: var(--space-md);
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+}
+
+.progress-detail-label {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.progress-detail-value {
+    display: block;
+    font-size: var(--text-xl);
+    font-weight: 800;
+    color: var(--primary);
+}
+
+/* ==================== 4. 通用 Section 头部 ==================== */
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.section-title {
+    font-size: var(--text-3xl);
+    font-weight: 800;
+    margin-bottom: var(--space-sm);
+}
+
+.section-desc {
+    font-size: var(--text-base);
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ==================== 5. 课程模块卡片 ==================== */
+.module-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-3xl);
+}
+
+.module-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    transition: box-shadow var(--transition-base);
+}
+
+.module-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+/* 模块头部 */
+.module-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 36px 40px;
-    position: relative;
-    z-index: 1;
+    padding: var(--space-lg) var(--space-xl);
+    cursor: pointer;
+    user-select: none;
+    transition: background var(--transition-fast);
+    border-left: 4px solid var(--module-color);
 }
-.progress-info { color: #fff; }
-.progress-info h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 8px; }
-.progress-info p  { font-size: 0.95rem; opacity: 0.85; }
 
-/* 进度圆环 */
-.big-progress-ring {
-    position: relative;
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
+.module-header:hover {
+    background: var(--bg-card-hover);
 }
-.big-progress-ring svg { width: 100%; height: 100%; }
-#progress-ring-fill {
-    transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
+
+.module-header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
 }
-.ring-label {
-    position: absolute;
-    inset: 0;
+
+.module-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: #fff;
+    font-size: 24px;
+    background: var(--primary-light);
+    flex-shrink: 0;
 }
 
-/* ─── 课程区块 ─── */
-.course-section { margin-top: 8px; }
-
-.section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 24px;
-}
-.section-title {
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--text-primary);
-}
-.section-sub {
-    font-size: 0.85rem;
-    font-weight: 500;
+.module-info {
+    min-width: 0;
 }
 
-/* ─── 模块块 ─── */
-.module-block {
-    margin-bottom: 32px;
-}
-.module-header {
-    margin-bottom: 14px;
-}
-.module-title {
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-}
-.module-desc {
-    font-size: 0.82rem;
+.module-label {
+    font-size: var(--text-xs);
     color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
 }
 
-/* ─── 课程卡片网格 ─── */
-.module-lessons {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 12px;
+.module-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-primary);
 }
 
-.lesson-card {
-    background: var(--bg-card);
-    border: 1.5px solid var(--border-color);
-    border-radius: 12px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
+.module-header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.module-progress-text {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 4px 12px;
+    background: var(--bg-code);
+    border-radius: var(--radius-full);
+}
+
+.module-toggle {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    transition: transform var(--transition-fast);
+    width: 24px;
+    text-align: center;
+}
+
+/* 模块章节列表 */
+.module-chapters {
+    padding: 0 var(--space-xl) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    transition: all var(--transition-base);
     overflow: hidden;
 }
-.lesson-card:hover:not(.locked) {
-    border-color: var(--accent-primary);
-    box-shadow: 0 4px 16px rgba(99,102,241,0.12);
-    transform: translateY(-2px);
+
+.module-chapters.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    opacity: 0;
 }
 
-/* 完成状态 */
-.lesson-card.done {
-    border-color: rgba(16,185,129,0.4);
-    background: rgba(16,185,129,0.04);
-}
-.lesson-card.done::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: #10b981;
-    border-radius: 2px 2px 0 0;
+/* ==================== 6. 章节卡片 ==================== */
+.chapter-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    user-select: none;
 }
 
-/* 当前课 */
-.lesson-card.current {
-    border-color: var(--accent-primary);
-    background: rgba(99,102,241,0.04);
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+/* 可学习状态 */
+.chapter-card.chapter-available {
+    background: var(--bg-card);
+    border-color: var(--primary);
+    border-left: 3px solid var(--primary);
 }
-.lesson-card.current::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 3px;
-    background: var(--accent-primary);
-    border-radius: 2px 2px 0 0;
+
+.chapter-card.chapter-available:hover {
+    background: var(--primary-light);
+    box-shadow: var(--shadow-sm);
+    transform: translateX(4px);
+}
+
+/* 已完成状态 */
+.chapter-card.chapter-completed {
+    background: var(--success-light);
+    border-color: var(--success);
+    border-left: 3px solid var(--success);
+}
+
+.chapter-card.chapter-completed:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateX(4px);
 }
 
 /* 锁定状态 */
-.lesson-card.locked {
+.chapter-card.chapter-locked {
+    background: var(--bg-code);
+    border-color: var(--border-light);
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.chapter-card.chapter-locked:hover {
+    opacity: 0.8;
+}
+
+/* 未开放状态 */
+.chapter-card.chapter-closed {
+    background: var(--bg-code);
+    border-color: var(--border-light);
     opacity: 0.5;
     cursor: not-allowed;
-    filter: grayscale(0.3);
 }
 
-.lesson-card-num {
-    font-size: 0.72rem;
+/* 需要登录 */
+.chapter-card.chapter-login-required {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+    cursor: pointer;
+}
+
+.chapter-card.chapter-login-required:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* 章节序号 */
+.chapter-number {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    flex-shrink: 0;
+    background: var(--bg-code);
+    color: var(--text-secondary);
+}
+
+.chapter-available .chapter-number {
+    background: var(--primary);
+    color: white;
+}
+
+.chapter-completed .chapter-number {
+    background: var(--success);
+    color: white;
+}
+
+/* 章节信息 */
+.chapter-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.chapter-title {
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.chapter-score {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* 章节状态 */
+.chapter-status {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.chapter-status-icon {
+    font-size: 16px;
+}
+
+.chapter-status-text {
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--text-muted);
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-.lesson-card.done    .lesson-card-num { color: #10b981; }
-.lesson-card.current .lesson-card-num { color: var(--accent-primary); }
-
-.lesson-card-name {
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.4;
-    margin-bottom: 10px;
-    min-height: 2.4em;
-}
-
-/* 状态 Badge */
-.lesson-badge-status {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 3px 8px;
-    border-radius: 8px;
-}
-.done-badge    { background: rgba(16,185,129,0.12); color: #059669; }
-.current-badge { background: rgba(99,102,241,0.12); color: var(--accent-primary); }
-.locked-badge  { background: var(--bg-primary); color: var(--text-muted); }
-.todo-badge    { background: var(--bg-primary); color: var(--text-muted); }
-
-/* ─── Toast ─── */
-.home-toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    z-index: 300;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s;
-    max-width: 360px;
-    text-align: center;
     white-space: nowrap;
 }
-.home-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-.home-toast.warning { border-left: 4px solid #f59e0b; color: #b45309; }
-.home-toast.error   { border-left: 4px solid #ef4444; color: #dc2626; }
-.home-toast.success { border-left: 4px solid #10b981; color: #059669; }
-.home-toast.hidden  { display: none; }
 
-/* ─── 响应式 ─── */
-@media (max-width: 768px) {
-    .progress-banner-inner { flex-direction: column; gap: 20px; text-align: center; }
-    .module-lessons { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-    .user-detail { display: none; }
-    .home-main { padding: 20px 16px 60px; }
+.chapter-available .chapter-status-text {
+    color: var(--primary);
 }
+
+.chapter-completed .chapter-status-text {
+    color: var(--success);
+}
+
+/* ==================== 7. 课程特色区 ==================== */
+.features-section {
+    padding: var(--space-3xl) 0;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    border: 1px solid var(--border-light);
+    text-align: center;
+    transition: all var(--transition-base);
+    cursor: default;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+}
+
+.feature-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-md);
+    display: inline-block;
+}
+
+.feature-card:hover .feature-icon {
+    animation: featureIconBounce 0.5s ease;
+}
+
+@keyframes featureIconBounce {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.feature-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    color: var(--text-primary);
+}
+
+.feature-desc {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ==================== 8. 登录提示区 ==================== */
+.login-prompt {
+    margin-bottom: var(--space-2xl);
+}
+
+/* ==================== 9. 响应式 ==================== */
+
+/* 大屏幕 */
+@media (min-width: 1280px) {
+    .hero-title {
+        font-size: 48px;
+    }
+}
+
+/* 平板 */
+@media (max-width: 1024px) {
+    .hero-content {
+        gap: var(--space-xl);
+    }
+
+    .hero-illustration {
+        width: 300px;
+        height: 300px;
+    }
+
+    .hero-title {
+        font-size: 34px;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 小平板 / 大手机 */
+@media (max-width: 768px) {
+    .hero {
+        padding: var(--space-md) 0 var(--space-xl);
+    }
+
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-illustration {
+        width: 280px;
+        height: 250px;
+        order: -1;
+    }
+
+    .hero-card-1 {
+        top: 10px;
+        left: 10px;
+    }
+
+    .hero-card-2 {
+        top: 60px;
+        right: 0;
+    }
+
+    .hero-card-3 {
+        bottom: 60px;
+        left: 0;
+    }
+
+    .hero-card-4 {
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .hero-card {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .hero-card-icon {
+        font-size: 20px;
+    }
+
+    .hero-card-label {
+        font-size: var(--text-xs);
+    }
+
+    .hero-title {
+        font-size: 28px;
+    }
+
+    .hero-desc {
+        font-size: var(--text-base);
+        max-width: 100%;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-stats {
+        justify-content: center;
+    }
+
+    .progress-details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .module-header {
+        padding: var(--space-md) var(--space-lg);
+    }
+
+    .module-chapters {
+        padding: 0 var(--space-lg) var(--space-md);
+    }
+
+    .module-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .module-title {
+        font-size: var(--text-base);
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-md);
+    }
+
+    .feature-card {
+        padding: var(--space-lg);
+    }
+}
+
+/* 手机 */
 @media (max-width: 480px) {
-    .module-lessons { grid-template-columns: 1fr 1fr; }
-    .header-inner   { padding: 0 16px; }
+    .hero-illustration {
+        width: 240px;
+        height: 220px;
+    }
+
+    .hero-title {
+        font-size: 24px;
+    }
+
+    .hero-badge {
+        font-size: var(--text-xs);
+        padding: 4px 12px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-actions .btn {
+        width: 100%;
+    }
+
+    .hero-stats {
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .hero-stat-divider {
+        display: none;
+    }
+
+    .hero-stat-item {
+        padding: 0 var(--space-md);
+    }
+
+    .progress-details {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-sm);
+    }
+
+    .progress-detail-item {
+        padding: var(--space-sm);
+    }
+
+    .progress-detail-value {
+        font-size: var(--text-lg);
+    }
+
+    .module-header {
+        padding: var(--space-md);
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+
+    .module-header-left {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .module-chapters {
+        padding: 0 var(--space-md) var(--space-md);
+    }
+
+    .chapter-card {
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .chapter-number {
+        width: 30px;
+        height: 30px;
+        font-size: var(--text-xs);
+    }
+
+    .chapter-title {
+        font-size: var(--text-sm);
+    }
+
+    .section-title {
+        font-size: var(--text-2xl);
+    }
+}
+
+/* ==================== 10. 深色模式微调 ==================== */
+[data-theme="dark"] .hero-card {
+    background: var(--bg-card);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .module-card {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .chapter-card.chapter-available {
+    background: rgba(255, 107, 53, 0.05);
+}
+
+[data-theme="dark"] .chapter-card.chapter-completed {
+    background: rgba(34, 197, 94, 0.05);
+}
+
+[data-theme="dark"] .chapter-card.chapter-locked,
+[data-theme="dark"] .chapter-card.chapter-closed {
+    background: var(--bg-card);
+}
+
+[data-theme="dark"] .progress-overview .card {
+    background: linear-gradient(135deg, var(--bg-card), rgba(255, 107, 53, 0.05));
+}
+
+[data-theme="dark"] .progress-detail-item {
+    background: var(--bg-body);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .feature-card {
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .feature-card:hover {
+    border-color: var(--primary);
+}
+
+/* ==================== 11. 滚动动画 ==================== */
+.module-card,
+.feature-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.module-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.module-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.module-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.module-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.module-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.module-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.module-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.module-card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.module-card:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.feature-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.feature-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.feature-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.feature-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.feature-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.feature-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
