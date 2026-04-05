@@ -1,615 +1,717 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>课程学习 - PPT学习站</title>
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/lesson.css">
 </head>
+
 <body>
+    <!-- 导航栏 -->
+    <header class="header"></header>
 
-<!-- ═══ 顶部导航 ═══ -->
-<header class="lesson-header">
-    <div class="header-inner">
-        <div class="header-left">
-            <a href="index.html" class="back-btn">← 返回首页</a>
-            <div class="lesson-title-wrap">
-                <span class="lesson-badge" id="lesson-num-badge">第—课</span>
-                <span class="lesson-header-title" id="lesson-header-title">课程加载中...</span>
+    <!-- 主内容 -->
+    <main class="main-content">
+
+        <!-- 加载状态 -->
+        <div class="page-loading" id="pageLoading">
+            <div class="loading-spinner loading-spinner-lg"></div>
+            <p>正在加载课程...</p>
+        </div>
+
+        <!-- 错误状态 -->
+        <div class="hidden" id="pageError">
+            <div class="empty-state">
+                <div class="empty-state-icon">😵</div>
+                <div class="empty-state-title" id="errorTitle">页面出错了</div>
+                <div class="empty-state-desc" id="errorDesc">请检查链接是否正确</div>
+                <a href="index.html" class="btn btn-primary mt-lg">返回首页</a>
             </div>
         </div>
-        <div class="header-right">
-            <span class="user-info" id="header-user-info">—</span>
-            <button class="theme-toggle" id="theme-toggle-btn" title="切换主题">🌙</button>
-        </div>
-    </div>
-</header>
 
-<!-- ═══ 主体：左侧内容 + 右侧导航 ═══ -->
-<div class="lesson-layout">
+        <!-- 课程内容区 -->
+        <div class="lesson-layout hidden" id="lessonLayout">
 
-    <!-- 左侧主内容 -->
-    <main class="lesson-main" id="lesson-main">
-
-        <!-- 任务情境 -->
-        <section class="lesson-section" id="section-scenario">
-            <div class="section-tag">📋 任务情境</div>
-            <div class="scenario-box" id="scenario-content"></div>
-        </section>
-
-        <!-- 知识讲解 -->
-        <section class="lesson-section" id="section-knowledge">
-            <div class="section-tag">📖 知识讲解</div>
-            <div class="knowledge-content" id="knowledge-content"></div>
-        </section>
-
-        <!-- 操作步骤 -->
-        <section class="lesson-section" id="section-steps">
-            <div class="section-tag">🛠️ 操作步骤</div>
-            <div class="steps-content" id="steps-content"></div>
-        </section>
-
-        <!-- 小贴士 -->
-        <section class="lesson-section" id="section-tips">
-            <div class="section-tag">💡 小贴士</div>
-            <div class="tips-content" id="tips-content"></div>
-        </section>
-
-        <!-- 练习题 -->
-        <section class="lesson-section" id="section-quiz">
-            <div class="section-tag">✏️ 练习题</div>
-            <div id="quiz-container"></div>
-            <div id="quiz-result" class="quiz-result hidden"></div>
-            <button class="btn-submit-quiz" id="btn-submit-quiz" onclick="submitQuiz()">提交答案</button>
-        </section>
-
-        <!-- 实战任务 -->
-        <section class="lesson-section" id="section-practice">
-            <div class="section-tag">🎯 实战任务</div>
-            <div class="practice-content" id="practice-content"></div>
-        </section>
-
-        <!-- 完成按钮区 -->
-        <div class="lesson-complete-area" id="complete-area">
-            <button class="btn-complete" id="btn-complete" onclick="markComplete()">
-                ✅ 标记本课已完成
-            </button>
-            <div class="lesson-nav-btns" id="lesson-nav-btns">
-                <button class="btn-nav btn-prev" id="btn-prev" onclick="goPrev()">← 上一课</button>
-                <button class="btn-nav btn-next" id="btn-next" onclick="goNext()">下一课 →</button>
+            <!-- 顶部面包屑 + 进度 -->
+            <div class="lesson-topbar">
+                <div class="lesson-breadcrumb">
+                    <a href="index.html">📚 课程首页</a>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-module" id="breadcrumbModule">模块</span>
+                    <span class="breadcrumb-sep">/</span>
+                    <span class="breadcrumb-current" id="breadcrumbCurrent">课程</span>
+                </div>
+                <div class="lesson-progress-mini">
+                    <span class="lesson-progress-label" id="lessonProgressLabel">学习中</span>
+                    <div class="lesson-progress-bar-mini">
+                        <div class="lesson-progress-fill-mini" id="lessonProgressFill"></div>
+                    </div>
+                </div>
             </div>
+
+            <!-- 课程标题区 -->
+            <div class="lesson-header">
+                <div class="lesson-header-left">
+                    <div class="lesson-number" id="lessonNumber">1</div>
+                    <div class="lesson-header-info">
+                        <div class="lesson-module-badge" id="lessonModuleBadge">模块</div>
+                        <h1 class="lesson-title" id="lessonTitle">课程标题</h1>
+                    </div>
+                </div>
+                <div class="lesson-header-right">
+                    <div class="lesson-status-badge" id="lessonStatusBadge">
+                        <span id="lessonStatusIcon">📖</span>
+                        <span id="lessonStatusText">学习中</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 课程任务情境 -->
+            <div class="lesson-scenario card" id="lessonScenario">
+                <div class="scenario-header">
+                    <span class="scenario-icon">🎯</span>
+                    <span class="scenario-label">本节任务</span>
+                </div>
+                <p class="scenario-text" id="scenarioText">任务描述加载中...</p>
+            </div>
+
+            <!-- 两栏布局：内容 + 侧边栏 -->
+            <div class="lesson-body">
+
+                <!-- 左侧：课程内容 -->
+                <div class="lesson-content-area">
+
+                    <!-- 知识讲解 -->
+                    <section class="lesson-section" id="lessonKnowledge">
+                        <div class="section-anchor" id="knowledge"></div>
+                        <h2 class="lesson-section-title">
+                            <span class="section-icon">📖</span> 知识讲解
+                        </h2>
+                        <div class="lesson-knowledge-body" id="knowledgeBody">
+                            <!-- 由 JS 动态加载 -->
+                        </div>
+                    </section>
+
+                    <!-- 操作步骤 -->
+                    <section class="lesson-section" id="lessonSteps">
+                        <div class="section-anchor" id="steps"></div>
+                        <h2 class="lesson-section-title">
+                            <span class="section-icon">🔧</span> 操作步骤
+                        </h2>
+                        <div class="lesson-steps-body" id="stepsBody">
+                            <!-- 由 JS 动态加载 -->
+                        </div>
+                    </section>
+
+                    <!-- 小贴士 -->
+                    <section class="lesson-section" id="lessonTips">
+                        <div class="section-anchor" id="tips"></div>
+                        <h2 class="lesson-section-title">
+                            <span class="section-icon">💡</span> 小贴士 & 易错点
+                        </h2>
+                        <div class="lesson-tips-body" id="tipsBody">
+                            <!-- 由 JS 动态加载 -->
+                        </div>
+                    </section>
+
+                    <!-- 课后练习 -->
+                    <section class="lesson-section" id="lessonQuiz">
+                        <div class="section-anchor" id="quiz"></div>
+                        <h2 class="lesson-section-title">
+                            <span class="section-icon">✏️</span> 课后练习
+                        </h2>
+                        <div class="quiz-container" id="quizContainer">
+                            <!-- 由 JS 动态加载 -->
+                        </div>
+                        <!-- 答题结果 -->
+                        <div class="quiz-result hidden" id="quizResult">
+                            <div class="quiz-result-icon" id="quizResultIcon">🎉</div>
+                            <div class="quiz-result-score">
+                                得分：<span id="quizScoreText">0/0</span>
+                            </div>
+                            <div class="quiz-result-message" id="quizResultMessage">继续加油！</div>
+                            <div class="quiz-result-actions">
+                                <button class="btn btn-secondary" onclick="resetQuiz()">重新答题</button>
+                                <button class="btn btn-primary" id="quizNextBtn" onclick="goNextLesson()">下一课 →</button>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- 实战任务 -->
+                    <section class="lesson-section" id="lessonPractice">
+                        <div class="section-anchor" id="practice"></div>
+                        <h2 class="lesson-section-title">
+                            <span class="section-icon">🚀</span> 实战任务
+                        </h2>
+                        <div class="lesson-practice-body" id="practiceBody">
+                            <!-- 由 JS 动态加载 -->
+                        </div>
+                    </section>
+
+                    <!-- 标记已读 + 底部导航 -->
+                    <div class="lesson-bottom-actions">
+                        <div class="lesson-read-check" id="readCheckArea">
+                            <label class="read-checkbox-label">
+                                <input type="checkbox" id="readCheckbox" onchange="handleReadCheck()">
+                                <span class="read-checkbox-custom"></span>
+                                <span>我已认真学习本节内容</span>
+                            </label>
+                        </div>
+                        <div class="lesson-nav-buttons">
+                            <button class="btn btn-secondary" id="prevLessonBtn" onclick="goPrevLesson()">
+                                ← 上一课
+                            </button>
+                            <button class="btn btn-primary" id="nextLessonBtn" onclick="goNextLesson()">
+                                下一课 →
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- 右侧：侧边栏 -->
+                <aside class="lesson-sidebar">
+                    <!-- 目录导航 -->
+                    <div class="sidebar-card sidebar-toc">
+                        <h4 class="sidebar-card-title">📋 本课目录</h4>
+                        <nav class="toc-nav">
+                            <a href="#knowledge" class="toc-link active" data-section="knowledge">
+                                <span class="toc-dot"></span> 知识讲解
+                            </a>
+                            <a href="#steps" class="toc-link" data-section="steps">
+                                <span class="toc-dot"></span> 操作步骤
+                            </a>
+                            <a href="#tips" class="toc-link" data-section="tips">
+                                <span class="toc-dot"></span> 小贴士
+                            </a>
+                            <a href="#quiz" class="toc-link" data-section="quiz">
+                                <span class="toc-dot"></span> 课后练习
+                            </a>
+                            <a href="#practice" class="toc-link" data-section="practice">
+                                <span class="toc-dot"></span> 实战任务
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- 本课信息 -->
+                    <div class="sidebar-card sidebar-info">
+                        <h4 class="sidebar-card-title">ℹ️ 本课信息</h4>
+                        <div class="sidebar-info-list">
+                            <div class="sidebar-info-item">
+                                <span class="sidebar-info-label">所属模块</span>
+                                <span class="sidebar-info-value" id="sidebarModule">-</span>
+                            </div>
+                            <div class="sidebar-info-item">
+                                <span class="sidebar-info-label">课程编号</span>
+                                <span class="sidebar-info-value" id="sidebarNumber">-</span>
+                            </div>
+                            <div class="sidebar-info-item">
+                                <span class="sidebar-info-label">阅读状态</span>
+                                <span class="sidebar-info-value" id="sidebarReadStatus">未读</span>
+                            </div>
+                            <div class="sidebar-info-item">
+                                <span class="sidebar-info-label">练习得分</span>
+                                <span class="sidebar-info-value" id="sidebarQuizScore">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快速导航 -->
+                    <div class="sidebar-card sidebar-quick-nav">
+                        <h4 class="sidebar-card-title">🗂️ 快速跳转</h4>
+                        <div class="quick-nav-list" id="quickNavList">
+                            <!-- 由 JS 动态加载 -->
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
         </div>
 
     </main>
 
-    <!-- 右侧快速跳转 -->
-    <aside class="lesson-sidebar" id="lesson-sidebar">
-        <div class="sidebar-header">
-            <span class="sidebar-title">课程目录</span>
-            <button class="sidebar-collapse-btn" id="sidebar-toggle" onclick="toggleSidebar()" title="收起/展开">«</button>
-        </div>
-        <div class="sidebar-body" id="sidebar-body">
-            <div id="quick-nav-list" class="quick-nav-list">
-                <!-- 由JS生成 -->
-            </div>
-        </div>
-    </aside>
+    <!-- 页脚 -->
+    <div id="footerArea"></div>
 
-</div>
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top hidden" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+        ↑
+    </button>
 
-<!-- 加载遮罩 -->
-<div class="loading-mask" id="loading-mask">
-    <div class="loading-spinner"></div>
-</div>
+    <!-- Supabase CDN -->
+    <script src="js/supabase.min.js"></script>
+    <!-- 项目脚本 -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/quiz.js"></script>
 
-<!-- Toast -->
-<div id="lesson-toast" class="lesson-toast hidden"></div>
+    <script>
+        // ==================== 全局变量 ====================
+        let currentChapterId = null;
+        let currentChapter = null;
+        let currentStudent = null;
+        let currentProgress = null;
+        let allChapters = [];
+        let studentProgress = [];
+        let lessonData = null;
+        let hasMarkedRead = false;
 
-<script src="js/supabase-config.js"></script>
-<script src="js/supabase.min.js"></script>
-<script src="js/theme.js"></script>
+        // ==================== 页面初始化 ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            renderHeader('lesson');
+            document.getElementById('footerArea').innerHTML = getFooterHtml();
 
-<script>
-// ══════════════════════════════════════════════
-//  全局常量 & 状态
-// ══════════════════════════════════════════════
-const TOTAL_LESSONS = 26;
+            // 获取课程ID
+            currentChapterId = parseInt(getUrlParam('id'));
+            if (!currentChapterId || isNaN(currentChapterId)) {
+                showError('无效的课程链接', '请从课程首页进入学习');
+                return;
+            }
 
-const { createClient } = supabase;
-const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            // 获取登录状态
+            currentStudent = getStudentSession();
+            if (!currentStudent) {
+                showError('请先登录', '你需要登录后才能学习课程内容');
+                document.getElementById('errorDesc').innerHTML =
+                    '你需要登录后才能学习课程内容<br><br><a href="login.html" class="btn btn-primary">去登录</a>';
+                return;
+            }
 
-// URL 参数
-const urlParams   = new URLSearchParams(location.search);
-const lessonNum   = parseInt(urlParams.get('lesson')) || 1;
-const isAdminPreview = urlParams.get('adminPreview') === '1';
+            // 加载数据
+            await loadLessonData();
 
-// 当前状态（持久化到内存，避免重复读库）
-let currentStudent   = null;       // 学生对象
-let completedSet     = new Set();  // 已完成课时集合（数字）
-let maxAllowed       = TOTAL_LESSONS; // 该班级允许访问的最大课时
-let quizAnswers      = {};         // 用户答题
-let quizSubmitted    = false;
-let lessonData       = null;
-let sidebarCollapsed = false;
-
-// ══════════════════════════════════════════════
-//  初始化
-// ══════════════════════════════════════════════
-async function init() {
-    showLoading(true);
-    try {
-        if (isAdminPreview) {
-            // 管理员预览模式：不做权限检查
-            await loadLessonContent(lessonNum);
-            renderSidebar(); // 管理员可见所有
-            updateNavButtons();
-            document.getElementById('header-user-info').textContent = '管理员预览';
-            showLoading(false);
-            return;
-        }
-
-        // 普通学生模式
-        const saved = sessionStorage.getItem('currentStudent');
-        if (!saved) { window.location.href = 'login.html'; return; }
-        currentStudent = JSON.parse(saved);
-
-        // 读取最新进度（防止多端数据不同步）
-        await refreshStudentFromDB();
-
-        // 读取班级课程上限
-        await loadClassLimit();
-
-        // 权限检查
-        if (lessonNum > maxAllowed) {
-            showToast(`⚠️ 本课尚未开放，班级目前开放到第 ${maxAllowed} 课`, 'warning');
-            setTimeout(() => window.location.href = 'index.html', 2200);
-            showLoading(false);
-            return;
-        }
-        if (lessonNum > 1 && !completedSet.has(lessonNum - 1)) {
-            showToast('⚠️ 请先完成上一课的学习', 'warning');
-            setTimeout(() => window.location.href = `lesson.html?lesson=${lessonNum - 1}`, 2200);
-            showLoading(false);
-            return;
-        }
-
-        document.getElementById('header-user-info').textContent = `${currentStudent.name} · ${currentStudent.class_name}`;
-
-        await loadLessonContent(lessonNum);
-        renderSidebar();
-        updateNavButtons();
-        updateCompleteButton();
-
-    } catch(e) {
-        console.error(e);
-        showToast('页面加载出错，请刷新重试', 'error');
-    }
-    showLoading(false);
-}
-
-// ══════════════════════════════════════════════
-//  从数据库刷新学生进度
-// ══════════════════════════════════════════════
-async function refreshStudentFromDB() {
-    const { data, error } = await _supabase
-        .from('students')
-        .select('completed_lessons, last_active')
-        .eq('id', currentStudent.id)
-        .single();
-
-    if (!error && data) {
-        const cl = Array.isArray(data.completed_lessons) ? data.completed_lessons : [];
-        completedSet = new Set(cl.map(Number));
-        // 同步到 sessionStorage
-        currentStudent.completed_lessons = cl;
-        sessionStorage.setItem('currentStudent', JSON.stringify(currentStudent));
-    } else {
-        completedSet = new Set((currentStudent.completed_lessons || []).map(Number));
-    }
-}
-
-// ══════════════════════════════════════════════
-//  读取班级课程上限
-// ══════════════════════════════════════════════
-async function loadClassLimit() {
-    if (!currentStudent?.class_name) return;
-    const key = 'class_lesson_limit_' + currentStudent.class_name;
-    const { data } = await _supabase
-        .from('system_settings')
-        .select('value')
-        .eq('key', key)
-        .single();
-
-    maxAllowed = data ? (parseInt(data.value) || TOTAL_LESSONS) : TOTAL_LESSONS;
-}
-
-// ══════════════════════════════════════════════
-//  加载课程内容
-// ══════════════════════════════════════════════
-async function loadLessonContent(num) {
-    return new Promise((resolve, reject) => {
-        // 移除旧的课程脚本
-        const oldScript = document.getElementById('lesson-script');
-        if (oldScript) oldScript.remove();
-        if (window.lessonData) delete window.lessonData;
-
-        const script = document.createElement('script');
-        script.id  = 'lesson-script';
-        script.src = `js/lessons/lesson${String(num).padStart(2,'0')}.js?v=${Date.now()}`;
-        script.onload = () => {
-            if (!window.lessonData) { reject(new Error('lessonData未定义')); return; }
-            lessonData = window.lessonData;
-            renderLessonContent();
-            resolve();
-        };
-        script.onerror = () => reject(new Error('课程文件加载失败'));
-        document.body.appendChild(script);
-    });
-}
-
-// ══════════════════════════════════════════════
-//  渲染课程内容
-// ══════════════════════════════════════════════
-function renderLessonContent() {
-    const d = lessonData;
-    document.getElementById('lesson-num-badge').textContent  = `第 ${lessonNum} 课`;
-    document.getElementById('lesson-header-title').textContent = getLessonName(lessonNum);
-    document.title = `第${lessonNum}课 · PPT学习站`;
-
-    document.getElementById('scenario-content').innerHTML  = d.scenario  || '';
-    document.getElementById('knowledge-content').innerHTML = d.knowledge || '';
-    document.getElementById('steps-content').innerHTML     = d.steps     || '';
-    document.getElementById('tips-content').innerHTML      = d.tips      || '';
-    document.getElementById('practice-content').innerHTML  = d.practice  || '';
-
-    renderQuiz(d.quiz || []);
-    quizSubmitted = false;
-    quizAnswers   = {};
-}
-
-// ══════════════════════════════════════════════
-//  Quiz 渲染与提交
-// ══════════════════════════════════════════════
-function renderQuiz(questions) {
-    const container = document.getElementById('quiz-container');
-    const result    = document.getElementById('quiz-result');
-    const submitBtn = document.getElementById('btn-submit-quiz');
-
-    result.classList.add('hidden');
-    submitBtn.style.display = questions.length ? '' : 'none';
-
-    container.innerHTML = questions.map((q, i) => {
-        const isMultiple = q.type === 'multiple';
-        const inputType  = isMultiple ? 'checkbox' : 'radio';
-        return `
-        <div class="quiz-item" id="quiz-item-${i}">
-            <div class="quiz-q"><span class="quiz-num">${i+1}.</span> ${q.question}</div>
-            <div class="quiz-options">
-                ${q.options.map((opt, j) => `
-                    <label class="quiz-option" id="opt-${i}-${j}">
-                        <input type="${inputType}" name="q${i}" value="${j}"
-                            onchange="recordAnswer(${i}, ${j}, ${isMultiple})"
-                            ${isMultiple ? '' : ''}>
-                        <span class="option-text">${opt}</span>
-                    </label>
-                `).join('')}
-            </div>
-        </div>`;
-    }).join('');
-}
-
-function recordAnswer(qi, vi, isMultiple) {
-    if (quizSubmitted) return;
-    if (isMultiple) {
-        if (!quizAnswers[qi]) quizAnswers[qi] = new Set();
-        const el = document.querySelector(`input[name="q${qi}"][value="${vi}"]`);
-        if (el.checked) quizAnswers[qi].add(vi);
-        else quizAnswers[qi].delete(vi);
-    } else {
-        quizAnswers[qi] = vi;
-    }
-}
-
-function submitQuiz() {
-    if (quizSubmitted) return;
-    const questions = lessonData?.quiz || [];
-    if (!questions.length) return;
-
-    let correct = 0;
-    questions.forEach((q, i) => {
-        const userAns = quizAnswers[i];
-        const isMultiple = q.type === 'multiple';
-        let isCorrect = false;
-
-        if (isMultiple) {
-            const userSet  = userAns instanceof Set ? [...userAns].sort().join(',') : '';
-            const rightSet = [...q.answer].sort().join(',');
-            isCorrect = (userSet === rightSet);
-        } else {
-            isCorrect = (userAns == q.answer);
-        }
-
-        if (isCorrect) correct++;
-
-        // 标记选项颜色
-        q.options.forEach((_, j) => {
-            const label = document.getElementById(`opt-${i}-${j}`);
-            if (!label) return;
-            const isRight = isMultiple ? q.answer.includes(j) : q.answer == j;
-            const userChose = isMultiple
-                ? (userAns instanceof Set && userAns.has(j))
-                : (userAns == j);
-
-            label.classList.remove('correct', 'wrong', 'missed');
-            if (isRight && userChose) label.classList.add('correct');
-            else if (!isRight && userChose) label.classList.add('wrong');
-            else if (isRight && !userChose) label.classList.add('missed');
+            // 初始化滚动监听
+            initScrollSpy();
+            initBackToTop();
         });
 
-        // 显示解析
-        const item = document.getElementById(`quiz-item-${i}`);
-        let existing = item.querySelector('.quiz-explanation');
-        if (existing) existing.remove();
-        const exp = document.createElement('div');
-        exp.className = 'quiz-explanation';
-        exp.innerHTML = `<strong>${isCorrect ? '✅ 正确' : '❌ 错误'}</strong>：${q.explanation || ''}`;
-        item.appendChild(exp);
-    });
+        // ==================== 加载课程数据 ====================
+        async function loadLessonData() {
+            try {
+                // 并行加载章节列表和学生进度
+                const [chapters, progress] = await Promise.all([
+                    getOpenChapters(),
+                    getStudentProgress(currentStudent.student_id)
+                ]);
 
-    quizSubmitted = true;
-    const pct = Math.round(correct / questions.length * 100);
-    const result = document.getElementById('quiz-result');
-    result.className = `quiz-result ${pct >= 75 ? 'pass' : 'fail'}`;
-    result.innerHTML = `
-        <strong>${pct >= 75 ? '🎉 答题完成！' : '📚 继续加油！'}</strong>
-        共 ${questions.length} 题，答对 <strong>${correct}</strong> 题（${pct}%）
-        ${pct >= 75 ? '' : '<br><small>可以重新阅读知识点后再试哦</small>'}
-    `;
-    result.classList.remove('hidden');
-    document.getElementById('btn-submit-quiz').textContent = '已提交';
-    document.getElementById('btn-submit-quiz').disabled = true;
-}
+                allChapters = chapters;
+                studentProgress = progress;
 
-// ══════════════════════════════════════════════
-//  完成课程
-// ══════════════════════════════════════════════
-async function markComplete() {
-    if (isAdminPreview) { showToast('管理员预览模式，不计入成绩', 'info'); return; }
-    if (!currentStudent) return;
+                // 查找当前章节
+                currentChapter = allChapters.find(c => c.id === currentChapterId);
 
-    const btn = document.getElementById('btn-complete');
-    if (completedSet.has(lessonNum)) {
-        showToast('✅ 本课已经完成，可直接学习下一课', 'success');
-        return;
-    }
+                if (!currentChapter) {
+                    showError('课程不存在', '该课程可能还未开放，请返回首页查看');
+                    return;
+                }
 
-    btn.disabled = true;
-    btn.textContent = '保存中...';
+                // 检查是否开放
+                if (!currentChapter.is_open) {
+                    showError('课程未开放', '该课程还未被老师开放，请耐心等待');
+                    return;
+                }
 
-    completedSet.add(lessonNum);
-    const newCompleted = [...completedSet];
+                // 检查是否解锁
+                if (!isChapterUnlocked(currentChapterId)) {
+                    showError('课程未解锁', '请先完成前一节课程的学习和练习');
+                    return;
+                }
 
-    const { error } = await _supabase
-        .from('students')
-        .update({
-            completed_lessons: newCompleted,
-            last_active: new Date().toISOString(),
-        })
-        .eq('id', currentStudent.id);
+                // 获取当前进度
+                currentProgress = studentProgress.find(p => p.chapter_id === currentChapterId);
 
-    if (error) {
-        completedSet.delete(lessonNum);
-        btn.disabled = false;
-        btn.textContent = '✅ 标记本课已完成';
-        showToast('保存失败，请重试', 'error');
-        return;
-    }
+                // 加载课程内容 JS
+                await loadLessonContent(currentChapterId);
 
-    // 同步本地 sessionStorage
-    currentStudent.completed_lessons = newCompleted;
-    sessionStorage.setItem('currentStudent', JSON.stringify(currentStudent));
+                // 渲染页面
+                renderLessonPage();
 
-    // ★ 关键：立即更新 UI，无需刷新页面
-    updateCompleteButton();
-    renderSidebar();        // 更新右侧导航的绿色状态
-    updateNavButtons();     // 解锁"下一课"按钮
+                // 隐藏加载，显示内容
+                document.getElementById('pageLoading').classList.add('hidden');
+                document.getElementById('lessonLayout').classList.remove('hidden');
 
-    showToast('🎉 恭喜完成本课！', 'success');
-}
+                // 更新页面标题
+                document.title = `第${currentChapterId}课 ${currentChapter.title} - PPT学习站`;
 
-function updateCompleteButton() {
-    const btn = document.getElementById('btn-complete');
-    if (!btn) return;
-    const done = isAdminPreview || completedSet.has(lessonNum);
-    btn.textContent = done ? '✅ 本课已完成' : '✅ 标记本课已完成';
-    btn.disabled    = done;
-    btn.classList.toggle('completed', done);
-}
-
-// ══════════════════════════════════════════════
-//  上下课导航（立即响应，不刷新）
-// ══════════════════════════════════════════════
-function goPrev() {
-    if (lessonNum <= 1) return;
-    window.location.href = `lesson.html?lesson=${lessonNum - 1}${isAdminPreview ? '&adminPreview=1' : ''}`;
-}
-
-function goNext() {
-    const nextNum = lessonNum + 1;
-    if (nextNum > TOTAL_LESSONS) return;
-
-    if (!isAdminPreview) {
-        // 检查是否可以跳转（当前课已完成 OR 班级允许）
-        if (!completedSet.has(lessonNum)) {
-            showToast('请先完成本课的学习，再前往下一课', 'warning');
-            return;
+            } catch (err) {
+                console.error('加载课程失败:', err);
+                showError('加载失败', '网络好像出了点问题，请刷新页面重试');
+            }
         }
-        if (nextNum > maxAllowed) {
-            showToast(`下一课尚未开放，班级目前开放到第 ${maxAllowed} 课`, 'warning');
-            return;
+
+        // ==================== 动态加载课程内容文件 ====================
+        function loadLessonContent(chapterId) {
+            return new Promise((resolve, reject) => {
+                const padded = String(chapterId).padStart(2, '0');
+                const script = document.createElement('script');
+                script.src = `js/lessons/lesson${padded}.js`;
+                script.onload = () => {
+                    if (typeof window.lessonData !== 'undefined') {
+                        lessonData = window.lessonData;
+                        resolve();
+                    } else {
+                        reject(new Error('课程数据未找到'));
+                    }
+                };
+                script.onerror = () => {
+                    reject(new Error('课程文件加载失败'));
+                };
+                document.head.appendChild(script);
+            });
         }
-    }
 
-    window.location.href = `lesson.html?lesson=${nextNum}${isAdminPreview ? '&adminPreview=1' : ''}`;
-}
+        // ==================== 判断章节是否解锁 ====================
+        function isChapterUnlocked(chapterId) {
+            const chapter = allChapters.find(c => c.id === chapterId);
+            if (!chapter) return false;
 
-function updateNavButtons() {
-    const prevBtn = document.getElementById('btn-prev');
-    const nextBtn = document.getElementById('btn-next');
+            // 第一个开放的章节直接解锁
+            const openChapters = allChapters.filter(c => c.is_open).sort((a, b) => a.sort_order - b.sort_order);
+            if (openChapters.length > 0 && openChapters[0].id === chapterId) {
+                return true;
+            }
 
-    if (prevBtn) {
-        prevBtn.disabled = (lessonNum <= 1);
-        prevBtn.classList.toggle('disabled', lessonNum <= 1);
-    }
+            // 找前一个开放的章节
+            const prevChapter = openChapters
+                .filter(c => c.sort_order < chapter.sort_order)
+                .sort((a, b) => b.sort_order - a.sort_order)[0];
 
-    if (nextBtn) {
-        const nextNum = lessonNum + 1;
-        const canNext = isAdminPreview
-            || (completedSet.has(lessonNum) && nextNum <= maxAllowed && nextNum <= TOTAL_LESSONS);
-        nextBtn.disabled = (nextNum > TOTAL_LESSONS);
-        nextBtn.classList.toggle('locked', !isAdminPreview && !completedSet.has(lessonNum));
-        nextBtn.textContent = nextNum > TOTAL_LESSONS ? '已是最后一课' : '下一课 →';
-    }
-}
+            if (!prevChapter) return true;
 
-// ══════════════════════════════════════════════
-//  右侧快速导航侧边栏
-// ══════════════════════════════════════════════
-const LESSON_MODULES = [
-    { name: '基础入门',   range: [1,  5]  },
-    { name: '文字图片',   range: [6,  10] }, // 按实际模块调整
-    { name: '设计进阶',   range: [6,  10] },
-    { name: '高效制作',   range: [11, 15] },
-    { name: '动画与切换', range: [16, 18] },
-    { name: '放映与输出', range: [19, 20] },
-    { name: 'WPS特色功能',range: [21, 24] },
-    { name: '综合实战',   range: [25, 26] },
-];
+            const prevProgress = studentProgress.find(p => p.chapter_id === prevChapter.id);
+            return prevProgress && prevProgress.is_completed;
+        }
 
-// 精确的课程模块映射
-const LESSON_MODULE_MAP = {
-    1:'基础入门', 2:'基础入门', 3:'基础入门', 4:'基础入门', 5:'基础入门',
-    6:'设计进阶', 7:'设计进阶', 8:'设计进阶', 9:'设计进阶', 10:'设计进阶',
-    11:'高效制作', 12:'高效制作', 13:'高效制作', 14:'高效制作', 15:'高效制作',
-    16:'动画与切换', 17:'动画与切换', 18:'动画与切换',
-    19:'放映与输出', 20:'放映与输出',
-    21:'WPS特色功能', 22:'WPS特色功能', 23:'WPS特色功能', 24:'WPS特色功能',
-    25:'综合实战', 26:'综合实战',
-};
+        // ==================== 渲染课程页面 ====================
+        function renderLessonPage() {
+            if (!lessonData || !currentChapter) return;
 
-const LESSON_NAMES = [
-    '','初识WPS演示','新建与基本操作','文字排版','插入图片','形状与SmartArt',
-    '配色基础','版式与布局','图表制作','表格设计','多媒体嵌入',
-    '对齐与规范','素材处理','统一风格','审阅与协作','打包与分享',
-    '幻灯片切换效果','元素动画效果','排练计时与演讲者视图',
-    '放映设置与演示技巧','PPT导出为多种格式',
-    'WPS AI智能功能','云文档与多端同步','稻壳模板与资源库','母版设计',
-    '综合实战一','综合实战二',
-];
+            // 面包屑
+            document.getElementById('breadcrumbModule').textContent = currentChapter.module;
+            document.getElementById('breadcrumbCurrent').textContent = currentChapter.title;
 
-function getLessonName(n) { return LESSON_NAMES[n] || `第${n}课`; }
+            // 标题区
+            document.getElementById('lessonNumber').textContent = currentChapterId;
+            document.getElementById('lessonModuleBadge').textContent = currentChapter.module;
+            document.getElementById('lessonModuleBadge').style.background = getModuleColor(currentChapter.module);
+            document.getElementById('lessonTitle').textContent = currentChapter.title;
 
-function renderSidebar() {
-    const list = document.getElementById('quick-nav-list');
-    if (!list) return;
+            // 状态徽章
+            updateStatusBadge();
 
-    // 确定实际显示数量（管理员看全部，学生看到maxAllowed）
-    const visibleMax = isAdminPreview ? TOTAL_LESSONS : maxAllowed;
+            // 任务情境
+            if (lessonData.scenario) {
+                document.getElementById('scenarioText').textContent = lessonData.scenario;
+            }
 
-    // 按模块分组
-    const modules = {};
-    for (let n = 1; n <= visibleMax; n++) {
-        const mod = LESSON_MODULE_MAP[n] || '其他';
-        if (!modules[mod]) modules[mod] = [];
-        modules[mod].push(n);
-    }
+            // 知识讲解
+            if (lessonData.knowledge) {
+                document.getElementById('knowledgeBody').innerHTML = lessonData.knowledge;
+            }
 
-    let html = '';
-    for (const [modName, lessons] of Object.entries(modules)) {
-        html += `<div class="nav-module">
-            <div class="nav-module-title">${modName}</div>`;
-        lessons.forEach(n => {
-            const done    = isAdminPreview || completedSet.has(n);
-            const current = (n === lessonNum);
-            const locked  = !isAdminPreview && n > 1 && !completedSet.has(n - 1);
-            let cls = 'nav-lesson-item';
-            if (current) cls += ' current';
-            if (done)    cls += ' done';
-            if (locked)  cls += ' locked';
+            // 操作步骤
+            if (lessonData.steps) {
+                document.getElementById('stepsBody').innerHTML = lessonData.steps;
+            }
 
-            html += `<div class="${cls}" onclick="navToLesson(${n}, ${locked})" title="${getLessonName(n)}">
-                <span class="nav-num">${n}</span>
-                <span class="nav-name">${getLessonName(n)}</span>
-                <span class="nav-status">${done ? '✓' : (locked ? '🔒' : '')}</span>
-            </div>`;
-        });
-        html += '</div>';
-    }
+            // 小贴士
+            if (lessonData.tips) {
+                document.getElementById('tipsBody').innerHTML = lessonData.tips;
+            }
 
-    list.innerHTML = html;
+            // 课后练习
+            if (lessonData.quiz && lessonData.quiz.length > 0) {
+                renderQuiz(lessonData.quiz);
+            } else {
+                document.getElementById('lessonQuiz').classList.add('hidden');
+            }
 
-    // 自动滚动到当前课
-    setTimeout(() => {
-        const cur = list.querySelector('.current');
-        if (cur) cur.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-    }, 100);
-}
+            // 实战任务
+            if (lessonData.practice) {
+                document.getElementById('practiceBody').innerHTML = lessonData.practice;
+            }
 
-function navToLesson(n, locked) {
-    if (locked && !isAdminPreview) {
-        showToast('请先完成上一课的学习', 'warning');
-        return;
-    }
-    if (n === lessonNum) return;
-    window.location.href = `lesson.html?lesson=${n}${isAdminPreview ? '&adminPreview=1' : ''}`;
-}
+            // 已读状态
+            if (currentProgress && currentProgress.is_read) {
+                document.getElementById('readCheckbox').checked = true;
+                hasMarkedRead = true;
+            }
 
-// 侧边栏折叠
-function toggleSidebar() {
-    sidebarCollapsed = !sidebarCollapsed;
-    const sidebar = document.getElementById('lesson-sidebar');
-    const toggle  = document.getElementById('sidebar-toggle');
-    const body    = document.getElementById('sidebar-body');
-    sidebar.classList.toggle('collapsed', sidebarCollapsed);
-    toggle.textContent = sidebarCollapsed ? '»' : '«';
-    if (body) body.style.display = sidebarCollapsed ? 'none' : '';
-}
+            // 侧边栏信息
+            document.getElementById('sidebarModule').textContent = currentChapter.module;
+            document.getElementById('sidebarNumber').textContent = '第 ' + currentChapterId + ' 课';
+            document.getElementById('sidebarReadStatus').textContent =
+                (currentProgress && currentProgress.is_read) ? '✅ 已读' : '❌ 未读';
+            document.getElementById('sidebarQuizScore').textContent =
+                (currentProgress && currentProgress.quiz_total > 0)
+                    ? `${currentProgress.quiz_score}/${currentProgress.quiz_total}`
+                    : '-';
 
-// ══════════════════════════════════════════════
-//  工具函数
-// ══════════════════════════════════════════════
-function showLoading(show) {
-    document.getElementById('loading-mask').style.display = show ? 'flex' : 'none';
-}
+            // 进度条
+            updateLessonProgress();
 
-let _toastTimer = null;
-function showToast(msg, type = 'info') {
-    const t = document.getElementById('lesson-toast');
-    t.textContent = msg;
-    t.className = `lesson-toast show ${type}`;
-    if (_toastTimer) clearTimeout(_toastTimer);
-    _toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
+            // 快速导航
+            renderQuickNav();
 
-// ══════════════════════════════════════════════
-//  主题按钮
-// ══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('theme-toggle-btn');
-    if (btn && window._themeManager) {
-        btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-        btn.onclick = () => {
-            window._themeManager.toggle();
-            btn.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? '☀️' : '🌙';
-        };
-    }
-});
+            // 底部导航按钮
+            renderNavButtons();
+        }
 
-// ══════════════════════════════════════════════
-//  启动
-// ══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', init);
-</script>
+        // ==================== 更新状态徽章 ====================
+        function updateStatusBadge() {
+            const icon = document.getElementById('lessonStatusIcon');
+            const text = document.getElementById('lessonStatusText');
+            const badge = document.getElementById('lessonStatusBadge');
+
+            if (currentProgress && currentProgress.is_completed) {
+                icon.textContent = '✅';
+                text.textContent = '已完成';
+                badge.className = 'lesson-status-badge completed';
+            } else if (currentProgress && currentProgress.is_read) {
+                icon.textContent = '📖';
+                text.textContent = '学习中';
+                badge.className = 'lesson-status-badge reading';
+            } else {
+                icon.textContent = '🆕';
+                text.textContent = '新课程';
+                badge.className = 'lesson-status-badge new-lesson';
+            }
+        }
+
+        // ==================== 更新课程进度条 ====================
+        function updateLessonProgress() {
+            let progressPercent = 0;
+            let label = '未开始';
+
+            if (currentProgress) {
+                if (currentProgress.is_completed) {
+                    progressPercent = 100;
+                    label = '已完成 ✅';
+                } else if (currentProgress.is_read && currentProgress.quiz_total > 0) {
+                    progressPercent = 75;
+                    label = '已做练习';
+                } else if (currentProgress.is_read) {
+                    progressPercent = 50;
+                    label = '已阅读';
+                } else {
+                    progressPercent = 10;
+                    label = '学习中';
+                }
+            }
+
+            document.getElementById('lessonProgressFill').style.width = progressPercent + '%';
+            document.getElementById('lessonProgressLabel').textContent = label;
+        }
+
+        // ==================== 标记已读 ====================
+        async function handleReadCheck() {
+            const checkbox = document.getElementById('readCheckbox');
+
+            if (checkbox.checked && !hasMarkedRead) {
+                hasMarkedRead = true;
+
+                const result = await updateProgress(currentStudent.student_id, currentChapterId, {
+                    is_read: true
+                });
+
+                if (result.success) {
+                    showToast('已标记为已读 📖', 'success');
+                    document.getElementById('sidebarReadStatus').textContent = '✅ 已读';
+
+                    // 更新本地进度
+                    if (!currentProgress) {
+                        currentProgress = { chapter_id: currentChapterId, is_read: true, quiz_score: 0, quiz_total: 0, is_completed: false };
+                        studentProgress.push(currentProgress);
+                    } else {
+                        currentProgress.is_read = true;
+                    }
+
+                    updateStatusBadge();
+                    updateLessonProgress();
+                } else {
+                    showToast('标记失败，请重试', 'error');
+                    checkbox.checked = false;
+                    hasMarkedRead = false;
+                }
+            }
+        }
+
+        // ==================== 提交练习题成绩 ====================
+        async function submitQuizScore(score, total) {
+            const result = await updateProgress(currentStudent.student_id, currentChapterId, {
+                quiz_score: score,
+                quiz_total: total
+            });
+
+            if (result.success) {
+                // 更新本地
+                if (currentProgress) {
+                    currentProgress.quiz_score = Math.max(currentProgress.quiz_score || 0, score);
+                    currentProgress.quiz_total = total;
+
+                    // 检查是否完成
+                    if (result.progress && result.progress.is_completed) {
+                        currentProgress.is_completed = true;
+                    }
+                }
+
+                // 更新侧边栏
+                document.getElementById('sidebarQuizScore').textContent = `${score}/${total}`;
+
+                updateStatusBadge();
+                updateLessonProgress();
+
+                // 如果完成了，刷新进度
+                if (result.progress && result.progress.is_completed) {
+                    showToast('🎉 恭喜！本节课程已完成！', 'success', 4000);
+                }
+            }
+
+            return result;
+        }
+
+        // ==================== 渲染快速导航 ====================
+        function renderQuickNav() {
+            const openChapters = allChapters.filter(c => c.is_open).sort((a, b) => a.sort_order - b.sort_order);
+            const navEl = document.getElementById('quickNavList');
+
+            let html = '';
+            openChapters.forEach(ch => {
+                const progress = studentProgress.find(p => p.chapter_id === ch.id);
+                const isCompleted = progress && progress.is_completed;
+                const isCurrent = ch.id === currentChapterId;
+
+                html += `
+                    <a href="lesson.html?id=${ch.id}" 
+                       class="quick-nav-item ${isCurrent ? 'current' : ''} ${isCompleted ? 'completed' : ''}"
+                       title="${ch.title}">
+                        <span class="quick-nav-num">${ch.id}</span>
+                        <span class="quick-nav-title">${escapeHtml(ch.title)}</span>
+                        ${isCompleted ? '<span class="quick-nav-check">✅</span>' : ''}
+                    </a>
+                `;
+            });
+
+            navEl.innerHTML = html;
+        }
+
+        // ==================== 渲染底部导航按钮 ====================
+        function renderNavButtons() {
+            const openChapters = allChapters.filter(c => c.is_open).sort((a, b) => a.sort_order - b.sort_order);
+            const currentIndex = openChapters.findIndex(c => c.id === currentChapterId);
+
+            const prevBtn = document.getElementById('prevLessonBtn');
+            const nextBtn = document.getElementById('nextLessonBtn');
+
+            if (currentIndex <= 0) {
+                prevBtn.disabled = true;
+                prevBtn.textContent = '已是第一课';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.innerHTML = `← ${openChapters[currentIndex - 1].title}`;
+            }
+
+            if (currentIndex >= openChapters.length - 1) {
+                nextBtn.disabled = true;
+                nextBtn.textContent = '已是最后一课';
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.innerHTML = `${openChapters[currentIndex + 1].title} →`;
+            }
+        }
+
+        // ==================== 上一课 / 下一课 ====================
+        function goPrevLesson() {
+            const openChapters = allChapters.filter(c => c.is_open).sort((a, b) => a.sort_order - b.sort_order);
+            const currentIndex = openChapters.findIndex(c => c.id === currentChapterId);
+            if (currentIndex > 0) {
+                window.location.href = `lesson.html?id=${openChapters[currentIndex - 1].id}`;
+            }
+        }
+
+        function goNextLesson() {
+            const openChapters = allChapters.filter(c => c.is_open).sort((a, b) => a.sort_order - b.sort_order);
+            const currentIndex = openChapters.findIndex(c => c.id === currentChapterId);
+
+            if (currentIndex < openChapters.length - 1) {
+                const nextChapter = openChapters[currentIndex + 1];
+                // 检查是否解锁
+                if (isChapterUnlocked(nextChapter.id)) {
+                    window.location.href = `lesson.html?id=${nextChapter.id}`;
+                } else {
+                    showToast('请先完成当前课程的学习和练习', 'warning');
+                }
+            } else {
+                showToast('🎉 你已完成所有课程！', 'success');
+            }
+        }
+
+        // ==================== 显示错误页 ====================
+        function showError(title, desc) {
+            document.getElementById('pageLoading').classList.add('hidden');
+            document.getElementById('pageError').classList.remove('hidden');
+            document.getElementById('errorTitle').textContent = title;
+            document.getElementById('errorDesc').innerHTML = desc;
+        }
+
+        // ==================== 滚动监听 - 目录高亮 ====================
+        function initScrollSpy() {
+            const sections = ['knowledge', 'steps', 'tips', 'quiz', 'practice'];
+            const tocLinks = document.querySelectorAll('.toc-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        tocLinks.forEach(link => {
+                            link.classList.toggle('active', link.dataset.section === id);
+                        });
+                    }
+                });
+            }, {
+                rootMargin: '-80px 0px -60% 0px',
+                threshold: 0
+            });
+
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) observer.observe(el);
+            });
+
+            // 点击目录平滑滚动
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        const headerOffset = 80;
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    }
+                });
+            });
+        }
+
+        // ==================== 回到顶部按钮 ====================
+        function initBackToTop() {
+            const btn = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', throttle(() => {
+                if (window.scrollY > 400) {
+                    btn.classList.remove('hidden');
+                } else {
+                    btn.classList.add('hidden');
+                }
+            }, 200));
+        }
+    </script>
 </body>
+
 </html>
