@@ -273,6 +273,7 @@
             form.insertBefore(hint, form.firstChild);
         }
 
+        // ... 前面的 HTML 代码不变，直接替换 handleStudentLogin 函数
         // ==================== 登录处理 ====================
         let isLoggingIn = false;
 
@@ -287,7 +288,6 @@
             const classError = document.getElementById('classError');
             const loginBtn = document.getElementById('loginBtn');
 
-            // 清除错误
             nameError.classList.remove('show');
             idError.classList.remove('show');
             classError.classList.remove('show');
@@ -299,7 +299,6 @@
             const studentId = idInput.value.trim();
             const className = classInput.value.trim();
 
-            // 表单验证
             let hasError = false;
 
             if (!name) {
@@ -326,7 +325,6 @@
                 hasError = true;
             }
 
-            // 新用户必须填写班级
             if (!isExistingStudent && !className) {
                 classError.textContent = '首次登录请填写班级';
                 classError.classList.add('show');
@@ -336,17 +334,28 @@
 
             if (hasError) return;
 
-            // 开始登录
             isLoggingIn = true;
             loginBtn.disabled = true;
             loginBtn.querySelector('.login-btn-text').classList.add('hidden');
             loginBtn.querySelector('.login-btn-loading').classList.remove('hidden');
 
+            // 【核心修改：验证全局注册开关】
+            if (!isExistingStudent) {
+                const regOpen = await checkRegistrationOpen();
+                if (!regOpen) {
+                    showToast('抱歉，管理员已关闭新学生注册通道 🚫', 'error');
+                    isLoggingIn = false;
+                    loginBtn.disabled = false;
+                    loginBtn.querySelector('.login-btn-text').classList.remove('hidden');
+                    loginBtn.querySelector('.login-btn-loading').classList.add('hidden');
+                    return;
+                }
+            }
+
             try {
                 const result = await studentLogin(studentId, name, className);
 
                 if (result.success) {
-                    // 保存登录信息
                     saveStudentSession({
                         id: result.student.id,
                         student_id: result.student.student_id,
@@ -360,7 +369,6 @@
                         showToast(`欢迎回来，${name} 同学！`, 'success');
                     }
 
-                    // 延迟跳转
                     setTimeout(() => {
                         window.location.href = 'index.html';
                     }, 800);
