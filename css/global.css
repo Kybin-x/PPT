@@ -1223,3 +1223,45 @@ p {
         color: black;
     }
 }
+
+/* ==================== 手机端导航栏登录状态显示修复 ==================== */
+@media (max-width: 768px) {
+    /* 让用户信息区域可以弹性收缩 */
+    #user-info {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 1;
+        min-width: 0; /* 解决 Flex 子项无法收缩的 bug */
+    }
+
+    /* 限制用户姓名的最大宽度，超出部分显示省略号 */
+    .user-name {
+        max-width: 100px; 
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: var(--text-sm, 14px);
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    /* 稍微缩小退出按钮的边距 */
+    #user-info .btn-text {
+        padding: 4px 6px;
+        font-size: var(--text-sm, 14px);
+    }
+}
+
+@media (max-width: 480px) {
+    /* 针对超小屏幕手机，进一步压缩名字的最大宽度 */
+    .user-name {
+        max-width: 65px; 
+    }
+    
+    /* 缩小整体 header 的左右内边距（如果是用 .header-inner 或类似类名包裹的，请根据实际类名微调，通常直接限制上面就够了） */
+    .header {
+        padding-left: var(--space-sm, 8px);
+        padding-right: var(--space-sm, 8px);
+    }
+}
